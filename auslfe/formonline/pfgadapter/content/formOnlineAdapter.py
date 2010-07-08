@@ -8,7 +8,7 @@ from Products.Archetypes.public import Schema
 class FormOnlineAdapter(FormActionAdapter):
     """A form action adapter that will save form input data"""
 
-    schema = FormAdapterSchema.schema.copy() + Schema((
+    schema = FormAdapterSchema.copy() + Schema((
 
     ))
 
