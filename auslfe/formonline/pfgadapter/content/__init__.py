@@ -1,0 +1,2 @@
+import formOnlineAdapter
+print formOnlineAdapter

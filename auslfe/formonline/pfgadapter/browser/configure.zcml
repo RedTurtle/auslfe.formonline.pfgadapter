@@ -1,0 +1,13 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="auslfe.formonline.pfgadapter">
+
+  <include package="plone.app.contentmenu" />
+
+  <browser:resourceDirectory
+	name="auslfe.formonline.pfgadapter.images"
+	directory="images"
+	/>
+
+</configure>
