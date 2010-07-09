@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-07-09 13:32+0000\n"
+"POT-Creation-Date: 2010-07-09 15:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,11 +22,9 @@ msgstr "Un adattatore che salva i dati di input del form nel campo testo di un o
 msgid "Form Online Adapter"
 msgstr "Adattatore Modulistica Online"
 
-#: ./content/formOnlineAdapter.py:67
 msgid "Form completed by %s"
-msgstr ""
+msgstr "Modulo completato da %s"
 
-#: ./content/formOnlineAdapter.py:64
 msgid "Form completed by an anonymous user"
 msgstr "Modulo completato da un utente anonimo"
 

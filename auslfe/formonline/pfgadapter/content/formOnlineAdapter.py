@@ -61,16 +61,21 @@ class FormOnlineAdapter(FormActionAdapter):
         
         mtool = getToolByName(self, 'portal_membership')
         if mtool.isAnonymousUser():
-            title = _(u'Form completed by an anonymous user')
+            translate_title = getToolByName(self,'translation_service').translate(msgid='Form completed by an anonymous user',
+                                                                                  domain="auslfe.formonline.pfgadapter",
+                                                                                  default=u'Form completed by an anonymous user')
         else:
             username = mtool.getAuthenticatedMember().getUserName()
-            title = _(u'Form completed by %s' % username)
-        
-        formonline_id = self.idCreation(title,container_formonline)
+            translate_title = getToolByName(self,'translation_service').translate(msgid='Form completed by %s',
+                                                                                  domain="auslfe.formonline.pfgadapter",
+                                                                                  default=u'Form completed by %s') % username
+
+
+        formonline_id = self.idCreation(translate_title,container_formonline)
         if formonline_id:
             container_formonline.invokeFactory(id=formonline_id,type_name='FormOnline')
             formonline = getattr(container_formonline,formonline_id)
-            formonline.edit(title=title)
+            formonline.edit(title=translate_title)
 
     def idCreation(self, title, container_formonline):
         """Creates a name for an object like its title."""
