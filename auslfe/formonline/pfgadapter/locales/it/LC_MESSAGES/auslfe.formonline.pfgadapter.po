@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-07-09 07:39+0000\n"
+"POT-Creation-Date: 2010-07-09 09:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,4 +21,14 @@ msgstr "Un adattatore che salva i dati di input del form nel campo testo di un o
 #: ./profiles/default/types/FormOnlineAdapter.xml
 msgid "Form Online Adapter"
 msgstr "Adattatore Modulistica Online"
+
+#. Default: "Select the path which will be saved FormOnline object containing form input data."
+#: ./content/formOnlineAdapter.py:26
+msgid "description_formOnlinePath"
+msgstr "Seleziona il percorso al quale verranno salvati gli oggetti FormOnline che contengono i dati di input del form."
+
+#. Default: "FormOnline page path"
+#: ./content/formOnlineAdapter.py:25
+msgid "label_formOnlinePath"
+msgstr "Posizione delle pagine FormOnline"
 
