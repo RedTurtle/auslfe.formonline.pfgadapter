@@ -6,6 +6,8 @@
     i18n_domain="auslfe.formonline.pfgadapter">
     
   <five:registerPackage package="." initialize=".initialize" />
+  <i18n:registerTranslations directory="locales" />
+  
   <include package=".browser" />
   
   <!-- Register the installation GenericSetup extension profile -->

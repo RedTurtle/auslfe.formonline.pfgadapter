@@ -6,12 +6,14 @@ from auslfe.formonline.pfgadapter.config import PROJECTNAME
 from Products.Archetypes.public import Schema
 
 class FormOnlineAdapter(FormActionAdapter):
-    """A form action adapter that will save form input data"""
+    """A form action adapter that will create a FormOnline object (a page)
+    and will save form input data in the text field of FormOnline"""
 
     schema = FormAdapterSchema.copy() + Schema((
 
     ))
 
+    # Check for Plone versions
     if not HAS_PLONE30:
         finalizeATCTSchema(schema, folderish=True, moveDiscussion=False)
 
