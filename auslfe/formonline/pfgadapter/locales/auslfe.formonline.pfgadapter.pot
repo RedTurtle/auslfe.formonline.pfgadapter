@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-07-09 09:13+0000\n"
+"POT-Creation-Date: 2010-07-09 13:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,13 +25,21 @@ msgstr ""
 msgid "Form Online Adapter"
 msgstr ""
 
+#: ./content/formOnlineAdapter.py:67
+msgid "Form completed by %s"
+msgstr ""
+
+#: ./content/formOnlineAdapter.py:64
+msgid "Form completed by an anonymous user"
+msgstr ""
+
 #. Default: "Select the path which will be saved FormOnline object containing form input data."
-#: ./content/formOnlineAdapter.py:26
+#: ./content/formOnlineAdapter.py:36
 msgid "description_formOnlinePath"
 msgstr ""
 
 #. Default: "FormOnline page path"
-#: ./content/formOnlineAdapter.py:25
+#: ./content/formOnlineAdapter.py:35
 msgid "label_formOnlinePath"
 msgstr ""
 
