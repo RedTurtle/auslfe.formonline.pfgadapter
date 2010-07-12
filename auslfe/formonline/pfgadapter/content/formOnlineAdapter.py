@@ -8,7 +8,6 @@ from Products.Archetypes.public import Schema, ReferenceField, TextField, RichWi
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
 from auslfe.formonline.pfgadapter import formonline_pfgadapterMessageFactory as _
 from Products.CMFCore.utils import getToolByName
-
 try:
     from plone.i18n.normalizer.interfaces import IUserPreferredURLNormalizer
     from plone.i18n.normalizer.interfaces import IURLNormalizer
@@ -18,6 +17,7 @@ except ImportError:
 from zope.component import queryUtility
 from Products.Archetypes.config import RENAME_AFTER_CREATION_ATTEMPTS
 from Products.ATContentTypes.configuration import zconf
+from zope.pagetemplate.pagetemplatefile import PageTemplateFile
 
 class FormOnlineAdapter(FormActionAdapter):
     """A form action adapter that will create a FormOnline object (a page)
@@ -89,7 +89,9 @@ class FormOnlineAdapter(FormActionAdapter):
             container_formonline.invokeFactory(id=formonline_id,type_name='FormOnline')
             formonline = getattr(container_formonline,formonline_id)
             formonline.edit(title=translate_title)
-
+            body_text = PageTemplateFile('formOnlineTextTemplate.pt').pt_render({'fields':fields,'request':self.REQUEST})
+            formonline.edit(text=body_text)
+            
     def idCreation(self, title, container_formonline):
         """Creates a name for an object like its title."""
         new_id = self.generateNewIdFromTitle(title)

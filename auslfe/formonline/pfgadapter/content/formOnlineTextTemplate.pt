@@ -1,0 +1,24 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="auslfe.formonline.pfgadapter">
+
+  <head><title></title></head>
+
+  <body>
+	<tal:block repeat="field fields">
+		<tal:block tal:define="fgField field/fgField;
+							   value python: field.htmlValue(request)"
+				   tal:condition="python: value and (value != 'No Input')">
+			<dl>
+		      <dt tal:content="fgField/widget/label" />
+		      <dd>
+		      	<div tal:content="structure value" />
+		      </dd>
+			</dl>
+		</tal:block>
+    </tal:block>
+  </body>
+</html>
