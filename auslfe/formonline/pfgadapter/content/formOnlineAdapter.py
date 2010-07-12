@@ -4,7 +4,7 @@ from Products.PloneFormGen import HAS_PLONE30
 from Products.ATContentTypes.content.schemata import finalizeATCTSchema
 from Products.ATContentTypes.content.base import registerATCT
 from auslfe.formonline.pfgadapter.config import PROJECTNAME
-from Products.Archetypes.public import Schema, ReferenceField
+from Products.Archetypes.public import Schema, ReferenceField, TextField, RichWidget
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
 from auslfe.formonline.pfgadapter import formonline_pfgadapterMessageFactory as _
 from Products.CMFCore.utils import getToolByName
@@ -17,6 +17,7 @@ except ImportError:
     URL_NORMALIZER = False
 from zope.component import queryUtility
 from Products.Archetypes.config import RENAME_AFTER_CREATION_ATTEMPTS
+from Products.ATContentTypes.configuration import zconf
 
 class FormOnlineAdapter(FormActionAdapter):
     """A form action adapter that will create a FormOnline object (a page)
@@ -33,9 +34,21 @@ class FormOnlineAdapter(FormActionAdapter):
                 show_indexes = False,
                 force_close_on_insert = True,
                 label = _(u'label_formOnlinePath', default=u'FormOnline page path'),
-                description = _(u'description_formOnlinePath', default=u'Select the path which will be saved FormOnline object containing form input data.'),
+                description = _(u'description_formOnlinePath', default=u'Select the path which will be saved FormOnline pages containing form input data.'),
                 )
             ),
+                        
+        TextField('adapterPrologue',
+              required=False,
+              validators = ('isTidyHtmlWithCleanup',),
+              default_output_type = 'text/x-html-safe',
+              widget = RichWidget(
+                    label = _(u'label_adapterPrologue', default=u'Adapter prologue'),
+                    description = _(u'description_adapterPrologue', default=u'This text will be displayed above the form input data.'),
+                    allow_file_upload = zconf.ATDocument.allow_document_upload
+                    )
+              ),
+
     ))
 
     # Check for Plone versions
@@ -79,7 +92,7 @@ class FormOnlineAdapter(FormActionAdapter):
 
     def idCreation(self, title, container_formonline):
         """Creates a name for an object like its title."""
-        new_id = self.generateNewId(title)
+        new_id = self.generateNewIdFromTitle(title)
         if new_id is None:
             return False
 
@@ -90,7 +103,7 @@ class FormOnlineAdapter(FormActionAdapter):
 
         return False
         
-    def generateNewId(self,title):
+    def generateNewIdFromTitle(self,title):
         """Suggest an id from title."""
         # Can't work w/o a title
         if not title:

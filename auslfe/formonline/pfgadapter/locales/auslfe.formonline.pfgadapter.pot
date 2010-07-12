@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-07-09 15:16+0000\n"
+"POT-Creation-Date: 2010-07-12 07:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Domain: auslfe.formonline.pfgadapter\n"
 
 #: ./profiles/default/types/FormOnlineAdapter.xml
-msgid "A form action adapter that saves form input data in the text field of a FormOnline object"
+msgid "A form action adapter that saves form input data in the text field of a FormOnline page"
 msgstr ""
 
 #: ./profiles/default/types/FormOnlineAdapter.xml
@@ -28,13 +28,23 @@ msgstr ""
 msgid "Form completed by an anonymous user"
 msgstr ""
 
-#. Default: "Select the path which will be saved FormOnline object containing form input data."
-#: ./content/formOnlineAdapter.py:36
+#. Default: "This text will be displayed above the form input data."
+#: ./content/formOnlineAdapter.py:47
+msgid "description_adapterPrologue"
+msgstr ""
+
+#. Default: "Select the path which will be saved FormOnline pages containing form input data."
+#: ./content/formOnlineAdapter.py:37
 msgid "description_formOnlinePath"
 msgstr ""
 
+#. Default: "Adapter prologue"
+#: ./content/formOnlineAdapter.py:46
+msgid "label_adapterPrologue"
+msgstr ""
+
 #. Default: "FormOnline page path"
-#: ./content/formOnlineAdapter.py:35
+#: ./content/formOnlineAdapter.py:36
 msgid "label_formOnlinePath"
 msgstr ""
 
