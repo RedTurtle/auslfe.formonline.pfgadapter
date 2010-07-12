@@ -89,7 +89,9 @@ class FormOnlineAdapter(FormActionAdapter):
             container_formonline.invokeFactory(id=formonline_id,type_name='FormOnline')
             formonline = getattr(container_formonline,formonline_id)
             formonline.edit(title=translate_title)
-            body_text = PageTemplateFile('formOnlineTextTemplate.pt').pt_render({'fields':fields,'request':self.REQUEST})
+            body_text = PageTemplateFile('formOnlineTextTemplate.pt').pt_render({'fields':fields,
+                                                                                 'request':self.REQUEST,
+                                                                                 'adapter_prologue':self.getAdapterPrologue()})
             formonline.edit(text=body_text)
             
     def idCreation(self, title, container_formonline):
