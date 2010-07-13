@@ -4,7 +4,7 @@ from Products.PloneFormGen import HAS_PLONE30
 from Products.ATContentTypes.content.schemata import finalizeATCTSchema
 from Products.ATContentTypes.content.base import registerATCT
 from auslfe.formonline.pfgadapter.config import PROJECTNAME
-from Products.Archetypes.public import Schema, ReferenceField, TextField, RichWidget
+from Products.Archetypes.public import Schema, ReferenceField, TextField, StringField, RichWidget, StringWidget
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
 from auslfe.formonline.pfgadapter import formonline_pfgadapterMessageFactory as _
 from Products.CMFCore.utils import getToolByName
@@ -46,6 +46,15 @@ class FormOnlineAdapter(FormActionAdapter):
                     label = _(u'label_adapterPrologue', default=u'Adapter prologue'),
                     description = _(u'description_adapterPrologue', default=u'This text will be displayed above the form input data.'),
                     allow_file_upload = zconf.ATDocument.allow_document_upload
+                    )
+              ),
+        
+        StringField('formFieldOverseer',
+              required=False,
+              default="overseerEmail",
+              widget = StringWidget(
+                    label = _(u'label_formFieldOverseer', default=u'Name of form field that identifies the overseer'),
+                    description = _(u'description_formFieldOverseer', default=u"Enter the name of form field used by the user completing the form to indicate the overseer's email."),
                     )
               ),
 

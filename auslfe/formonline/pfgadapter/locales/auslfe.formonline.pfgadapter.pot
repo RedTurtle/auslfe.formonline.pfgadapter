@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-07-12 07:07+0000\n"
+"POT-Creation-Date: 2010-07-13 14:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,6 +33,11 @@ msgstr ""
 msgid "description_adapterPrologue"
 msgstr ""
 
+#. Default: "Enter the name of form field used by the user completing the form to indicate the overseer's email."
+#: ./content/formOnlineAdapter.py:57
+msgid "description_formFieldOverseer"
+msgstr ""
+
 #. Default: "Select the path which will be saved FormOnline pages containing form input data."
 #: ./content/formOnlineAdapter.py:37
 msgid "description_formOnlinePath"
@@ -41,6 +46,11 @@ msgstr ""
 #. Default: "Adapter prologue"
 #: ./content/formOnlineAdapter.py:46
 msgid "label_adapterPrologue"
+msgstr ""
+
+#. Default: "Name of form field that identifies the overseer"
+#: ./content/formOnlineAdapter.py:56
+msgid "label_formFieldOverseer"
 msgstr ""
 
 #. Default: "FormOnline page path"
