@@ -65,7 +65,9 @@ class FormOnlineAdapter(FormActionAdapter):
         """Called by form to invoke custom success processing."""
         
         # fields will be a sequence of objects with an IPloneFormGenField interface
-        self.save_form(fields)
+        formonline_url = self.save_form(fields)
+        self.REQUEST.RESPONSE.redirect(formonline_url+'/edit')
+        return
         
     def save_form(self, fields):
         """Creates a FormOnline object and saves form input data in the text field of FormOnline."""
@@ -93,6 +95,7 @@ class FormOnlineAdapter(FormActionAdapter):
                                                                                  'request':self.REQUEST,
                                                                                  'adapter_prologue':self.getAdapterPrologue()})
             formonline.edit(text=body_text)
+            return formonline.absolute_url()
             
     def idCreation(self, title, container_formonline):
         """Creates a name for an object like its title."""
