@@ -19,7 +19,6 @@ from Products.Archetypes.config import RENAME_AFTER_CREATION_ATTEMPTS
 from Products.ATContentTypes.configuration import zconf
 from zope.pagetemplate.pagetemplatefile import PageTemplateFile
 from Products.PloneFormGen.config import FORM_ERROR_MARKER
-from Products.Archetypes.utils import addStatusMessage
 
 class FormOnlineAdapter(FormActionAdapter):
     """A form action adapter that will create a FormOnline object (a page)
@@ -106,9 +105,11 @@ class FormOnlineAdapter(FormActionAdapter):
         if type(check_result) == dict:
             # check_result contains a error
             return check_result
+            
+        formonline = self.save_form(fields)
+        self.getEditorRoleToOverseer(formonline,check_result)
         
-        formonline_url = self.save_form(fields)
-        self.REQUEST.RESPONSE.redirect(formonline_url+'/edit')
+        self.REQUEST.RESPONSE.redirect(formonline.absolute_url()+'/edit')
         return
     
     def checkOverseerEmail(self,fields):
@@ -132,10 +133,10 @@ class FormOnlineAdapter(FormActionAdapter):
             membership = getToolByName(self, 'portal_memberdata')
             users = membership.searchMemberDataContents('email',overseerEmail)
             if users:
-                if len(users) > 1:
-                    warning_message = ts.translate(msgid='error_multipleusers', domain='auslfe.formonline.pfgadapter',
-                                                   default=u'There are multiple users with the same email address provided for the field %s.') % formFieldName
-                    addStatusMessage(self.REQUEST, warning_message, type='warning')
+#                if len(users) > 1:
+#                    warning_message = ts.translate(msgid='error_multipleusers', domain='auslfe.formonline.pfgadapter',
+#                                                   default=u'There are multiple users with the same email address provided for the field %s.') % formFieldName
+#                    addStatusMessage(self.REQUEST, warning_message, type='warning')
                 return users[0]['username']
             else:
                 error_message = ts.translate(msgid='error_nouser', domain='auslfe.formonline.pfgadapter',
@@ -146,6 +147,12 @@ class FormOnlineAdapter(FormActionAdapter):
                                          default=u'The value of the field %s must be provided, enter the information requested.') % formFieldName
             return {formFieldName.lower():error_message}
         
+    def getEditorRoleToOverseer(self,formonline,overseer):
+        """Gives to overseer the Editor role on formonline"""
+        roles = list(formonline.get_local_roles_for_userid(userid=overseer))
+        if 'Editor' not in roles:
+            roles.append('Editor')
+            formonline.manage_setLocalRoles(overseer,roles)
         
     def save_form(self, fields):
         """Creates a FormOnline object and saves form input data in the text field of FormOnline."""
@@ -173,7 +180,7 @@ class FormOnlineAdapter(FormActionAdapter):
                                                                                  'request':self.REQUEST,
                                                                                  'adapter_prologue':self.getAdapterPrologue()})
             formonline.edit(text=body_text)
-            return formonline.absolute_url()
+            return formonline
             
     def idCreation(self, title, container_formonline):
         """Creates a name for an object like its title."""
