@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-07-13 14:16+0000\n"
+"POT-Creation-Date: 2010-07-14 10:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,32 +29,48 @@ msgid "Form completed by an anonymous user"
 msgstr "Modulo completato da un utente anonimo"
 
 #. Default: "This text will be displayed above the form input data."
-#: ./content/formOnlineAdapter.py:47
+#: ./content/formOnlineAdapter.py:49
 msgid "description_adapterPrologue"
 msgstr "Questo testo sarà mostrato prima dei dati di input del form."
 
 #. Default: "Enter the name of form field used by the user completing the form to indicate the overseer's email."
-#: ./content/formOnlineAdapter.py:57
+#: ./content/formOnlineAdapter.py:59
 msgid "description_formFieldOverseer"
 msgstr "Specificare il nome del campo del modulo utilizzato dall'utente che compila il modulo per indicare l'email dell'assegnatario."
 
 #. Default: "Select the path which will be saved FormOnline pages containing form input data."
-#: ./content/formOnlineAdapter.py:37
+#: ./content/formOnlineAdapter.py:39
 msgid "description_formOnlinePath"
 msgstr "Seleziona il percorso al quale verranno salvati le pagine FormOnline che contengono i dati di input del form."
 
+#. Default: "There are multiple users with the same email address provided for the field %s."
+msgid "error_multipleusers"
+msgstr "Sono stati trovati più utenti con lo stesso indirizzo email fornito per il campo %s."
+
+#. Default: "There is no field %s in the form to specify the overseer of the request."
+msgid "error_nofield"
+msgstr "Il campo %s per specificare l'assegnatario della richiesta non è presente nel modulo."
+
+#. Default: "The value of the field %s must be provided, enter the information requested."
+msgid "error_nospecifiedvalue"
+msgstr "Il valore del campo %s deve essere fornito, inserisci l'informazione richiesta."
+
+#. Default: "No user corresponds to the email address provided, enter a new value."
+msgid "error_nouser"
+msgstr "Nessun utente corrisponde all'indirizzo email fornito, inserire un nuovo valore."
+
 #. Default: "Adapter prologue"
-#: ./content/formOnlineAdapter.py:46
+#: ./content/formOnlineAdapter.py:48
 msgid "label_adapterPrologue"
 msgstr "Prologo dell'adattatore"
 
 #. Default: "Name of form field that identifies the overseer"
-#: ./content/formOnlineAdapter.py:56
+#: ./content/formOnlineAdapter.py:58
 msgid "label_formFieldOverseer"
 msgstr "Nome del campo del modulo che indentifica l'assegnatario"
 
 #. Default: "FormOnline page path"
-#: ./content/formOnlineAdapter.py:36
+#: ./content/formOnlineAdapter.py:38
 msgid "label_formOnlinePath"
 msgstr "Posizione delle pagine FormOnline"
 

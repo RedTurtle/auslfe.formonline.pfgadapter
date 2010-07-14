@@ -18,6 +18,8 @@ from zope.component import queryUtility
 from Products.Archetypes.config import RENAME_AFTER_CREATION_ATTEMPTS
 from Products.ATContentTypes.configuration import zconf
 from zope.pagetemplate.pagetemplatefile import PageTemplateFile
+from Products.PloneFormGen.config import FORM_ERROR_MARKER
+from Products.Archetypes.utils import addStatusMessage
 
 class FormOnlineAdapter(FormActionAdapter):
     """A form action adapter that will create a FormOnline object (a page)
@@ -71,12 +73,76 @@ class FormOnlineAdapter(FormActionAdapter):
     
     security.declarePrivate('onSuccess')
     def onSuccess(self, fields, REQUEST=None):
-        """Called by form to invoke custom success processing."""
+        """ Called by form to invoke custom success processing.
+            return None (or don't use "return" at all) if processing is
+            error-free.
+            
+            Return a dictionary like {'field_id':'Error Message'}
+            and PFG will stop processing action adapters and
+            return back to the form to display your error messages
+            for the matching field(s).
+
+            You may also use Products.PloneFormGen.config.FORM_ERROR_MARKER
+            as a marker for a message to replace the top-of-the-form error
+            message.
+
+            For example, to set a message for the whole form, but not an
+            individual field:
+
+            {FORM_ERROR_MARKER:'Yuck! You will need to submit again.'}
+
+            For both a field and form error:
+
+            {FORM_ERROR_MARKER:'Yuck! You will need to submit again.',
+             'field_id':'Error Message for field.'}
+            
+            Messages may be string types or zope.i18nmessageid objects.                
+        """
         
         # fields will be a sequence of objects with an IPloneFormGenField interface
+        
+        result = self.checkOverseerEmail(fields)
+        return result
+        
         formonline_url = self.save_form(fields)
         self.REQUEST.RESPONSE.redirect(formonline_url+'/edit')
         return
+    
+    def checkOverseerEmail(self,fields):
+        """Checks if the email address of the assignee is provided in a form field.
+           Returns the name of the user with that address."""
+        
+        found = False
+        formFieldName = self.getFormFieldOverseer()
+        ts = getToolByName(self,'translation_service')
+        
+        for field in fields:
+            if field.__name__ == formFieldName.lower():
+                overseerEmail = field.htmlValue(self.REQUEST)
+                found = True
+        if not found:
+            error_message = ts.translate(msgid='error_nofield',domain='auslfe.formonline.pfgadapter',
+                                         default=u'There is no field %s in the form to specify the overseer of the request.') % formFieldName
+            return {FORM_ERROR_MARKER:error_message}
+        
+        if overseerEmail and (overseerEmail != 'No Input'):
+            membership = getToolByName(self, 'portal_memberdata')
+            users = membership.searchMemberDataContents('email',overseerEmail)
+            if users:
+                if len(users) > 1:
+                    warning_message = ts.translate(msgid='error_multipleusers', domain='auslfe.formonline.pfgadapter',
+                                                   default=u'There are multiple users with the same email address provided for the field %s.') % formFieldName
+                    addStatusMessage(self.REQUEST, warning_message, type='warning')
+                return users[0]['username']
+            else:
+                error_message = ts.translate(msgid='error_nouser', domain='auslfe.formonline.pfgadapter',
+                                             default=u'No user corresponds to the email address provided, enter a new value.')
+                return {formFieldName.lower():error_message}
+        else:
+            error_message = ts.translate(msgid='error_nospecifiedvalue', domain='auslfe.formonline.pfgadapter',
+                                         default=u'The value of the field %s must be provided, enter the information requested.') % formFieldName
+            return {formFieldName.lower():error_message}
+        
         
     def save_form(self, fields):
         """Creates a FormOnline object and saves form input data in the text field of FormOnline."""

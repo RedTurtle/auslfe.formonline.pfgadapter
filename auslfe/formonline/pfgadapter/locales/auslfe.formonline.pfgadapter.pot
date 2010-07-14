@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-07-13 14:16+0000\n"
+"POT-Creation-Date: 2010-07-14 10:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,32 +29,48 @@ msgid "Form completed by an anonymous user"
 msgstr ""
 
 #. Default: "This text will be displayed above the form input data."
-#: ./content/formOnlineAdapter.py:47
+#: ./content/formOnlineAdapter.py:49
 msgid "description_adapterPrologue"
 msgstr ""
 
 #. Default: "Enter the name of form field used by the user completing the form to indicate the overseer's email."
-#: ./content/formOnlineAdapter.py:57
+#: ./content/formOnlineAdapter.py:59
 msgid "description_formFieldOverseer"
 msgstr ""
 
 #. Default: "Select the path which will be saved FormOnline pages containing form input data."
-#: ./content/formOnlineAdapter.py:37
+#: ./content/formOnlineAdapter.py:39
 msgid "description_formOnlinePath"
 msgstr ""
 
+#. Default: "There are multiple users with the same email address provided for the field %s."
+msgid "error_multipleusers"
+msgstr ""
+
+#. Default: "There is no field %s in the form to specify the overseer of the request."
+msgid "error_nofield"
+msgstr ""
+
+#. Default: "The value of the field %s must be provided, enter the information requested."
+msgid "error_nospecifiedvalue"
+msgstr ""
+
+#. Default: "No user corresponds to the email address provided, enter a new value."
+msgid "error_nouser"
+msgstr ""
+
 #. Default: "Adapter prologue"
-#: ./content/formOnlineAdapter.py:46
+#: ./content/formOnlineAdapter.py:48
 msgid "label_adapterPrologue"
 msgstr ""
 
 #. Default: "Name of form field that identifies the overseer"
-#: ./content/formOnlineAdapter.py:56
+#: ./content/formOnlineAdapter.py:58
 msgid "label_formFieldOverseer"
 msgstr ""
 
 #. Default: "FormOnline page path"
-#: ./content/formOnlineAdapter.py:36
+#: ./content/formOnlineAdapter.py:38
 msgid "label_formOnlinePath"
 msgstr ""
 

@@ -19,3 +19,19 @@ msgstr ""
 
 msgid "Form completed by an anonymous user"
 msgstr ""
+
+#. Default: "There is no field %s in the form to specify the overseer of the request."
+msgid "error_nofield"
+msgstr ""
+
+#. Default: "The value of the field %s must be provided, enter the information requested."
+msgid "error_nospecifiedvalue"
+msgstr ""
+
+#. Default: "No user corresponds to the email address provided, enter a new value."
+msgid "error_nouser"
+msgstr ""
+
+#. Default: "There are multiple users with the same email address provided for the field %s."
+msgid "error_multipleusers"
+msgstr ""
