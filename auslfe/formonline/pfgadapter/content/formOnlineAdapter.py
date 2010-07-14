@@ -101,14 +101,12 @@ class FormOnlineAdapter(FormActionAdapter):
         # fields will be a sequence of objects with an IPloneFormGenField interface
         
         check_result = self.checkOverseerEmail(fields)
-        
         if type(check_result) == dict:
             # check_result contains a error
             return check_result
             
         formonline = self.save_form(fields)
         self.getEditorRoleToOverseer(formonline,check_result)
-        
         self.REQUEST.RESPONSE.redirect(formonline.absolute_url()+'/edit')
         return
     
@@ -172,38 +170,25 @@ class FormOnlineAdapter(FormActionAdapter):
 
 
         formonline_id = self.idCreation(translate_title,container_formonline)
-        if formonline_id:
-            container_formonline.invokeFactory(id=formonline_id,type_name='FormOnline')
-            formonline = getattr(container_formonline,formonline_id)
-            formonline.edit(title=translate_title)
-            body_text = PageTemplateFile('formOnlineTextTemplate.pt').pt_render({'fields':fields,
-                                                                                 'request':self.REQUEST,
-                                                                                 'adapter_prologue':self.getAdapterPrologue()})
-            formonline.edit(text=body_text)
-            return formonline
+        container_formonline.invokeFactory(id=formonline_id,type_name='FormOnline')
+        formonline = getattr(container_formonline,formonline_id)
+        formonline.edit(title=translate_title)
+        body_text = PageTemplateFile('formOnlineTextTemplate.pt').pt_render({'fields':fields,
+                                                                             'request':self.REQUEST,
+                                                                             'adapter_prologue':self.getAdapterPrologue()})
+        formonline.edit(text=body_text)
+        return formonline
             
     def idCreation(self, title, container_formonline):
         """Creates a name for an object like its title."""
         new_id = self.generateNewIdFromTitle(title)
-        if new_id is None:
-            return False
 
         # make sure we have an id unique in the parent folder.
         unique_id = self.findUniqueId(new_id,container_formonline)
-        if unique_id is not None:
-            return unique_id
-
-        return False
+        return unique_id
         
     def generateNewIdFromTitle(self,title):
         """Suggest an id from title."""
-        # Can't work w/o a title
-        if not title:
-            return None
-
-        # Don't do anything without the plone.i18n package
-        if not URL_NORMALIZER:
-            return None
 
         if not isinstance(title, unicode):
             charset = self.getCharset()
@@ -232,7 +217,5 @@ class FormOnlineAdapter(FormActionAdapter):
             if not check_id(new_id, required=1):
                 return new_id
             idx += 1
-
-        return None
 
 registerATCT(FormOnlineAdapter, PROJECTNAME)
