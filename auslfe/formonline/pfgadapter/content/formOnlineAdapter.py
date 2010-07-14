@@ -101,8 +101,11 @@ class FormOnlineAdapter(FormActionAdapter):
         
         # fields will be a sequence of objects with an IPloneFormGenField interface
         
-        result = self.checkOverseerEmail(fields)
-        return result
+        check_result = self.checkOverseerEmail(fields)
+        
+        if type(check_result) == dict:
+            # check_result contains a error
+            return check_result
         
         formonline_url = self.save_form(fields)
         self.REQUEST.RESPONSE.redirect(formonline_url+'/edit')
@@ -110,7 +113,7 @@ class FormOnlineAdapter(FormActionAdapter):
     
     def checkOverseerEmail(self,fields):
         """Checks if the email address of the assignee is provided in a form field.
-           Returns the name of the user with that address."""
+           Returns the name of the user with that address or a error message."""
         
         found = False
         formFieldName = self.getFormFieldOverseer()
