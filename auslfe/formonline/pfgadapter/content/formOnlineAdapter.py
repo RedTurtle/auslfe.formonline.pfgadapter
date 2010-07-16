@@ -35,7 +35,7 @@ class FormOnlineAdapter(FormActionAdapter):
                 show_indexes = False,
                 force_close_on_insert = True,
                 label = _(u'label_formOnlinePath', default=u'Form Online page path'),
-                description = _(u'description_formOnlinePath', default=u'Select the path which will be saved Form Online pages containing form input data.'),
+                description = _(u'description_formOnlinePath', default=u'Select the path which will be saved Form Online pages containing Form input data.'),
                 )
             ),
                         
@@ -45,17 +45,17 @@ class FormOnlineAdapter(FormActionAdapter):
               default_output_type = 'text/x-html-safe',
               widget = RichWidget(
                     label = _(u'label_adapterPrologue', default=u'Adapter prologue'),
-                    description = _(u'description_adapterPrologue', default=u'This text will be displayed above the form input data.'),
+                    description = _(u'description_adapterPrologue', default=u'This text will be displayed above the Form input data.'),
                     allow_file_upload = zconf.ATDocument.allow_document_upload
                     )
               ),
         
         StringField('formFieldOverseer',
               required=False,
-              default="overseerEmail",
+              default_method='getDefaultOverseerEmail',
               widget = StringWidget(
-                    label = _(u'label_formFieldOverseer', default=u'Name of form field that identifies the overseer'),
-                    description = _(u'description_formFieldOverseer', default=u"Enter the name of form field used by the user completing the form to indicate the overseer's email."),
+                    label = _(u'label_formFieldOverseer', default=u'Name of Form field that identifies the overseer'),
+                    description = _(u'description_formFieldOverseer', default=u"Enter the name of Form field used by the user completing the Form to indicate the overseer's email."),
                     )
               ),
 
@@ -110,6 +110,10 @@ class FormOnlineAdapter(FormActionAdapter):
         self.REQUEST.RESPONSE.redirect(formonline.absolute_url()+'/edit')
         return
     
+    def getDefaultOverseerEmail(self):
+        return getToolByName(self,'translation_service').translate(msgid='default_overseer_email',domain='auslfe.formonline.pfgadapter',
+                                                                   default=u'Overseer email')
+        
     def checkOverseerEmail(self,fields):
         """Checks if the email address of the assignee is provided in a form field.
            Returns the name of the user with that address or a error message."""
@@ -119,12 +123,12 @@ class FormOnlineAdapter(FormActionAdapter):
         ts = getToolByName(self,'translation_service')
         
         for field in fields:
-            if field.__name__ == formFieldName.lower():
+            if field.__name__ == queryUtility(IURLNormalizer).normalize(formFieldName):
                 overseerEmail = field.htmlValue(self.REQUEST)
                 found = True
         if not found:
             error_message = ts.translate(msgid='error_nofield',domain='auslfe.formonline.pfgadapter',
-                                         default=u'There is no field %s in the form to specify the overseer of the request.') % formFieldName
+                                         default=u'There is no field %s in the Form to specify the overseer of the request.') % formFieldName
             return {FORM_ERROR_MARKER:error_message}
         
         if overseerEmail and (overseerEmail != 'No Input'):
@@ -139,11 +143,11 @@ class FormOnlineAdapter(FormActionAdapter):
             else:
                 error_message = ts.translate(msgid='error_nouser', domain='auslfe.formonline.pfgadapter',
                                              default=u'No user corresponds to the email address provided, enter a new value.')
-                return {formFieldName.lower():error_message}
+                return {queryUtility(IURLNormalizer).normalize(formFieldName):error_message}
         else:
             error_message = ts.translate(msgid='error_nospecifiedvalue', domain='auslfe.formonline.pfgadapter',
                                          default=u'The value of the field %s must be provided, enter the information requested.') % formFieldName
-            return {formFieldName.lower():error_message}
+            return {queryUtility(IURLNormalizer).normalize(formFieldName):error_message}
         
     def getEditorRoleToOverseer(self,formonline,overseer):
         """Gives to overseer the Editor role on formonline"""

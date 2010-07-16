@@ -4,7 +4,7 @@
    i18n:domain="auslfe.formonline.pfgadapter" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
  <property name="title" i18n:translate="">Form Online Adapter</property>
  <property
-    name="description" i18n:translate="">A form action adapter that saves form input data in the text field of a Form Online page</property>
+    name="description" i18n:translate="">A form action adapter that saves Form input data in the text field of a Form Online page</property>
  <property name="content_icon">++resource++auslfe.formonline.pfgadapter.images/dateok.gif</property>
  <property name="content_meta_type">FormOnlineAdapter</property>
  <property name="product">auslfe.formonline.pfgadapter</property>
