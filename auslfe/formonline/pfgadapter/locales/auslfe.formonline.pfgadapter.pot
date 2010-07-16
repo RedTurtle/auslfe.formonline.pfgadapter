@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-07-14 10:17+0000\n"
+"POT-Creation-Date: 2010-07-16 14:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Domain: auslfe.formonline.pfgadapter\n"
 
 #: ./profiles/default/types/FormOnlineAdapter.xml
-msgid "A form action adapter that saves form input data in the text field of a FormOnline page"
+msgid "A form action adapter that saves form input data in the text field of a Form Online page"
 msgstr ""
 
 #: ./profiles/default/types/FormOnlineAdapter.xml
@@ -29,17 +29,17 @@ msgid "Form completed by an anonymous user"
 msgstr ""
 
 #. Default: "This text will be displayed above the form input data."
-#: ./content/formOnlineAdapter.py:49
+#: ./content/formOnlineAdapter.py:48
 msgid "description_adapterPrologue"
 msgstr ""
 
 #. Default: "Enter the name of form field used by the user completing the form to indicate the overseer's email."
-#: ./content/formOnlineAdapter.py:59
+#: ./content/formOnlineAdapter.py:58
 msgid "description_formFieldOverseer"
 msgstr ""
 
-#. Default: "Select the path which will be saved FormOnline pages containing form input data."
-#: ./content/formOnlineAdapter.py:39
+#. Default: "Select the path which will be saved Form Online pages containing form input data."
+#: ./content/formOnlineAdapter.py:38
 msgid "description_formOnlinePath"
 msgstr ""
 
@@ -60,17 +60,17 @@ msgid "error_nouser"
 msgstr ""
 
 #. Default: "Adapter prologue"
-#: ./content/formOnlineAdapter.py:48
+#: ./content/formOnlineAdapter.py:47
 msgid "label_adapterPrologue"
 msgstr ""
 
 #. Default: "Name of form field that identifies the overseer"
-#: ./content/formOnlineAdapter.py:58
+#: ./content/formOnlineAdapter.py:57
 msgid "label_formFieldOverseer"
 msgstr ""
 
-#. Default: "FormOnline page path"
-#: ./content/formOnlineAdapter.py:38
+#. Default: "Form Online page path"
+#: ./content/formOnlineAdapter.py:37
 msgid "label_formOnlinePath"
 msgstr ""
 

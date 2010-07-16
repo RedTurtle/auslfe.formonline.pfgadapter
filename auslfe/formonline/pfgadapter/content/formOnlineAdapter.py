@@ -34,8 +34,8 @@ class FormOnlineAdapter(FormActionAdapter):
                 allow_browse = True,
                 show_indexes = False,
                 force_close_on_insert = True,
-                label = _(u'label_formOnlinePath', default=u'FormOnline page path'),
-                description = _(u'description_formOnlinePath', default=u'Select the path which will be saved FormOnline pages containing form input data.'),
+                label = _(u'label_formOnlinePath', default=u'Form Online page path'),
+                description = _(u'description_formOnlinePath', default=u'Select the path which will be saved Form Online pages containing form input data.'),
                 )
             ),
                         
