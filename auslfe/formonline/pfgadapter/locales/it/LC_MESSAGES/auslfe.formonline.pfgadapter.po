@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-07-19 08:36+0000\n"
+"POT-Creation-Date: 2010-07-19 10:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,6 +28,10 @@ msgstr "Modulo completato da %s"
 msgid "Form completed by an anonymous user"
 msgstr "Modulo completato da un utente anonimo"
 
+#. Default: "Form Online"
+msgid "default_email_subject"
+msgstr "Modulistica Online"
+
 #. Default: "Overseer email"
 msgid "default_overseer_email"
 msgstr "Email dell'assegnatario"
@@ -36,6 +40,11 @@ msgstr "Email dell'assegnatario"
 #: ./content/formOnlineAdapter.py:48
 msgid "description_adapterPrologue"
 msgstr "Questo testo sarà inserito all'inizio di qualunque Modulistica Online generata."
+
+#. Default: "This text will be used to generate the subject of notification emails."
+#: ./content/formOnlineAdapter.py:67
+msgid "description_emailSubject"
+msgstr "Questo testo sarà usato per generare l'oggetto delle email di notifica."
 
 #. Default: "Enter the name of Form field used by the user completing the Form to indicate the overseer's email."
 #: ./content/formOnlineAdapter.py:58
@@ -67,6 +76,11 @@ msgstr "Nessun utente corrisponde all'indirizzo email fornito, inserire un nuovo
 #: ./content/formOnlineAdapter.py:47
 msgid "label_adapterPrologue"
 msgstr "Prologo dell'adattatore"
+
+#. Default: "Subject of notification emails"
+#: ./content/formOnlineAdapter.py:66
+msgid "label_emailSubject"
+msgstr "Oggetto delle email di notifica"
 
 #. Default: "Name of Form field that identifies the overseer"
 #: ./content/formOnlineAdapter.py:57

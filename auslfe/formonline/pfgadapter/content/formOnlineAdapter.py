@@ -58,7 +58,15 @@ class FormOnlineAdapter(FormActionAdapter):
                     description = _(u'description_formFieldOverseer', default=u"Enter the name of Form field used by the user completing the Form to indicate the overseer's email."),
                     )
               ),
-
+              
+        StringField('emailSubject',
+              required=False,
+              default_method='getDefaultEmailSubject',
+              widget = StringWidget(
+                    label = _(u'label_emailSubject', default=u'Subject of notification emails'),
+                    description = _(u'description_emailSubject', default=u"This text will be used to generate the subject of notification emails."),
+                    )
+              ),
     ))
 
     # Check for Plone versions
@@ -113,7 +121,9 @@ class FormOnlineAdapter(FormActionAdapter):
     def getDefaultOverseerEmail(self):
         return getToolByName(self,'translation_service').translate(msgid='default_overseer_email',domain='auslfe.formonline.pfgadapter',
                                                                    default=u'Overseer email')
-        
+    def getDefaultEmailSubject(self):
+        return getToolByName(self,'translation_service').translate(msgid='default_email_subject',domain='auslfe.formonline.pfgadapter',
+                                                                   default=u'Form Online')
     def checkOverseerEmail(self,fields):
         """Checks if the email address of the assignee is provided in a form field.
            Returns the name of the user with that address or a error message."""
