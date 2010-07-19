@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-07-16 14:55+0000\n"
+"POT-Creation-Date: 2010-07-19 08:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,10 +32,10 @@ msgstr "Modulo completato da un utente anonimo"
 msgid "default_overseer_email"
 msgstr "Email dell'assegnatario"
 
-#. Default: "This text will be displayed above the Form input data."
+#. Default: "This text will be included at the beginning of any Form Online generated."
 #: ./content/formOnlineAdapter.py:48
 msgid "description_adapterPrologue"
-msgstr "Questo testo sarà mostrato prima dei dati di input del Modulo."
+msgstr "Questo testo sarà inserito all'inizio di qualunque Modulistica Online generata."
 
 #. Default: "Enter the name of Form field used by the user completing the Form to indicate the overseer's email."
 #: ./content/formOnlineAdapter.py:58

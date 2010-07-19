@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-07-16 14:55+0000\n"
+"POT-Creation-Date: 2010-07-19 08:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,7 +32,7 @@ msgstr ""
 msgid "default_overseer_email"
 msgstr ""
 
-#. Default: "This text will be displayed above the Form input data."
+#. Default: "This text will be included at the beginning of any Form Online generated."
 #: ./content/formOnlineAdapter.py:48
 msgid "description_adapterPrologue"
 msgstr ""
