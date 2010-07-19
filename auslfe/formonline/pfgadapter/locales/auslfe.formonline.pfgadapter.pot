@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-07-19 10:37+0000\n"
+"POT-Creation-Date: 2010-07-19 14:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,10 +28,6 @@ msgstr ""
 msgid "Form completed by an anonymous user"
 msgstr ""
 
-#. Default: "Form Online"
-msgid "default_email_subject"
-msgstr ""
-
 #. Default: "Overseer email"
 msgid "default_overseer_email"
 msgstr ""
@@ -39,11 +35,6 @@ msgstr ""
 #. Default: "This text will be included at the beginning of any Form Online generated."
 #: ./content/formOnlineAdapter.py:48
 msgid "description_adapterPrologue"
-msgstr ""
-
-#. Default: "This text will be used to generate the subject of notification emails."
-#: ./content/formOnlineAdapter.py:67
-msgid "description_emailSubject"
 msgstr ""
 
 #. Default: "Enter the name of Form field used by the user completing the Form to indicate the overseer's email."
@@ -75,11 +66,6 @@ msgstr ""
 #. Default: "Adapter prologue"
 #: ./content/formOnlineAdapter.py:47
 msgid "label_adapterPrologue"
-msgstr ""
-
-#. Default: "Subject of notification emails"
-#: ./content/formOnlineAdapter.py:66
-msgid "label_emailSubject"
 msgstr ""
 
 #. Default: "Name of Form field that identifies the overseer"
