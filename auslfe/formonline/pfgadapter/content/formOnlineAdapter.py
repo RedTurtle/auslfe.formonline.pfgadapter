@@ -45,7 +45,7 @@ class FormOnlineAdapter(FormActionAdapter):
               default_output_type = 'text/x-html-safe',
               widget = RichWidget(
                     label = _(u'label_adapterPrologue', default=u'Adapter prologue'),
-                    description = _(u'description_adapterPrologue', default=u'This text will be displayed above the Form input data.'),
+                    description = _(u'description_adapterPrologue', default=u'This text will be included at the beginning of any Form Online generated.'),
                     allow_file_upload = zconf.ATDocument.allow_document_upload
                     )
               ),
