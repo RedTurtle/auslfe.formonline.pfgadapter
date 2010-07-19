@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.0'
+version = '0.1.0'
 
 setup(name='auslfe.formonline.pfgadapter',
       version=version,
@@ -23,7 +23,7 @@ setup(name='auslfe.formonline.pfgadapter',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          # -*- Extra requirements: -*-
+          'Products.PloneFormGen',
       ],
       entry_points="""
       # -*- Entry points: -*-
