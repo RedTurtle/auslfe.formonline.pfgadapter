@@ -39,7 +39,3 @@ msgstr ""
 #. Default: "Overseer email"
 msgid "default_overseer_email"
 msgstr ""
-
-#. Default: "Form Online"
-msgid "default_email_subject"
-msgstr ""
