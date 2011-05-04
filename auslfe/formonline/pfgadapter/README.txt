@@ -11,7 +11,7 @@ Before beginning our tour, let's configure some of the underlying stuff.
 Now let's configure the site areas.
 
     >>> self.generateITArea()
-    'Created: Information Tecnology Department'
+    'Created: Information Technology Department'
 
 Configuration of the Form Online
 ================================
@@ -25,10 +25,14 @@ for handle users request to obtain internet connection from their PCs.
 The IT department has its own area in the site.
 
     >>> browser.open(portal_url)
-    >>> browser.getLink('Information Tecnology Department').click()
+    >>> browser.getLink('Information Technology Department').click()
 
-Configuration of the form
--------------------------
+Inside this area, we also have a specific section for users that wanna ask to enable a Internet connection.
+
+    >>> browser.getLink('Internet activation').click()
+
+Configuration of the PFG
+------------------------
 
 There, we can host our PloneFormGen. First let's login as ``Manager``.
 
@@ -83,7 +87,7 @@ The form for this example will contains only two fields, plus a required field f
     Traceback (most recent call last):
     ...
     HTTPError: HTTP Error 404: Not Found
-    >>> browser.open(portal_url+'/information-tecnology-department/request-for-internet-activation')
+    >>> browser.open(portal_url+'/information-technology-department/internet-activation/request-for-internet-activation')
     >>> browser.getLink('Add new').click()
     >>> browser.getControl('Checkbox Field').click()
     >>> browser.getControl(name='form.button.Add').click()
@@ -94,7 +98,7 @@ The form for this example will contains only two fields, plus a required field f
     Traceback (most recent call last):
     ...
     HTTPError: HTTP Error 404: Not Found
-    >>> browser.open(portal_url+'/information-tecnology-department/request-for-internet-activation')
+    >>> browser.open(portal_url+'/information-technology-department/internet-activation/request-for-internet-activation')
 
 The last field is *really important*, and it must be an e-mail address (not the e-mail address of the user, so this is
 why we deleted the default e-mail field).
@@ -111,16 +115,75 @@ why we deleted the default e-mail field).
     Traceback (most recent call last):
     ...
     HTTPError: HTTP Error 404: Not Found
-    >>> browser.open(portal_url+'/information-tecnology-department/request-for-internet-activation')
+    >>> browser.open(portal_url+'/information-technology-department/internet-activation/request-for-internet-activation')
 
-The PFG section is over. Move on to the adapter configuration
+Now we can configure our adapter (and really use this product!).
 
 Configuration of the adapter
 ----------------------------
 
-Installing our Form Online product, the only new thing we can use for now is an additional PDF Adapter.
+When installing our Form Online product, the only new thing we can use for now is an additional PDF Adapter.
 
     >>> browser.getLink('Add new').click()
     >>> browser.getControl('Form Online Adapter').click()
     >>> browser.getControl(name='form.button.Add').click()
 
+Now let's fill the data needed.
+
+    >>> browser.getControl('title').value = 'Form Online generator'
+
+We need to specify mainly a folder where to store all generated forms. By default (but you can put it everywhere in
+the site) we can use the section itself. Use the reference browsing UI, like for related contents selection.
+
+    >>> store_uid = portal.unrestrictedTraverse('/information-technology-department/internet-activation').UID()
+    >>> browser.getControl(name='formOnlinePath').value = store_uid
+
+Then we can put a form prologue. this prologue will be added in the head of every generated form.
+
+    >>> browser.getControl('Adapter prologue').value = """<h1>Form for requesting Internet activation</h2>
+    ... <p>
+    ... Please, give me access to the World Wide Web!
+    ... </p>
+    ... <p>
+    ... Here follow data for my request.
+    ... </p>
+    ... """
+
+The last, important, field is the e-mail addreww name of the PDF field. The default is the same we used above when
+we added an e-mail field to the PFG. You can still there put any title you gave to the field.
+
+    >>> browser.getControl('Name of Form field that identifies the overseer').value = 'Form Online generator'
+
+As you see, this field is required. You *must* have added that field to the PFG. 
+
+    >>> browser.getControl('Save').click()
+    Traceback (most recent call last):
+    ...
+    HTTPError: HTTP Error 404: Not Found
+    >>> browser.open(portal_url+'/information-technology-department/internet-activation/request-for-internet-activation')
+
+Last sugar
+----------
+
+The PFG section is ready. We can start use it but, for a better user experience, we also
+make the PDF a default page for the "*Internet activation*" section
+
+    >>> browser.getLink('Internet activation').click()
+    >>> browser.getLink('Display').click()
+    >>> browser.getLink('Choose a content item').click()
+    >>> browser.getControl('Request for Internet activation').click()
+    >>> browser.getControl('Save').click()
+    >>> 'View changed.' in browser.contents
+    True
+    >>> browser.url.endswith('/information-technology-department/internet-activation/')
+    True
+
+So, from now, when users visit the "*Internet activation*" section, they will se our PFG.
+
+How to use
+==========
+
+The logic
+---------
+
+XXX

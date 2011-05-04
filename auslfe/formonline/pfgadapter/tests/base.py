@@ -100,6 +100,11 @@ class FunctionalTestCase(ptc.FunctionalTestCase):
         portal.invokeFactory(id='information-tecnology-department', type_name="Folder")
         wtool = portal.portal_workflow
         itdep = portal['information-tecnology-department']
-        itdep.edit(title='Information Tecnology Department')
+        itdep.edit(title='Information Technology Department')
         wtool.doActionFor(itdep, 'publish')
+        itdep.invokeFactory(id='internet-activation', type_name="Folder")
+        fofolder = itdep['internet-activation']
+        fofolder.edit(title='Internet activation',
+                      description="This is the place where you can ask for Internet activation")
+        wtool.doActionFor(fofolder, 'publish')        
         return 'Created: %s' % itdep.Title()
