@@ -1,4 +1,8 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>0.1.0</version>
+  <version>1000</version>
+  <dependencies>
+    <dependency>profile-Products.PloneFormGen:default</dependency>
+    <dependency>profile-auslfe.formonline.content:default</dependency>
+  </dependencies>
 </metadata>

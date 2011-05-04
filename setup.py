@@ -10,7 +10,9 @@ setup(name='auslfe.formonline.pfgadapter',
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
+        "Framework :: Plone",
         "Programming Language :: Python",
+        "Development Status :: 4 - Beta",
         ],
       keywords='',
       author='',
@@ -24,6 +26,7 @@ setup(name='auslfe.formonline.pfgadapter',
       install_requires=[
           'setuptools',
           'Products.PloneFormGen',
+          'auslfe.formonline.content',
       ],
       entry_points="""
       # -*- Entry points: -*-
