@@ -1,7 +1,12 @@
 Changelog
 =========
 
-0.1.0
------
+0.2.0 (Unreleased)
+------------------
 
-- Initial release
+* better i18n support [keul]
+
+0.1.0 (Unreleased)
+------------------
+
+* Initial release [fdelia]

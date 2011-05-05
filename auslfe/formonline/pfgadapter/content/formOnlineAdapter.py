@@ -1,4 +1,6 @@
-from AccessControl import ClassSecurityInfo
+# -*- coding: utf-8 -*-
+
+from AccessControl import ClassSecurityInfo, Unauthorized
 from Products.PloneFormGen.content.actionAdapter import FormActionAdapter, FormAdapterSchema
 from Products.PloneFormGen import HAS_PLONE30
 from Products.ATContentTypes.content.schemata import finalizeATCTSchema
@@ -34,8 +36,8 @@ class FormOnlineAdapter(FormActionAdapter):
                 allow_browse = True,
                 show_indexes = False,
                 force_close_on_insert = True,
-                label = _(u'label_formOnlinePath', default=u'Form Online page path'),
-                description = _(u'description_formOnlinePath', default=u'Select the path which will be saved Form Online pages containing Form input data.'),
+                label = _(u'label_formOnlinePath', default=u'Form Online storage'),
+                description = _(u'description_formOnlinePath', default=u'Select the path where generated Form Online documents will be saved.'),
                 )
             ),
                         
@@ -104,29 +106,34 @@ class FormOnlineAdapter(FormActionAdapter):
             # check_result contains a error
             return check_result
             
-        formonline = self.save_form(fields)
-        self.getEditorRoleToOverseer(formonline,check_result)
+        try:
+            formonline = self.save_form(fields)
+        except Unauthorized:
+            utool = getToolByName(self, 'plone_utils')
+            utool.addPortalMessage(_(u'You are not authorized to fill that form.'), type='error')
+            return self.getFormOnlinePath().restrictedTraverse('document_view')
+
+        self.getEditorRoleToOverseer(formonline, check_result)
         self.REQUEST.RESPONSE.redirect(formonline.absolute_url()+'/edit')
-        return
     
     def getDefaultOverseerEmail(self):
-        return getToolByName(self,'translation_service').translate(msgid='default_overseer_email',domain='auslfe.formonline.pfgadapter',
-                                                                   default=u'Overseer email')
+        _ = getToolByName(self,'translation_service').translate
+        return _('default_overseer_email', default=u'Overseer email')
     def checkOverseerEmail(self,fields):
         """Checks if the email address of the assignee is provided in a form field.
            Returns the name of the user with that address or a error message."""
         
         found = False
         formFieldName = self.getFormFieldOverseer()
-        ts = getToolByName(self,'translation_service')
+        _ = getToolByName(self,'translation_service').translate
         
         for field in fields:
             if field.__name__ == queryUtility(IURLNormalizer).normalize(formFieldName):
                 overseerEmail = field.htmlValue(self.REQUEST)
                 found = True
         if not found:
-            error_message = ts.translate(msgid='error_nofield',domain='auslfe.formonline.pfgadapter',
-                                         default=u'There is no field %s in the Form to specify the overseer of the request.') % formFieldName
+            error_message = _('error_nofield',
+                              default=u'There is no field %s in the Form to specify the overseer of the request.') % formFieldName
             return {FORM_ERROR_MARKER:error_message}
         
         if overseerEmail and (overseerEmail != 'No Input'):
@@ -139,12 +146,12 @@ class FormOnlineAdapter(FormActionAdapter):
 #                    addStatusMessage(self.REQUEST, warning_message, type='warning')
                 return users[0]['username']
             else:
-                error_message = ts.translate(msgid='error_nouser', domain='auslfe.formonline.pfgadapter',
-                                             default=u'No user corresponds to the email address provided, enter a new value.')
+                error_message = _('error_nouser',
+                                  default=u'No user corresponds to the email address provided, enter a new value.')
                 return {queryUtility(IURLNormalizer).normalize(formFieldName):error_message}
         else:
-            error_message = ts.translate(msgid='error_nospecifiedvalue', domain='auslfe.formonline.pfgadapter',
-                                         default=u'The value of the field %s must be provided, enter the information requested.') % formFieldName
+            error_message = _('error_nospecifiedvalue',
+                              default=u'The value of the field %s must be provided, enter the information requested.') % formFieldName
             return {queryUtility(IURLNormalizer).normalize(formFieldName):error_message}
         
     def getEditorRoleToOverseer(self,formonline,overseer):
@@ -158,36 +165,28 @@ class FormOnlineAdapter(FormActionAdapter):
         """Creates a FormOnline object and saves form input data in the text field of FormOnline."""
         
         container_formonline = self.getFormOnlinePath()
+        _ = getToolByName(self,'translation_service').translate
         
         mtool = getToolByName(self, 'portal_membership')
         if mtool.isAnonymousUser():
-            translate_title = getToolByName(self,'translation_service').translate(msgid='Form completed by an anonymous user',
-                                                                                  domain="auslfe.formonline.pfgadapter",
-                                                                                  default=u'Form completed by an anonymous user')
+            translate_title = _('Form completed by an anonymous user',
+                                default=u'Form completed by an anonymous user')
         else:
             username = mtool.getAuthenticatedMember().getUserName()
-            translate_title = getToolByName(self,'translation_service').translate(msgid='Form completed by %s',
-                                                                                  domain="auslfe.formonline.pfgadapter",
-                                                                                  default=u'Form completed by %s') % username
+            translate_title = _('Form completed by %s',
+                                default=u'Form completed by %s') % username
 
 
-        formonline_id = self.idCreation(translate_title,container_formonline)
+        formonline_id = self.generateUniqueId('FormOnline')
         container_formonline.invokeFactory(id=formonline_id, type_name='FormOnline')
-        formonline = getattr(container_formonline,formonline_id)
+
+        formonline = getattr(container_formonline, formonline_id)
         formonline.edit(title=translate_title)
         body_text = PageTemplateFile('formOnlineTextTemplate.pt').pt_render({'fields':fields,
                                                                              'request':self.REQUEST,
                                                                              'adapter_prologue':self.getAdapterPrologue()})
         formonline.edit(text=body_text)
         return formonline
-            
-    def idCreation(self, title, container_formonline):
-        """Creates a name for an object like its title."""
-        new_id = self.generateNewIdFromTitle(title)
-
-        # make sure we have an id unique in the parent folder.
-        unique_id = self.findUniqueId(new_id,container_formonline)
-        return unique_id
         
     def generateNewIdFromTitle(self,title):
         """Suggest an id from title."""

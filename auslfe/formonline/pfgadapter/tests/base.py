@@ -81,25 +81,33 @@ class FunctionalTestCase(ptc.FunctionalTestCase):
     def afterSetUp(self):
         portal = self.portal
         portal.portal_membership.addMember('uber_user',
-                                            default_password,
-                                            ('Member', 'Manager', ), [])
+                                           default_password,
+                                           ('Member', 'Manager', ), [],
+                                           )
         portal.portal_membership.addMember('user_dep_a',
-                                            default_password,
-                                            ('Member', 'Contributor'), [])
+                                           default_password,
+                                           ('Member', 'Contributor'), [],
+                                           properties={'fullname': 'User A', 'email': 'user_dep_a@mycompany.gov'})
+        portal.portal_membership.addMember('user_dep_b',
+                                           default_password,
+                                           ('Member', 'Contributor'), [],
+                                           properties={'fullname': 'User B', 'email': 'user_dep_b@mycompany.gov'})
         portal.portal_membership.addMember('boss_dep_a',
-                                            default_password,
-                                            ('Member', ), [])
+                                           default_password,
+                                           ('Member', ), [],
+                                           properties={'fullname': 'Boss A', 'email': 'boss_dep_a@mycompany.gov'})
         portal.portal_membership.addMember('it_manager',
-                                            default_password,
-                                            ('Member', 'Contributor'), [])
+                                           default_password,
+                                           ('Member', 'Contributor'), [],
+                                           properties={'fullname': 'IT Manager', 'email': 'it_manager@mycompany.gov'})
 
     def generateITArea(self):
         """Create a folder "Information Tecnology Department" in the site"""
         portal = self.portal
         self.loginAsPortalOwner()
-        portal.invokeFactory(id='information-tecnology-department', type_name="Folder")
+        portal.invokeFactory(id='information-technology-department', type_name="Folder")
         wtool = portal.portal_workflow
-        itdep = portal['information-tecnology-department']
+        itdep = portal['information-technology-department']
         itdep.edit(title='Information Technology Department')
         wtool.doActionFor(itdep, 'publish')
         itdep.invokeFactory(id='internet-activation', type_name="Folder")
