@@ -1,12 +1,18 @@
 Changelog
 =========
 
-0.2.0 (Unreleased)
+0.2.0 (2011-05-06)
 ------------------
 
-* better i18n support [keul]
+* better i18ndude support [keul]
+* mail sending refactoring [keul]
+* added an ``Unauthorized`` check in the current user can't write in the storage
+  folder [keul]
+* translations changes [keul]
+* added documentation and manual [keul]
+* egg cleanup and dependencies checks [keul]
 
-0.1.0 (Unreleased)
+0.1.0 (2010-07-19)
 ------------------
 
 * Initial release [fdelia]

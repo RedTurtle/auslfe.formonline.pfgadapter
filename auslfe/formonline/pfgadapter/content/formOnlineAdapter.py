@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from Acquisition import aq_parent   
 from AccessControl import ClassSecurityInfo, Unauthorized
 from Products.PloneFormGen.content.actionAdapter import FormActionAdapter, FormAdapterSchema
 from Products.PloneFormGen import HAS_PLONE30
@@ -118,8 +119,13 @@ class FormOnlineAdapter(FormActionAdapter):
     
     def getDefaultOverseerEmail(self):
         _ = getToolByName(self,'translation_service').translate
-        return _('default_overseer_email', default=u'Overseer email')
-    def checkOverseerEmail(self,fields):
+        return _('default_overseer_email',
+                 default=u'Overseer email',
+                 context=self,
+                 domain='auslfe.formonline.pfgadapter'
+                 )
+
+    def checkOverseerEmail(self, fields):
         """Checks if the email address of the assignee is provided in a form field.
            Returns the name of the user with that address or a error message."""
         
@@ -133,7 +139,11 @@ class FormOnlineAdapter(FormActionAdapter):
                 found = True
         if not found:
             error_message = _('error_nofield',
-                              default=u'There is no field %s in the Form to specify the overseer of the request.') % formFieldName
+                              default=u'There is no field "${email_field}" in the Form to specify the overseer of the request.',
+                              context=self,
+                              domain='auslfe.formonline.pfgadapter',
+                              mapping={'email_field':  formFieldName}
+                              )
             return {FORM_ERROR_MARKER:error_message}
         
         if overseerEmail and (overseerEmail != 'No Input'):
@@ -147,11 +157,18 @@ class FormOnlineAdapter(FormActionAdapter):
                 return users[0]['username']
             else:
                 error_message = _('error_nouser',
-                                  default=u'No user corresponds to the email address provided, enter a new value.')
+                                  default=u'No user corresponds to the email address provided, enter a new value.',
+                                  context=self,
+                                  domain='auslfe.formonline.pfgadapter',
+                                  )
                 return {queryUtility(IURLNormalizer).normalize(formFieldName):error_message}
         else:
             error_message = _('error_nospecifiedvalue',
-                              default=u'The value of the field %s must be provided, enter the information requested.') % formFieldName
+                              default=u'The value of the field \"{field_name}\" must be provided, enter the information requested.',
+                              context=self,
+                              domain='auslfe.formonline.pfgadapter',
+                              mapping={'field_name': formFieldName}
+                              )
             return {queryUtility(IURLNormalizer).normalize(formFieldName):error_message}
         
     def getEditorRoleToOverseer(self,formonline,overseer):
@@ -167,14 +184,24 @@ class FormOnlineAdapter(FormActionAdapter):
         container_formonline = self.getFormOnlinePath()
         _ = getToolByName(self,'translation_service').translate
         
+        form_title = aq_parent(self).Title()
+
         mtool = getToolByName(self, 'portal_membership')
         if mtool.isAnonymousUser():
             translate_title = _('Form completed by an anonymous user',
-                                default=u'Form completed by an anonymous user')
+                                default=u'Form "$form_name" completed by an anonymous user',
+                                context=self,
+                                domain='auslfe.formonline.pfgadapter',
+                                mapping={'form_name': form_title}
+                                )
         else:
             username = mtool.getAuthenticatedMember().getUserName()
-            translate_title = _('Form completed by %s',
-                                default=u'Form completed by %s') % username
+            translate_title = _('Form completed by',
+                                default=u'Form "$form_name" completed by $user',
+                                context=self,
+                                domain='auslfe.formonline.pfgadapter',
+                                mapping={'user': username, 'form_name': form_title}
+                                )
 
 
         formonline_id = self.generateUniqueId('FormOnline')
