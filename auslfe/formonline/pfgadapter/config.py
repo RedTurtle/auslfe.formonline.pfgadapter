@@ -6,5 +6,5 @@ PROJECTNAME = 'auslfe.formonline.pfgadapter'
 
 ## Permission for content creation for most types
 from Products.CMFCore.permissions import setDefaultRoles
-ADD_CONTENT_PERMISSION = 'auslfe.formonline.pfgadapter: Add Content'
-setDefaultRoles(ADD_CONTENT_PERMISSION, ('Manager', 'Owner', 'Contributor',))
+ADD_CONTENT_PERMISSION = 'auslfe.formonline.pfgadapter: Add adapter'
+setDefaultRoles(ADD_CONTENT_PERMISSION, ('Manager', ))

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from Products.Archetypes.public import process_types, listTypes
 from Products.CMFCore import utils
 from auslfe.formonline.pfgadapter.config import PROJECTNAME, ADD_CONTENT_PERMISSION

@@ -8,9 +8,9 @@ The *Form Online* product is a Plone add-on composed by three modules:
 * `auslfe.formonline.content`__
 
 __ http://plone.org/products/ploneformgen
-__ http://pypi.python.org/pypi/auslfe.formonline.content 
+__ http://pypi.python.org/pypi/auslfe.formonline.content
 
-It is designed for intranets or web sites. Thanks to this user of the site can handle on-line some company specific
+It is designed for intranets or web sites. Using this, users of the site can handle on-line some company specific
 tasks. Some example:
 
 * ask for technical assistance from the IT Department
@@ -40,7 +40,7 @@ After that you must use the new *PFG adapter*: Form Online Adapter
 Before beeing ready to use the form, you need to choose a place (a Folder, or a Large Folder if you think to manage a lot
 of requests).
 
-If you will use multiple PFG with Form Online Adapter, you can also use multiple storage.
+If you will use multiple PFG with Form Online Adapter, you can also use multiple storages.
 
 It's important to know that:
 
@@ -63,7 +63,7 @@ There are three main actor in the life-cycle of a form:
 When user A ask for something, he always need to receive user B authorization before any other action can be taken.
 
 To simplify the process and not being forced to have a Company Organization Chart, is user A itself that "choose"
-who is his overseer. This is done writing down the user B e-mail address when filling the form.
+who is his overseer. This is done by A writing down the B's e-mail address when filling the form.
 
 When saving, user B will receive special power onto the generated form, so he can go there and edit, reject or
 approve the form.
@@ -93,6 +93,7 @@ TODO
 * Plone 4 compatibility
 * We are planning an integration of the PFG adapter with `Easy Template`__
 * Automatically save the overseer e-mail in the user data, so automatically fill future requests
+* A shorter workflow, for very simple approvation where we only need A and C actors
 
 __ http://pypi.python.org/pypi/collective.easytemplate/
 
