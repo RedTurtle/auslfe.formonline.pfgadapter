@@ -1,5 +1,8 @@
 .. contents:: **Table of contents**
 
+First of all
+============
+
 Before beginning our tour, let's configure some of the underlying stuff.
 
     >>> from Products.Five.testbrowser import Browser
@@ -16,11 +19,13 @@ Now let's configure the site areas.
 Configuration of the Form Online
 ================================
 
+We will explain this application with an example.
+
 The main idea
 -------------
 
 A company department want to use Form Online to manage users requests. The first need is an online form
-for handle users request to obtain internet connection from their PCs.
+for handle users request to obtain Internet connection from their PCs.
 
 The IT department has its own area in the site.
 
@@ -146,7 +151,7 @@ Now we can configure our adapter (and really use this product!).
 Configuration of the adapter
 ----------------------------
 
-When installing our Form Online product, the only new thing we can use for now is an additional PDF Adapter.
+When installing our Form Online product, the only new thing we can use for now is an additional PFG Adapter.
 
     >>> browser.getLink('Add new').click()
     >>> browser.getControl('Form Online Adapter').click()
@@ -173,7 +178,7 @@ Then we can put a form prologue. this prologue will be added in the head of ever
     ... </p>
     ... """
 
-The last, important, field is the e-mail addreww name of the PDF field. The default is the same we used above when
+The last, important, field is the e-mail address name of the PFG field. The default is the same we used above when
 we added an e-mail field to the PFG. You can still there put any title you gave to the field.
 
     >>> browser.getControl('Name of Form field that identifies the overseer').value = 'Your boss e-mail'
@@ -190,7 +195,7 @@ Last sugar
 ----------
 
 The PFG section is ready. We can start use it but, for a better user experience, we also
-make the PDF a default page for the "*Internet activation*" section
+make the form folder to be default page for the "*Internet activation*" section
 
     >>> browser.getLink('Internet activation').click()
     >>> browser.getLink('Display').click()
@@ -210,7 +215,7 @@ How to use
 The logic
 ---------
 
-For a complete overview of the workflow, see the main documentation.
+For a general overview of the workflow, see the main documentation.
 
 Permissions on the site
 -----------------------
@@ -220,7 +225,7 @@ There are mainly *3 actors*:
 * the user, that works inside the "Department A" of the Company, that require the authorization for the
   Internet access: ``user_dep_a``
 * The overseer of the "Department A", that is responsible of ``user_dep_a`` actions: ``boss_dep_a``
-* The IT Manager, or however who, inside the "Department IT" take care of enable Internet access: ``it_manager``
+* The IT Manager, or whoever inside the "Department IT" take care of enable Internet access: ``it_manager``
 
 One of the guys that need a special role on a section of the site is ``it_manager``. We must give to him the *Reviewer*
 role on the folder that will keep all the generated form for Internet activation.
