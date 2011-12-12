@@ -3,6 +3,7 @@
   <permissions>
     <permission name="auslfe.formonline.pfgadapter: Add adapter" acquire="False">
       <role name="Manager" />
+      <role name="Site Administrator" />
       <role name="Contributor" />
     </permission>
   </permissions>

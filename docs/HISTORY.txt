@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.2.1 (Unreleased)
+------------------
+
+* Documentation fixes
+* Light support for "Site Administrator" role (this **not** mean that we tested this on Plone 4.1 yet)
+  [keul]
+
 0.2.0 (2011-05-06)
 ------------------
 
