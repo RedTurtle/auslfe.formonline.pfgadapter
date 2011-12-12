@@ -3,9 +3,9 @@ Introduction
 
 The *Form Online* product is a Plone add-on composed by three modules:
 
-* `PloneFormGen`__ (needed dependency) 
+* `PloneFormGen`__ (needed dependency)
 * auslfe.formonline.pfgadapter itself
-* `auslfe.formonline.content`__
+* `auslfe.formonline.content`__ (needed dependency)
 
 __ http://plone.org/products/ploneformgen
 __ http://pypi.python.org/pypi/auslfe.formonline.content
@@ -14,7 +14,7 @@ It is designed for intranets or web sites. Using this, users of the site can han
 tasks. Some example:
 
 * ask for technical assistance from the IT Department
-* plan user vacations with the Administration
+* plan user vacations with the Administration/Human Resource office
 * ask to the administration to buy something expensive
 * ...
 
@@ -37,7 +37,7 @@ his overseer address (see below).
 
 After that you must use the new *PFG adapter*: Form Online Adapter 
 
-Before beeing ready to use the form, you need to choose a place (a Folder, or a Large Folder if you think to manage a lot
+Before being ready to use the form, you need to choose a place (a Folder, or a Large Folder if you think to manage a lot
 of requests).
 
 If you will use multiple PFG with Form Online Adapter, you can also use multiple storages.
@@ -85,7 +85,7 @@ Dependencies
 This product has been developed with:
 
 * Plone 3.3
-* PloneFormGen 1.6.0
+* PloneFormGen 1.6.5
 
 TODO
 ====
