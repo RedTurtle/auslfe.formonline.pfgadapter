@@ -5,18 +5,20 @@ version = '0.2.0'
 
 setup(name='auslfe.formonline.pfgadapter',
       version=version,
-      description="",
+      description="An adapter for PloneFormGen that add to Plone a way for manage online forms submission",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         "Framework :: Plone",
+        "Framework :: Plone :: 3.3",
         "Programming Language :: Python",
         "Development Status :: 4 - Beta",
+        'License :: OSI Approved :: GNU General Public License (GPL)',
         ],
-      keywords='',
-      author='',
-      author_email='',
+      keywords='plonegov form plone',
+      author='RedTurtle Technology',
+      author_email='sviluppoplone@redturtle.it',
       url='',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
