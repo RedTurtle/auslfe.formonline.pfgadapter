@@ -3,8 +3,8 @@ Introduction
 
 The *Form Online* product is a Plone add-on composed by three modules:
 
-* `PloneFormGen`__ (needed dependency)
 * auslfe.formonline.pfgadapter itself
+* `PloneFormGen`__ (needed dependency)
 * `auslfe.formonline.content`__ (needed dependency)
 
 __ http://plone.org/products/ploneformgen
@@ -18,10 +18,14 @@ tasks. Some example:
 * ask to the administration to buy something expensive
 * ...
 
-This is thinked for not-too-large sized companies.
+This is designed keeping in mind not-too-large sized companies.
 
 How to use
 ==========
+
+You can find `additional documentation`__ in the project home.
+
+__ http://plone.org/products/auslfe.formonline.pfgadapter/documentation/
 
 The general structure
 ---------------------
@@ -40,7 +44,8 @@ After that you must use the new *PFG adapter*: Form Online Adapter
 Before being ready to use the form, you need to choose a place (a Folder, or a Large Folder if you think to manage a lot
 of requests).
 
-If you will use multiple PFG with Form Online Adapter, you can also use multiple storages.
+If you will use multiple PFG with Form Online Adapter (more than an online form), you can also use multiple
+storages.
 
 It's important to know that:
 
@@ -48,8 +53,8 @@ It's important to know that:
   folder (play with the "Restriction" link inside the "Add new" to limit the user power to create other contents).
 * the user(s) who finally perform the request dispatch must be *Reviewer* on that folder.
 
-.. image:: http://keul.it/images/plone/auslfe.formonline.pfgadapter-0.2.0-02.png
-   :alt: A custom form done using PloneFormGen
+.. image:: http://keul.it/images/plone/auslfe.formonline.pfgadapter-0.3.0-01.png
+   :alt: An example of configuration of the PFG adapter
 
 The actors
 ----------
@@ -79,10 +84,32 @@ As said above: this is targeted on small companies. If user A put the e-mail add
 or simply is own e-mail (so auto-approving), user C is aways the last step of the procedure. He's responsible to check if
 user B is really one of the company overseer.
 
+Generated content type
+----------------------
+
+The basic installation of `auslfe.formonline.content`__ try to be simple as possible.
+It provide a required workflow for working with the PFG Adapter, but you are *not* forced to use a
+specific content type as generated form.
+
+__ http://pypi.python.org/pypi/auslfe.formonline.content
+
+The simpler way is to use directly the "Form Online" content type, but it isn't installed automatically
+with the product: you must run the "*Form Online: include FormOnline type*" Generis Setup import step.
+This content type automatically use the provided workflow, but is a weird type (more or less a copy of the
+Page).
+
+The other (advanced) way is to choose your type when configuring the adapter, from the
+"*Document type to generate*" field.
+The adapter can work with whatever content type you want (it need to behave a text field, like Page and News
+Items). But in this way you must configure other stuff, like assigning the proper worlflow to the content type
+(globally, or locally using `CMFPlacefulWorkflow`__).
+
+__ http://pypi.python.org/pypi/Products.CMFPlacefulWorkflow 
+
 Dependencies
 ============
 
-This product has been developed with:
+This product has been tested with:
 
 * Plone 3.3
 * PloneFormGen 1.6.5
