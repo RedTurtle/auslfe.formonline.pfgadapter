@@ -178,6 +178,18 @@ Then we can put a form prologue. this prologue will be added in the head of ever
     ... </p>
     ... """
 
+Now we can also select the content type we want to use as Form Online. The default value can "Form Online" itself
+if the proper Generic Setup import step has been executed, fallback simply to a Plone "Page".
+
+Of course, other values are possible; for example we can use a News Item!
+
+    >>> browser.getControl('Document type to generate').value = ['News Item']
+
+But *keep in mind* that you need to use the workflow given with the product for this content type (setting
+this globally or using CMFPlacefulWorkflow).
+
+    >>> self.portal.portal_workflow.setChainForPortalTypes(['News Item'], ('formonline_workflow'),)
+
 The last, important, field is the e-mail address name of the PFG field. The default is the same we used above when
 we added an e-mail field to the PFG. You can still there put any title you gave to the field.
 
@@ -185,7 +197,7 @@ we added an e-mail field to the PFG. You can still there put any title you gave 
 
 As you see, this field is required. You *must* have added that field to the PFG. 
 
-    >>> browser.getControl('Save').click()
+    >>> browser.getControl(name='form.button.save').click()
     Traceback (most recent call last):
     ...
     HTTPError: HTTP Error 404: Not Found

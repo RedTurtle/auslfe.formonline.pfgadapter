@@ -42,6 +42,7 @@ def setup_product():
     zcml.load_config('configure.zcml', Products.PloneFormGen)
     zcml.load_config('configure.zcml', auslfe.formonline.content)
     zcml.load_config('configure.zcml', auslfe.formonline.pfgadapter)
+    ##self.addProfile('auslfe.formonline.content:withtypes')
     fiveconfigure.debug_mode = False
 
     # We need to tell the testing framework that these products
@@ -64,7 +65,7 @@ def setup_product():
 # PloneTestCase set up this product on installation.
 
 setup_product()
-ptc.setupPloneSite(products=['auslfe.formonline.pfgadapter'])
+ptc.setupPloneSite(products=['auslfe.formonline.pfgadapter'], extension_profiles=['auslfe.formonline.content:withtypes'])
 
 class TestCase(ptc.PloneTestCase):
     """We use this base class for all the tests in this package. If

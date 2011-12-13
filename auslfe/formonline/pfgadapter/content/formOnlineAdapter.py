@@ -1,16 +1,19 @@
 # -*- coding: utf-8 -*-
 
-from Acquisition import aq_parent   
+from Acquisition import aq_parent
+from zope import interface
 from AccessControl import ClassSecurityInfo, Unauthorized
 from Products.PloneFormGen.content.actionAdapter import FormActionAdapter, FormAdapterSchema
 from Products.PloneFormGen import HAS_PLONE30
 from Products.ATContentTypes.content.schemata import finalizeATCTSchema
 from Products.ATContentTypes.content.base import registerATCT
 from auslfe.formonline.pfgadapter.config import PROJECTNAME
-from Products.Archetypes.public import Schema, ReferenceField, TextField, StringField, RichWidget, StringWidget
+from Products.Archetypes.public import Schema, ReferenceField, TextField, StringField, RichWidget
+from Products.Archetypes.public import StringWidget, SelectionWidget
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
 from auslfe.formonline.pfgadapter import formonline_pfgadapterMessageFactory as _
 from Products.CMFCore.utils import getToolByName
+from auslfe.formonline.content.interfaces.formonline import IFormOnline
 try:
     from plone.i18n.normalizer.interfaces import IUserPreferredURLNormalizer
     from plone.i18n.normalizer.interfaces import IURLNormalizer
@@ -41,7 +44,22 @@ class FormOnlineAdapter(FormActionAdapter):
                 description = _(u'description_formOnlinePath', default=u'Select the path where generated Form Online documents will be saved.'),
                 )
             ),
-                        
+
+        StringField('contentToGenerate',
+              required=True,
+              default_method='getDefaultContentType',
+              enforceVocabulary=True,
+              vocabulary_factory='plone.app.vocabularies.ReallyUserFriendlyTypes',
+              widget = SelectionWidget(
+                    label = _(u'label_contentToGenerate',
+                              default=u'Document type to generate'),
+                    description = _(u'description_contentToGenerate',
+                                    default=u"Select a content type to be used.\n"
+                                            u"When using the adapter and after saving the form, a new document of the selected type "
+                                            u"will be created."),
+                    )
+              ),
+
         TextField('adapterPrologue',
               required=False,
               validators = ('isTidyHtmlWithCleanup',),
@@ -117,6 +135,7 @@ class FormOnlineAdapter(FormActionAdapter):
         self.getEditorRoleToOverseer(formonline, check_result)
         self.REQUEST.RESPONSE.redirect(formonline.absolute_url()+'/edit')
     
+    security.declarePrivate('getDefaultOverseerEmail')
     def getDefaultOverseerEmail(self):
         _ = getToolByName(self,'translation_service').translate
         return _('default_overseer_email',
@@ -124,6 +143,11 @@ class FormOnlineAdapter(FormActionAdapter):
                  context=self,
                  domain='auslfe.formonline.pfgadapter'
                  )
+
+    security.declarePrivate('getDefaultContentType')
+    def getDefaultContentType(self):
+        default = self.getField('contentToGenerate').Vocabulary(self).getValue('FormOnline')
+        return default and 'FormOnline' or 'Document'
 
     def checkOverseerEmail(self, fields):
         """Checks if the email address of the assignee is provided in a form field.
@@ -204,15 +228,23 @@ class FormOnlineAdapter(FormActionAdapter):
                                 )
 
 
-        formonline_id = self.generateUniqueId('FormOnline')
-        container_formonline.invokeFactory(id=formonline_id, type_name='FormOnline')
+        ctype = self.getContentToGenerate()
+
+        formonline_id = self.generateUniqueId(ctype)
+        container_formonline.invokeFactory(id=formonline_id, type_name=ctype)
 
         formonline = getattr(container_formonline, formonline_id)
-        formonline.edit(title=translate_title)
-        body_text = PageTemplateFile('formOnlineTextTemplate.pt').pt_render({'fields':fields,
+        
+        # If the content doesn't inplement the properr interface: mark it!
+        if not IFormOnline.providedBy(formonline):
+            interface.alsoProvides(formonline, IFormOnline)
+        
+        body_text = PageTemplateFile('../browser/formOnlineTextTemplate.pt').pt_render({'fields':fields,
                                                                              'request':self.REQUEST,
                                                                              'adapter_prologue':self.getAdapterPrologue()})
-        formonline.edit(text=body_text)
+        formonline.edit(text=body_text, title=translate_title)
+        # disable the automatically change of id based on title
+        formonline.unmarkCreationFlag()
         return formonline
         
     def generateNewIdFromTitle(self,title):
