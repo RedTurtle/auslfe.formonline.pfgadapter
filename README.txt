@@ -93,7 +93,7 @@ specific content type as generated form.
 
 __ http://pypi.python.org/pypi/auslfe.formonline.content
 
-The simpler way is to use directly the "Form Online" content type, but it isn't installed automatically
+The simplest way is to use directly the "Form Online" content type, but it isn't installed automatically
 with the product: you must run the "*Form Online: include FormOnline type*" Generis Setup import step.
 This content type automatically use the provided workflow, but is a weird type (more or less a copy of the
 Page).

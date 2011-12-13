@@ -4,6 +4,8 @@ Changelog
 0.3.0 (Unreleased)
 ------------------
 
+First pubic release
+
 * Documentation fixes
 * Light support for "Site Administrator" role (this **not** mean that we tested this on Plone 4.1 yet)
   [keul]
