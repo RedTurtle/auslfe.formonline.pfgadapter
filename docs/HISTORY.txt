@@ -1,12 +1,13 @@
 Changelog
 =========
 
-0.2.1 (Unreleased)
+0.3.0 (Unreleased)
 ------------------
 
 * Documentation fixes
 * Light support for "Site Administrator" role (this **not** mean that we tested this on Plone 4.1 yet)
   [keul]
+* Added a new "contentToGenerate" field, for choosing the content type to be generated [keul]
 
 0.2.0 (2011-05-06)
 ------------------
