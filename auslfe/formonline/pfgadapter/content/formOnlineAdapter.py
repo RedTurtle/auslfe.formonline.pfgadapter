@@ -8,10 +8,11 @@ from Products.PloneFormGen import HAS_PLONE30
 from Products.ATContentTypes.content.schemata import finalizeATCTSchema
 from Products.ATContentTypes.content.base import registerATCT
 from auslfe.formonline.pfgadapter.config import PROJECTNAME
-from Products.Archetypes.public import Schema, ReferenceField, TextField, StringField, RichWidget
-from Products.Archetypes.public import StringWidget, SelectionWidget
+from Products.Archetypes.public import Schema, ReferenceField, TextField, StringField, RichWidget, BooleanField
+from Products.Archetypes.public import StringWidget, SelectionWidget, BooleanWidget
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
 from auslfe.formonline.pfgadapter import formonline_pfgadapterMessageFactory as _
+from auslfe.formonline.pfgadapter.interfaces import IFormOnlineActionAdapter
 from Products.CMFCore.utils import getToolByName
 from auslfe.formonline.content.interfaces.formonline import IFormOnline
 try:
@@ -26,9 +27,13 @@ from Products.ATContentTypes.configuration import zconf
 from zope.pagetemplate.pagetemplatefile import PageTemplateFile
 from Products.PloneFormGen.config import FORM_ERROR_MARKER
 
+from auslfe.formonline.pfgadapter import logger
+
 class FormOnlineAdapter(FormActionAdapter):
     """A form action adapter that will create a FormOnline object (a page)
     and will save form input data in the text field of FormOnline"""
+
+    interface.implements(IFormOnlineActionAdapter)
 
     schema = FormAdapterSchema.copy() + Schema((
 
@@ -79,6 +84,21 @@ class FormOnlineAdapter(FormActionAdapter):
                     description = _(u'description_formFieldOverseer', default=u"Enter the name of Form field used by the user completing the Form to indicate the overseer's email."),
                     )
               ),
+
+        BooleanField('overseerMustBeMember',
+              required=False,
+              default=True,
+              widget = BooleanWidget(
+                    condition = "object/@@checkDependencies/tokenaccess",
+                    label = _(u'label_overseerMustBeMember',
+                              default=u'Overseer must be a site member'),
+                    description = _(u'description_overseerMustBeMember',
+                                    default=u"Keep this checked to force the user e-mail to be related to a site member.\n"
+                                            u"Uncheck to use whatever e-mail; in this case is the e-mail is not owned by any site member a special e-mail with a secret token is sent."),
+                    ),
+              ),
+
+
     ))
 
     # Check for Plone versions
@@ -132,7 +152,11 @@ class FormOnlineAdapter(FormActionAdapter):
             utool.addPortalMessage(_(u'You are not authorized to fill that form.'), type='error')
             return self.getFormOnlinePath().restrictedTraverse('document_view')
 
-        self.getEditorRoleToOverseer(formonline, check_result)
+        if check_result[0]=='user':
+            self.setEditorRoleToOverseer(formonline, check_result[1])
+        else: # check_result[0]=='email'
+            # TODO
+            raise "TODO!"
         self.REQUEST.RESPONSE.redirect(formonline.absolute_url()+'/edit')
     
     security.declarePrivate('getDefaultOverseerEmail')
@@ -149,53 +173,69 @@ class FormOnlineAdapter(FormActionAdapter):
         default = self.getField('contentToGenerate').Vocabulary(self).getValue('FormOnline')
         return default and 'FormOnline' or 'Document'
 
+    security.declarePrivate('checkOverseerEmail')
     def checkOverseerEmail(self, fields):
-        """Checks if the email address of the assignee is provided in a form field.
-           Returns the name of the user with that address or a error message."""
+        """
+        Checks if the email address of the assignee is provided in a form field.
         
-        found = False
+        Possibile returns values:
+        
+        * a tuple with ('user', userId)
+        * a tuple with ('email', eMailAddress)
+        * a dict with error message
+        """
+        
         formFieldName = self.getFormFieldOverseer()
         _ = getToolByName(self,'translation_service').translate
+        
+        overseerEmail = None
+        overseerMustBeMember = self.getOverseerMustBeMember()
+        tokenaccessInstalled = self.restrictedTraverse('@@checkDependencies').tokenaccess
         
         for field in fields:
             if field.__name__ == queryUtility(IURLNormalizer).normalize(formFieldName):
                 overseerEmail = field.htmlValue(self.REQUEST)
-                found = True
-        if not found:
+
+        if not overseerEmail:
             error_message = _('error_nofield',
                               default=u'There is no field "${email_field}" in the Form to specify the overseer of the request.',
                               context=self,
                               domain='auslfe.formonline.pfgadapter',
                               mapping={'email_field':  formFieldName}
                               )
-            return {FORM_ERROR_MARKER:error_message}
+            return {FORM_ERROR_MARKER: error_message}
         
         if overseerEmail and (overseerEmail != 'No Input'):
             membership = getToolByName(self, 'portal_memberdata')
-            users = membership.searchMemberDataContents('email',overseerEmail)
+            users = membership.searchMemberDataContents('email', overseerEmail)
             if users:
-#                if len(users) > 1:
+                if len(users) > 1:
+                    logger.warning('There are multiple users with the same email address provided for the field %s.' % formFieldName)
 #                    warning_message = ts.translate(msgid='error_multipleusers', domain='auslfe.formonline.pfgadapter',
 #                                                   default=u'There are multiple users with the same email address provided for the field %s.') % formFieldName
 #                    addStatusMessage(self.REQUEST, warning_message, type='warning')
-                return users[0]['username']
-            else:
+                return ('user', users[0]['username'])
+            elif overseerMustBeMember or not tokenaccessInstalled:
                 error_message = _('error_nouser',
                                   default=u'No user corresponds to the email address provided, enter a new value.',
                                   context=self,
                                   domain='auslfe.formonline.pfgadapter',
                                   )
-                return {queryUtility(IURLNormalizer).normalize(formFieldName):error_message}
+                return {queryUtility(IURLNormalizer).normalize(formFieldName): error_message}
+            else:
+                # Here only if no user found but also we are not forced to have a site member
+                # Also auslfe.formonline.tokenaccess is installed
+                return ('email', overseerEmail)
         else:
             error_message = _('error_nospecifiedvalue',
-                              default=u'The value of the field \"{field_name}\" must be provided, enter the information requested.',
+                              default=u'The value of the field \"{field_name}\" must be provided, enter the information required.',
                               context=self,
                               domain='auslfe.formonline.pfgadapter',
                               mapping={'field_name': formFieldName}
                               )
-            return {queryUtility(IURLNormalizer).normalize(formFieldName):error_message}
+            return {queryUtility(IURLNormalizer).normalize(formFieldName): error_message}
         
-    def getEditorRoleToOverseer(self,formonline,overseer):
+    def setEditorRoleToOverseer(self,formonline,overseer):
         """Gives to overseer the Editor role on formonline"""
         roles = list(formonline.get_local_roles_for_userid(userid=overseer))
         if 'Editor' not in roles:

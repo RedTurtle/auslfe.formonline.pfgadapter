@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: auslfe.formonline.pfgadapter\n"
-"POT-Creation-Date: 2011-12-13 14:58+0000\n"
+"POT-Creation-Date: 2012-01-05 08:34+0000\n"
 "PO-Revision-Date: 2011-12-13 16:01:58+0000\n"
 "Last-Translator: Luca Fabbri <keul@redturtle.it>\n"
 "Language-Team: RedTurtle Technology <sviluppoplone@redturtle.it>\n"
@@ -68,7 +68,7 @@ msgstr "Seleziona il percorso nel quale verranno salvati i moduli generati."
 msgid "error_nofield"
 msgstr "Il campo \"${email_field}\" per specificare l'assegnatario della richiesta non è presente nel Modulo."
 
-#. Default: "The value of the field \"{field_name}\" must be provided, enter the information requested."
+#. Default: "The value of the field \"{field_name}\" must be provided, enter the information required."
 #: ../content/formOnlineAdapter.py:190
 msgid "error_nospecifiedvalue"
 msgstr "Il valore del campo \"{field_name}\" deve essere fornito, inserisci l'informazione richiesta."

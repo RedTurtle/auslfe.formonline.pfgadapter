@@ -17,7 +17,7 @@
       name="default"
       title="Form Online: PFG Adapter"
       directory="profiles/default"
-      description="Manage forms onine using PloneFormGen"
+      description="Manage forms/company documentation using PloneFormGen"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
   

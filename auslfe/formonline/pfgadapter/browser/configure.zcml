@@ -10,4 +10,12 @@
 	directory="images"
 	/>
 
+  <browser:page
+    for="auslfe.formonline.pfgadapter.interfaces.IFormOnlineActionAdapter"
+	class=".check_dependencies.CheckDependenciesView"
+	allowed_interface=".check_dependencies.ICheckDependenciesView"
+	permission="zope.Public"
+    name="checkDependencies"
+  />
+
 </configure>

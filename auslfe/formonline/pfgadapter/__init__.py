@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 
+import logging
 from Products.Archetypes.public import process_types, listTypes
 from Products.CMFCore import utils
 from auslfe.formonline.pfgadapter.config import PROJECTNAME, ADD_CONTENT_PERMISSION
 
 from zope.i18nmessageid import MessageFactory
 formonline_pfgadapterMessageFactory = MessageFactory('auslfe.formonline.pfgadapter')
+
+logger = logging.getLogger("auslfe.formonline.pfgadapter")
 
 def initialize(context):
 
