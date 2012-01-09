@@ -5,7 +5,7 @@ Changelog
 ------------------
 
 * fixed translations [keul]
-* added a soft dependency on ``auslfe.formonline.tokenacces``
+* added a soft dependency on ``auslfe.formonline.tokenacces`` [keul]
 
 0.3.0 (2011-12-13)
 ------------------

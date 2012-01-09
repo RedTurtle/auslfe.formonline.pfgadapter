@@ -11,8 +11,12 @@
   <include package="Products.PloneFormGen" />
   <include package="auslfe.formonline.content" />
   <include package=".browser" />
-  
-  <!-- Register the installation GenericSetup extension profile -->
+
+  <adapter for=".interfaces.IFormOnlineActionAdapter"
+       provides=".interfaces.IFormSharingProvider"
+       factory=".sharing_provider.SimpleSharingProvider"
+	   name="provider-for-user" />
+
   <genericsetup:registerProfile
       name="default"
       title="Form Online: PFG Adapter"
@@ -21,6 +25,4 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
   
-  <!-- -*- extra stuff goes here -*- -->
-
 </configure>

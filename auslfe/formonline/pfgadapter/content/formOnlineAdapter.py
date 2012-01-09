@@ -12,7 +12,7 @@ from Products.Archetypes.public import Schema, ReferenceField, TextField, String
 from Products.Archetypes.public import StringWidget, SelectionWidget, BooleanWidget
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
 from auslfe.formonline.pfgadapter import formonline_pfgadapterMessageFactory as _
-from auslfe.formonline.pfgadapter.interfaces import IFormOnlineActionAdapter
+from auslfe.formonline.pfgadapter.interfaces import IFormOnlineActionAdapter, IFormSharingProvider
 from Products.CMFCore.utils import getToolByName
 from auslfe.formonline.content.interfaces.formonline import IFormOnline
 try:
@@ -21,7 +21,7 @@ try:
     URL_NORMALIZER = True
 except ImportError:
     URL_NORMALIZER = False
-from zope.component import queryUtility
+from zope.component import queryUtility, getAdapter
 from Products.Archetypes.config import RENAME_AFTER_CREATION_ATTEMPTS
 from Products.ATContentTypes.configuration import zconf
 from zope.pagetemplate.pagetemplatefile import PageTemplateFile
@@ -138,6 +138,10 @@ class FormOnlineAdapter(FormActionAdapter):
             Messages may be string types or zope.i18nmessageid objects.                
         """
         
+        mtool = getToolByName(self, 'portal_membership')
+        utool = getToolByName(self, 'plone_utils')
+        wtool = getToolByName(self, 'portal_workflow')
+        
         # fields will be a sequence of objects with an IPloneFormGenField interface
         
         check_result = self.checkOverseerEmail(fields)
@@ -148,16 +152,20 @@ class FormOnlineAdapter(FormActionAdapter):
         try:
             formonline = self.save_form(fields)
         except Unauthorized:
-            utool = getToolByName(self, 'plone_utils')
             utool.addPortalMessage(_(u'You are not authorized to fill that form.'), type='error')
-            return self.getFormOnlinePath().restrictedTraverse('document_view')
+            return
 
-        if check_result[0]=='user':
-            self.setEditorRoleToOverseer(formonline, check_result[1])
-        else: # check_result[0]=='email'
-            # TODO
-            raise "TODO!"
-        self.REQUEST.RESPONSE.redirect(formonline.absolute_url()+'/edit')
+        sharing_provider = getAdapter(self, IFormSharingProvider, name='provider-for-%s' % check_result[0])
+        sharing_provider.share(formonline, check_result[1])
+
+        if mtool.isAnonymousUser():
+            wtool.doActionFor(formonline, 'submit')
+            utool.addPortalMessage(_(u'Your data has been sent.'), type='info')
+            #self.REQUEST.RESPONSE.redirect(self.aq_parent.absolute_url())
+            return
+        else:
+            #utool.addPortalMessage(_(u'Feel free to modify your data'), type='info')
+            self.REQUEST.RESPONSE.redirect(formonline.absolute_url()+'/edit')
     
     security.declarePrivate('getDefaultOverseerEmail')
     def getDefaultOverseerEmail(self):
@@ -235,13 +243,6 @@ class FormOnlineAdapter(FormActionAdapter):
                               )
             return {queryUtility(IURLNormalizer).normalize(formFieldName): error_message}
         
-    def setEditorRoleToOverseer(self,formonline,overseer):
-        """Gives to overseer the Editor role on formonline"""
-        roles = list(formonline.get_local_roles_for_userid(userid=overseer))
-        if 'Editor' not in roles:
-            roles.append('Editor')
-            formonline.manage_setLocalRoles(overseer,roles)
-        
     def save_form(self, fields):
         """Creates a FormOnline object and saves form input data in the text field of FormOnline."""
         
@@ -282,8 +283,11 @@ class FormOnlineAdapter(FormActionAdapter):
         body_text = PageTemplateFile('../browser/formOnlineTextTemplate.pt').pt_render({'fields':fields,
                                                                              'request':self.REQUEST,
                                                                              'adapter_prologue':self.getAdapterPrologue()})
-        formonline.edit(text=body_text, title=translate_title)
+        #formonline.edit(text=body_text, title=translate_title)
+        formonline.setTitle(translate_title)
+        formonline.setText(body_text)        
         # disable the automatically change of id based on title
+        formonline.reindexObject()
         formonline.unmarkCreationFlag()
         return formonline
         
