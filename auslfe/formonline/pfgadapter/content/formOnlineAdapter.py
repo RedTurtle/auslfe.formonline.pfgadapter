@@ -4,7 +4,10 @@ from Acquisition import aq_parent
 from zope import interface
 from AccessControl import ClassSecurityInfo, Unauthorized
 from Products.PloneFormGen.content.actionAdapter import FormActionAdapter, FormAdapterSchema
-from Products.PloneFormGen import HAS_PLONE30
+try:
+    from Products.PloneFormGen import HAS_PLONE30
+except ImportError:
+    HAS_PLONE30 = False
 from Products.ATContentTypes.content.schemata import finalizeATCTSchema
 from Products.ATContentTypes.content.base import registerATCT
 from auslfe.formonline.pfgadapter.config import PROJECTNAME
