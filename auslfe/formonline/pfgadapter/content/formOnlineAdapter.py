@@ -93,8 +93,8 @@ class FormOnlineAdapter(FormActionAdapter):
                     label = _(u'label_overseerMustBeMember',
                               default=u'Overseer must be a site member'),
                     description = _(u'description_overseerMustBeMember',
-                                    default=u"Keep this checked to force the user e-mail to be related to a site member.\n"
-                                            u"Uncheck to use whatever e-mail; in this case is the e-mail is not owned by any site member a special e-mail with a secret token is sent."),
+                                    default=u"Keep this checked to force the user e-mail address to be related to a site member.\n"
+                                            u"Uncheck to use whatever address; in this case, if the address is not owned by any site member, a special e-mail with a secret token is sent."),
                     ),
               ),
 

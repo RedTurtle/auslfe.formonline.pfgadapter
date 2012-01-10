@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-01-05 08:34+0000\n"
+"POT-Creation-Date: 2012-01-10 12:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,76 +26,90 @@ msgid "Form Online Adapter"
 msgstr ""
 
 #. Default: "Form \"$form_name\" completed by $user"
-#: ../content/formOnlineAdapter.py:223
+#: ../content/formOnlineAdapter.py:264
 msgid "Form completed by"
 msgstr ""
 
 #. Default: "Form \"$form_name\" completed by an anonymous user"
-#: ../content/formOnlineAdapter.py:215
+#: ../content/formOnlineAdapter.py:256
 msgid "Form completed by an anonymous user"
 msgstr ""
 
-#: ../content/formOnlineAdapter.py:132
+#: ../content/formOnlineAdapter.py:155
 msgid "You are not authorized to fill that form."
 msgstr ""
 
+#: ../content/formOnlineAdapter.py:163
+msgid "Your data has been sent."
+msgstr ""
+
 #. Default: "Overseer email"
-#: ../content/formOnlineAdapter.py:141
+#: ../content/formOnlineAdapter.py:173
 msgid "default_overseer_email"
 msgstr ""
 
 #. Default: "This text will be included at the beginning of any Form Online generated."
-#: ../content/formOnlineAdapter.py:69
+#: ../content/formOnlineAdapter.py:74
 msgid "description_adapterPrologue"
 msgstr ""
 
 #. Default: "Select a content type to be used.\nWhen using the adapter and after saving the form, a new document of the selected type will be created."
-#: ../content/formOnlineAdapter.py:56
+#: ../content/formOnlineAdapter.py:61
 msgid "description_contentToGenerate"
 msgstr ""
 
 #. Default: "Enter the name of Form field used by the user completing the Form to indicate the overseer's email."
-#: ../content/formOnlineAdapter.py:79
+#: ../content/formOnlineAdapter.py:84
 msgid "description_formFieldOverseer"
 msgstr ""
 
 #. Default: "Select the path where generated Form Online documents will be saved."
-#: ../content/formOnlineAdapter.py:44
+#: ../content/formOnlineAdapter.py:49
 msgid "description_formOnlinePath"
 msgstr ""
 
+#. Default: "Keep this checked to force the user e-mail address to be related to a site member.\nUncheck to use whatever address; in this case, if the address is not owned by any site member, a special e-mail with a secret token is sent."
+#: ../content/formOnlineAdapter.py:95
+msgid "description_overseerMustBeMember"
+msgstr ""
+
 #. Default: "There is no field \"${email_field}\" in the Form to specify the overseer of the request."
-#: ../content/formOnlineAdapter.py:165
+#: ../content/formOnlineAdapter.py:208
 msgid "error_nofield"
 msgstr ""
 
 #. Default: "The value of the field \"{field_name}\" must be provided, enter the information required."
-#: ../content/formOnlineAdapter.py:190
+#: ../content/formOnlineAdapter.py:238
 msgid "error_nospecifiedvalue"
 msgstr ""
 
 #. Default: "No user corresponds to the email address provided, enter a new value."
-#: ../content/formOnlineAdapter.py:183
+#: ../content/formOnlineAdapter.py:227
 msgid "error_nouser"
 msgstr ""
 
 #. Default: "Adapter prologue"
-#: ../content/formOnlineAdapter.py:68
+#: ../content/formOnlineAdapter.py:73
 msgid "label_adapterPrologue"
 msgstr ""
 
 #. Default: "Document type to generate"
-#: ../content/formOnlineAdapter.py:54
+#: ../content/formOnlineAdapter.py:59
 msgid "label_contentToGenerate"
 msgstr ""
 
 #. Default: "Name of Form field that identifies the overseer"
-#: ../content/formOnlineAdapter.py:78
+#: ../content/formOnlineAdapter.py:83
 msgid "label_formFieldOverseer"
 msgstr ""
 
 #. Default: "Form Online storage"
-#: ../content/formOnlineAdapter.py:43
+#: ../content/formOnlineAdapter.py:48
 msgid "label_formOnlinePath"
+msgstr ""
+
+#. Default: "Overseer must be a site member"
+#: ../content/formOnlineAdapter.py:93
+msgid "label_overseerMustBeMember"
 msgstr ""
 

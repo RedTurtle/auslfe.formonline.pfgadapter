@@ -106,6 +106,14 @@ Items). But in this way you must configure other stuff, like assigning the prope
 
 __ http://pypi.python.org/pypi/Products.CMFPlacefulWorkflow 
 
+Alternative configuration
+=========================
+
+If you want the overseer e-mail address to be (potentially) an *external* address, you can take a look at
+`auslfe.formonline.tokenaccess`__.
+
+__ http://pypi.python.org/pypi/auslfe.formonline.tokenaccess
+
 Dependencies
 ============
 
