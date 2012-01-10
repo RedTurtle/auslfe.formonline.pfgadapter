@@ -66,8 +66,7 @@ def setup_product():
 
 setup_product()
 ptc.setupPloneSite(products=['auslfe.formonline.pfgadapter'],
-                   extension_profiles=['auslfe.formonline.pfgadapter:default',
-                                       'auslfe.formonline.content:withtypes'])
+                   extension_profiles=['auslfe.formonline.content:withtypes'])
 
 class TestCase(ptc.PloneTestCase):
     """We use this base class for all the tests in this package. If
