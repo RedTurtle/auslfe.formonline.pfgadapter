@@ -1,325 +1,307 @@
 # -*- coding: utf-8 -*-
 
-from Acquisition import aq_parent
-from zope import interface
-from AccessControl import ClassSecurityInfo, Unauthorized
-from Products.PloneFormGen.content.actionAdapter import FormActionAdapter, FormAdapterSchema
-from Products.PloneFormGen import HAS_PLONE30
-from Products.ATContentTypes.content.schemata import finalizeATCTSchema
-from Products.ATContentTypes.content.base import registerATCT
-from auslfe.formonline.pfgadapter.config import PROJECTNAME
-from Products.Archetypes.public import Schema, ReferenceField, TextField, StringField, RichWidget, BooleanField
-from Products.Archetypes.public import StringWidget, SelectionWidget, BooleanWidget
-from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
-from auslfe.formonline.pfgadapter import formonline_pfgadapterMessageFactory as _
-from auslfe.formonline.pfgadapter.interfaces import IFormOnlineActionAdapter, IFormSharingProvider
+from zope.annotation import IAnnotations
 from Products.CMFCore.utils import getToolByName
-from auslfe.formonline.content.interfaces.formonline import IFormOnline
+from Acquisition import aq_inner, aq_base, aq_parent
+from auslfe.formonline.content import formonline_contentMessageFactory as _
+from auslfe.formonline.content import logger
 try:
-    from plone.i18n.normalizer.interfaces import IUserPreferredURLNormalizer
-    from plone.i18n.normalizer.interfaces import IURLNormalizer
-    URL_NORMALIZER = True
+    from Products.PageTemplates.GlobalTranslationService import getGlobalTranslationService
+    PLONE3 = True
 except ImportError:
-    URL_NORMALIZER = False
-from zope.component import queryUtility, getAdapter
-from Products.Archetypes.config import RENAME_AFTER_CREATION_ATTEMPTS
-from Products.ATContentTypes.configuration import zconf
-from zope.pagetemplate.pagetemplatefile import PageTemplateFile
-from Products.PloneFormGen.config import FORM_ERROR_MARKER
+    from zope.i18n import translate as i18ntranslate
+    PLONE3 = False
+from email.MIMEText import MIMEText
+from Products.CMFPlone.utils import safe_unicode
+import socket
+from Products.CMFPlone.utils import log_exc, log
+from email.Utils import parseaddr, formataddr
+from email.MIMEMultipart import MIMEMultipart
+from reStructuredText import HTML as rstHTML
 
-from auslfe.formonline.pfgadapter import logger
-
-class FormOnlineAdapter(FormActionAdapter):
-    """A form action adapter that will create a FormOnline object (a page)
-    and will save form input data in the text field of FormOnline"""
-
-    interface.implements(IFormOnlineActionAdapter)
-
-    schema = FormAdapterSchema.copy() + Schema((
-
-        ReferenceField('formOnlinePath',
-            required=True,
-            relationship='relatesToFormOnline',
-            widget = ReferenceBrowserWidget(
-                allow_search = True,
-                allow_browse = True,
-                show_indexes = False,
-                force_close_on_insert = True,
-                label = _(u'label_formOnlinePath', default=u'Form Online storage'),
-                description = _(u'description_formOnlinePath', default=u'Select the path where generated Form Online documents will be saved.'),
-                )
-            ),
-
-        StringField('contentToGenerate',
-              required=True,
-              default_method='getDefaultContentType',
-              enforceVocabulary=True,
-              vocabulary_factory='plone.app.vocabularies.ReallyUserFriendlyTypes',
-              widget = SelectionWidget(
-                    label = _(u'label_contentToGenerate',
-                              default=u'Document type to generate'),
-                    description = _(u'description_contentToGenerate',
-                                    default=u"Select a content type to be used.\n"
-                                            u"When using the adapter and after saving the form, a new document of the selected type "
-                                            u"will be created."),
-                    )
-              ),
-
-        TextField('adapterPrologue',
-              required=False,
-              validators = ('isTidyHtmlWithCleanup',),
-              default_output_type = 'text/x-html-safe',
-              widget = RichWidget(
-                    label = _(u'label_adapterPrologue', default=u'Adapter prologue'),
-                    description = _(u'description_adapterPrologue', default=u'This text will be included at the beginning of any Form Online generated.'),
-                    allow_file_upload = zconf.ATDocument.allow_document_upload
-                    )
-              ),
-        
-        StringField('formFieldOverseer',
-              required=False,
-              default_method='getDefaultOverseerEmail',
-              widget = StringWidget(
-                    label = _(u'label_formFieldOverseer', default=u'Name of Form field that identifies the overseer'),
-                    description = _(u'description_formFieldOverseer', default=u"Enter the name of Form field used by the user completing the Form to indicate the overseer's email."),
-                    )
-              ),
-
-        BooleanField('overseerMustBeMember',
-              required=False,
-              default=True,
-              widget = BooleanWidget(
-                    condition = "object/@@checkDependencies/tokenaccess",
-                    label = _(u'label_overseerMustBeMember',
-                              default=u'Overseer must be a site member'),
-                    description = _(u'description_overseerMustBeMember',
-                                    default=u"Keep this checked to force the user e-mail address to be related to a site member.\n"
-                                            u"Uncheck to use whatever address; in this case, if the address is not owned by any site member, a special e-mail with a secret token is sent."),
-                    ),
-              ),
-
-
-    ))
-
-    # Check for Plone versions
-    if not HAS_PLONE30:
-        finalizeATCTSchema(schema, folderish=True, moveDiscussion=False)
-
-    meta_type      = 'FormOnlineAdapter'
-    portal_type    = 'FormOnlineAdapter'
-    archetype_name = 'Form Online Adapter'
-    security       = ClassSecurityInfo()
+def formOnlineNotificationMail(formonline, event):
+    """
+    When the state of a Form Online changes in one of the states in
+    ['pending_approval','pending_dispatch'], send a notification email.
+    """
+    portal_workflow = getToolByName(formonline,'portal_workflow')
+    review_state = portal_workflow.getInfoFor(formonline,'review_state')
     
-    security.declarePrivate('onSuccess')
-    def onSuccess(self, fields, REQUEST=None):
-        """ Called by form to invoke custom success processing.
-            return None (or don't use "return" at all) if processing is
-            error-free.
-            
-            Return a dictionary like {'field_id':'Error Message'}
-            and PFG will stop processing action adapters and
-            return back to the form to display your error messages
-            for the matching field(s).
-
-            You may also use Products.PloneFormGen.config.FORM_ERROR_MARKER
-            as a marker for a message to replace the top-of-the-form error
-            message.
-
-            For example, to set a message for the whole form, but not an
-            individual field:
-
-            {FORM_ERROR_MARKER:'Yuck! You will need to submit again.'}
-
-            For both a field and form error:
-
-            {FORM_ERROR_MARKER:'Yuck! You will need to submit again.',
-             'field_id':'Error Message for field.'}
-            
-            Messages may be string types or zope.i18nmessageid objects.                
-        """
-        
-        mtool = getToolByName(self, 'portal_membership')
-        utool = getToolByName(self, 'plone_utils')
-        wtool = getToolByName(self, 'portal_workflow')
-        
-        # fields will be a sequence of objects with an IPloneFormGenField interface
-        
-        check_result = self.checkOverseerEmail(fields)
-        if type(check_result) == dict:
-            # check_result contains a error
-            return check_result
-            
-        try:
-            formonline = self.save_form(fields)
-        except Unauthorized:
-            utool.addPortalMessage(_(u'You are not authorized to fill that form.'), type='error')
-            return
-
-        sharing_provider = getAdapter(self, IFormSharingProvider, name='provider-for-%s' % check_result[0])
-        sharing_provider.share(formonline, check_result[1])
-
-        if mtool.isAnonymousUser():
-            wtool.doActionFor(formonline, 'submit')
-            utool.addPortalMessage(_(u'Your data has been sent.'), type='info')
-            #self.REQUEST.RESPONSE.redirect(self.aq_parent.absolute_url())
-            return
+    addresses = []
+    text = ''
+    subject = ''
+    
+    if review_state == 'pending_approval':
+        ann = IAnnotations(formonline)
+        # See auslfe.formonline.tokenaccess
+        if ann.get('share-tokens'):
+            addresses = (ann['share-tokens']['email'],)
         else:
-            #utool.addPortalMessage(_(u'Feel free to modify your data'), type='info')
-            self.REQUEST.RESPONSE.redirect(formonline.absolute_url()+'/edit')
+            addresses = getAddressesFromRole('Editor', formonline)            
+    elif review_state == 'pending_dispatch':
+        addresses = getAddressesFromRole('Reviewer', formonline)
     
-    security.declarePrivate('getDefaultOverseerEmail')
-    def getDefaultOverseerEmail(self):
-        _ = getToolByName(self,'translation_service').translate
-        return _('default_overseer_email',
-                 default=u'Overseer email',
-                 context=self,
-                 domain='auslfe.formonline.pfgadapter'
-                 )
+    if addresses:
+        sendNotificationMail(formonline, review_state, addresses)
+    
+def get_inherited(formonline):
+    """Return True if local roles are inherited here.
+    """
+    if getattr(aq_base(formonline), '__ac_local_roles_block__', None):
+        return False
+    return True
 
-    security.declarePrivate('getDefaultContentType')
-    def getDefaultContentType(self):
-        default = self.getField('contentToGenerate').Vocabulary(self).getValue('FormOnline')
-        return default and 'FormOnline' or 'Document'
-
-    security.declarePrivate('checkOverseerEmail')
-    def checkOverseerEmail(self, fields):
-        """
-        Checks if the email address of the assignee is provided in a form field.
-        
-        Possibile returns values:
-        
-        * a tuple with ('user', userId)
-        * a tuple with ('email', eMailAddress)
-        * a dict with error message
-        """
-        
-        formFieldName = self.getFormFieldOverseer()
-        _ = getToolByName(self,'translation_service').translate
-        
-        overseerEmail = None
-        overseerMustBeMember = self.getOverseerMustBeMember()
-        tokenaccessInstalled = self.restrictedTraverse('@@checkDependencies').tokenaccess
-        
-        for field in fields:
-            if field.__name__ == queryUtility(IURLNormalizer).normalize(formFieldName):
-                overseerEmail = field.htmlValue(self.REQUEST)
-
-        if not overseerEmail:
-            error_message = _('error_nofield',
-                              default=u'There is no field "${email_field}" in the Form to specify the overseer of the request.',
-                              context=self,
-                              domain='auslfe.formonline.pfgadapter',
-                              mapping={'email_field':  formFieldName}
-                              )
-            return {FORM_ERROR_MARKER: error_message}
-        
-        if overseerEmail and (overseerEmail != 'No Input'):
-            membership = getToolByName(self, 'portal_memberdata')
-            users = membership.searchMemberDataContents('email', overseerEmail)
-            if users:
-                if len(users) > 1:
-                    logger.warning('There are multiple users with the same email address provided for the field %s.' % formFieldName)
-#                    warning_message = ts.translate(msgid='error_multipleusers', domain='auslfe.formonline.pfgadapter',
-#                                                   default=u'There are multiple users with the same email address provided for the field %s.') % formFieldName
-#                    addStatusMessage(self.REQUEST, warning_message, type='warning')
-                return ('user', users[0]['username'])
-            elif overseerMustBeMember or not tokenaccessInstalled:
-                error_message = _('error_nouser',
-                                  default=u'No user corresponds to the email address provided, enter a new value.',
-                                  context=self,
-                                  domain='auslfe.formonline.pfgadapter',
-                                  )
-                return {queryUtility(IURLNormalizer).normalize(formFieldName): error_message}
+def get_global_roles(formonline):
+    """Returns a tuple with the acquired local roles."""
+    formonline = aq_inner(formonline)
+    
+    if not get_inherited(formonline):
+        return []
+    
+    portal = getToolByName(formonline, 'portal_url').getPortalObject()
+    result = []
+    
+    local_roles = formonline.acl_users._getLocalRolesForDisplay(formonline)
+    for user, roles, role_type, name in local_roles:
+        result.append([user, list(roles), role_type, name])
+    
+    cont = True
+    if portal != formonline:
+        parent = aq_parent(formonline)
+        while cont:
+            if not getattr(parent, 'acl_users', False):
+                break
+            userroles = parent.acl_users._getLocalRolesForDisplay(parent)
+            for user, roles, role_type, name in userroles:
+                # Find user in result
+                found = 0
+                for user2, roles2, type2, name2 in result:
+                    if user2 == user:
+                        # Check which roles must be added to roles2
+                        for role in roles:
+                            if not role in roles2:
+                                roles2.append(role)
+                        found = 1
+                        break
+                if found == 0:
+                    # Add it to result and make sure roles is a list so
+                    # we may append and not overwrite the loop variable
+                    result.append([user, list(roles), role_type, name])
+            if parent == portal:
+                cont = False
+            elif not get_inherited(parent):
+                # Role acquired check here
+                cont = False
             else:
-                # Here only if no user found but also we are not forced to have a site member
-                # Also auslfe.formonline.tokenaccess is installed
-                return ('email', overseerEmail)
-        else:
-            error_message = _('error_nospecifiedvalue',
-                              default=u'The value of the field \"{field_name}\" must be provided, enter the information required.',
-                              context=self,
-                              domain='auslfe.formonline.pfgadapter',
-                              mapping={'field_name': formFieldName}
-                              )
-            return {queryUtility(IURLNormalizer).normalize(formFieldName): error_message}
-        
-    def save_form(self, fields):
-        """Creates a FormOnline object and saves form input data in the text field of FormOnline."""
-        
-        container_formonline = self.getFormOnlinePath()
-        _ = getToolByName(self,'translation_service').translate
-        
-        form_title = aq_parent(self).Title()
+                parent = aq_parent(parent)
 
-        mtool = getToolByName(self, 'portal_membership')
-        if mtool.isAnonymousUser():
-            translate_title = _('Form completed by an anonymous user',
-                                default=u'Form "$form_name" completed by an anonymous user',
-                                context=self,
-                                domain='auslfe.formonline.pfgadapter',
-                                mapping={'form_name': form_title}
-                                )
-        else:
-            username = mtool.getAuthenticatedMember().getUserName()
-            translate_title = _('Form completed by',
-                                default=u'Form "$form_name" completed by $user',
-                                context=self,
-                                domain='auslfe.formonline.pfgadapter',
-                                mapping={'user': username, 'form_name': form_title}
-                                )
+    # Tuplize all inner roles
+    for pos in range(len(result)-1,-1,-1):
+        result[pos][1] = tuple(result[pos][1])
+        result[pos] = tuple(result[pos])
 
+    return tuple(result)
 
-        ctype = self.getContentToGenerate()
+def getAddressesFromRole(role, formonline):
+    """
+    Returns a list of email of users with a specific role on a Form Online content,
+    from a local roles structure."""
+    pm = getToolByName(formonline,'portal_membership')
+    globals_roles = get_global_roles(formonline)
+    users = []
+    for user,roles,role_type,name in globals_roles:
+        if role in roles:
+            users.append(pm.getMemberById(user).getProperty('email'))
+    return users
 
-        formonline_id = self.generateUniqueId(ctype)
-        container_formonline.invokeFactory(id=formonline_id, type_name=ctype)
-
-        formonline = getattr(container_formonline, formonline_id)
-        
-        # If the content doesn't inplement the properr interface: mark it!
-        if not IFormOnline.providedBy(formonline):
-            interface.alsoProvides(formonline, IFormOnline)
-        
-        body_text = PageTemplateFile('../browser/formOnlineTextTemplate.pt').pt_render({'fields':fields,
-                                                                             'request':self.REQUEST,
-                                                                             'adapter_prologue':self.getAdapterPrologue()})
-        #formonline.edit(text=body_text, title=translate_title)
-        formonline.setTitle(translate_title)
-        formonline.setText(body_text)        
-        # disable the automatically change of id based on title
-        formonline.reindexObject()
-        formonline.unmarkCreationFlag()
-        return formonline
-        
-    def generateNewIdFromTitle(self,title):
-        """Suggest an id from title."""
-
-        if not isinstance(title, unicode):
-            charset = self.getCharset()
-            title = unicode(title, charset)
-
-        request = getattr(self, 'REQUEST', None)
-        if request is not None:
-            return IUserPreferredURLNormalizer(request).normalize(title)
-
-        return queryUtility(IURLNormalizer).normalize(title)
+def sendNotificationMail(formonline, review_state, addresses):
+    """
+    Send a notification email to the list of addresses
+    """
+    portal_url = getToolByName(formonline, 'portal_url')
+    portal = portal_url.getPortalObject()
+    portal_membership = getToolByName(portal, 'portal_membership')
     
-    def findUniqueId(self, id, parent_folder):
-        """Find a unique id in the parent folder, based on the given id, by
-        appending -n, where n is a number between 1 and the constant
-        RENAME_AFTER_CREATION_ATTEMPTS, set in config.py. If no id can be
-        found, return None."""
-        parent_ids = parent_folder.objectIds()
-        check_id = lambda id, required: id in parent_ids
-        invalid_id = check_id(id, required=1)
-        if not invalid_id:
-            return id
+    plone_utils = getToolByName(portal, 'plone_utils')
+    charset = plone_utils.getSiteEncoding()
 
-        idx = 1
-        while idx <= RENAME_AFTER_CREATION_ATTEMPTS:
-            new_id = "%s-%d" % (id, idx)
-            if not check_id(new_id, required=1):
-                return new_id
-            idx += 1
+    def su(value):
+        return safe_unicode(value, encoding=charset)
+    
+    formonlineCreator = formonline.Creator()
+    formonlineCreatorInfo = portal_membership.getMemberInfo(formonlineCreator)
+    formonlineAuthor = formonlineCreator
+    if formonlineCreatorInfo:
+        formonlineAuthor = formonlineCreatorInfo['fullname'] or formonlineCreator
 
-registerATCT(FormOnlineAdapter, PROJECTNAME)
+    insertion_date = formonline.toLocalizedTime(formonline.created())
+
+    if PLONE3:
+        _ = getGlobalTranslationService().translate
+    else:
+        _ = i18ntranslate
+
+    ann = IAnnotations(formonline)
+    # See auslfe.formonline.tokenaccess
+    if ann.get('share-tokens'):
+        path = '/'.join(formonline.getPhysicalPath()).replace('/%s/' % portal.getId(), '')
+        formonline_url = '%s/@@consume-powertoken-first?path=%s&token=%s' % (
+                                                                             portal_url(),
+                                                                             path,
+                                                                             ann['share-tokens']['view']
+                                                                             )
+        logger.info(formonline_url)
+    else:
+        formonline_url = su(formonline.absolute_url())
+
+    mapping = dict(formonline_title = su(formonline.title_or_id()),
+                   insertion_date = su(insertion_date),
+                   formonline_owner = su(formonlineAuthor),
+                   formonline_url = formonline_url,
+                   )
+
+    if review_state == 'pending_approval':
+        subject = _(msgid='subject_pending_approval',
+                    default=u'[Form Online] - Form Online in pending state approval',
+                    domain="auslfe.formonline.content",
+                    context=formonline)
+        text = _(msgid='mail_text_approval_required', default=u"""Dear user,
+
+this is a personal communication regarding the Form Online **${formonline_title}**, created on **${insertion_date}** by **${formonline_owner}**.
+
+It is waiting for your approval. Follow the link below for perform your actions:
+${formonline_url}
+
+Regards
+""", domain="auslfe.formonline.content", context=formonline, mapping=mapping)
+
+    elif review_state == 'pending_dispatch':
+        subject = _(msgid='subject_pending_dispatch',
+                    default=u'[Form Online] - Form Online in pending state dispatch',
+                    domain="auslfe.formonline.content",
+                    context=formonline)
+        text = _(msgid='mail_text_dispatch_required', default=u"""Dear user,
+
+this is a personal communication regarding the Form Online **${formonline_title}**, created on **${insertion_date}** by **${formonline_owner}**.
+
+The request has been approved and it's waiting for your confirmation. Follow the link below for perform your actions:
+${formonline_url}
+
+Regards
+""", domain="auslfe.formonline.content", context=formonline, mapping=mapping)
+    
+    sendEmail(formonline, addresses, subject, text)
+
+
+def sendEmail(formonline, addresses, subject, rstText, cc = None):
+    """
+    Send a email to the list of addresses
+    """
+    portal_url  = getToolByName(formonline, 'portal_url')
+    plone_utils = getToolByName(formonline, 'plone_utils')
+
+    portal      = portal_url.getPortalObject()
+    mailHost    = plone_utils.getMailHost()
+    charset     = portal.getProperty('email_charset', '')
+    if not charset:
+        charset = plone_utils.getSiteEncoding()
+    from_address = portal.getProperty('email_from_address', '')
+
+    if not from_address:
+        log('Cannot send notification email: email sender address not set')
+        return
+    from_name = portal.getProperty('email_from_name', '')
+    mfrom = formataddr((from_name, from_address))
+    if parseaddr(mfrom)[1] != from_address:
+        # formataddr probably got confused by special characters.
+        mfrom - from_address
+
+
+    email_msg = MIMEMultipart('alternative')
+    email_msg.epilogue = ''
+
+    # Translate the body text
+    if PLONE3:
+        translate = getGlobalTranslationService().translate
+    else:
+        translate = i18ntranslate
+    rstText = translate('auslfe.formonline.content', rstText, context=formonline)
+    # We must choose the body charset manually
+    for body_charset in 'US-ASCII', charset, 'UTF-8':
+        try:
+            rstText = rstText.encode(body_charset)
+        except UnicodeError:
+            pass
+        else:
+            break
+
+    textPart = MIMEText(rstText, 'plain', body_charset)
+    email_msg.attach(textPart)
+    htmlPart = MIMEText(renderHTML(rstText, charset=body_charset),
+                        'html', body_charset)
+    email_msg.attach(htmlPart)
+
+    subject = safe_unicode(subject, charset)
+
+    for address in addresses:
+        address = safe_unicode(address, charset)
+        try:
+            # Note that charset is only used for the headers, not
+            # for the body text as that is a Message already.
+            mailHost.secureSend(message = email_msg,
+                                mto = address,
+                                mfrom = mfrom,
+                                subject = subject,
+                                charset = charset)
+        except socket.error, exc:
+            log_exc(('Could not send email from %s to %s regarding issue '
+                     'in content %s\ntext is:\n%s\n') % (
+                    mfrom, address, formonline.absolute_url(), email_msg))
+            log_exc("Reason: %s: %r" % (exc.__class__.__name__, str(exc)))
+        except:
+            raise
+
+def renderHTML(rstText, lang='en', charset='utf-8'):
+    """Convert the given rST into a full XHTML transitional document.
+    """
+
+    kwargs = {'lang': lang,
+              'charset': charset,
+              'body': rstHTML(rstText, input_encoding=charset,
+                              output_encoding=charset)}
+    
+    return htmlTemplate % kwargs
+
+htmlTemplate = """
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="%(lang)s"
+      lang="%(lang)s">
+
+  <head>
+     <meta http-equiv="Content-Type" content="text/html; charset=%(charset)s" />
+
+    <style type="text/css" media="all">
+<!--
+BODY {
+    font-size: 0.9em;
+}
+
+H4 {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+DT {
+    font-weight: bold;
+}
+-->
+    </style>
+
+  </head>
+
+  <body>
+%(body)s
+  </body>
+</html>
+"""

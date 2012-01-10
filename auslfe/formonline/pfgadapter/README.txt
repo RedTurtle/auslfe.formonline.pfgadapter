@@ -68,6 +68,7 @@ There, we can host our PloneFormGen. First let's login as ``Manager``.
     >>> browser.getControl(name='__ac_name').value = 'uber_user'
     >>> browser.getControl(name='__ac_password').value = default_password
     >>> browser.getControl(name='submit').click()
+    >>> browser.open(portal_url)
 
 Then we create our PFG.
 
