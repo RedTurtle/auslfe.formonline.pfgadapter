@@ -125,7 +125,7 @@ This product has been tested with:
 TODO
 ====
 
-* Plone 4 compatibility
+* Plone 4 compatibility (probably just works)
 * We are planning an integration of the PFG adapter with `Easy Template`__
 * Automatically save the overseer e-mail in the user data, so automatically fill future requests
 * A shorter workflow, for very simple approvation where we only need A and C actors
@@ -149,6 +149,6 @@ Authors
 
 This product was developed by RedTurtle Technology team.
 
-.. image:: http://www.redturtle.net/redturtle_banner.png
+.. image:: http://www.redturtle.it/redturtle_banner.png
    :alt: RedTurtle Technology Site
-   :target: http://www.redturtle.net/
+   :target: http://www.redturtle.it/
