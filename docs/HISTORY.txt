@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.4.1 (Unreleased)
+------------------
+
+* FormOnlineAdapter now removed from searchable/navigation types [keul]
+
 0.4.0 (2012-01-11)
 ------------------
 
