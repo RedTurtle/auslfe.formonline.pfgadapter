@@ -158,7 +158,8 @@ class FormOnlineAdapter(FormActionAdapter):
             utool.addPortalMessage(_(u'You are not authorized to fill that form.'), type='error')
             return
 
-        sharing_provider = getAdapter(self, IFormSharingProvider, name='provider-for-%s' % check_result[0])
+        sharing_provider = getAdapter(self, (IFormSharingProvider, self.REQUEST),
+                                      name='provider-for-%s' % check_result[0])
         sharing_provider.share(formonline, check_result[1])
 
         if mtool.isAnonymousUser():

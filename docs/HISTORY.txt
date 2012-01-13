@@ -5,6 +5,8 @@ Changelog
 ------------------
 
 * FormOnlineAdapter now removed from searchable/navigation types [keul]
+* a general approach to the e-mail adapter, simpler for developers to customize it using
+  a browserlayer interface [keul]
 
 0.4.0 (2012-01-11)
 ------------------
@@ -17,10 +19,10 @@ Changelog
 
 First pubic release
 
-* Documentation fixes
-* Light support for "Site Administrator" role (this **not** mean that we tested this on Plone 4.1 yet)
+* documentation fixes
+* light support for "Site Administrator" role (this **not** mean that we tested this on Plone 4.1 yet)
   [keul]
-* Added a new "contentToGenerate" field, for choosing the content type to be generated [keul]
+* added a new "contentToGenerate" field, for choosing the content type to be generated [keul]
 
 0.2.0 (2011-05-06)
 ------------------

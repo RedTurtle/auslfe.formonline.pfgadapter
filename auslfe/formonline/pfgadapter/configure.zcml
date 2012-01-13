@@ -12,7 +12,8 @@
   <include package="auslfe.formonline.content" />
   <include package=".browser" />
 
-  <adapter for=".interfaces.IFormOnlineActionAdapter"
+  <adapter for=".interfaces.IFormOnlineActionAdapter
+                zope.publisher.interfaces.browser.IBrowserRequest"
        provides=".interfaces.IFormSharingProvider"
        factory=".sharing_provider.SimpleSharingProvider"
 	   name="provider-for-user" />
