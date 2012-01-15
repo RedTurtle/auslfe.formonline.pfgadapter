@@ -24,7 +24,7 @@ try:
     URL_NORMALIZER = True
 except ImportError:
     URL_NORMALIZER = False
-from zope.component import queryUtility, getAdapter
+from zope.component import queryUtility, getMultiAdapter
 from Products.Archetypes.config import RENAME_AFTER_CREATION_ATTEMPTS
 from Products.ATContentTypes.configuration import zconf
 from zope.pagetemplate.pagetemplatefile import PageTemplateFile
@@ -158,8 +158,8 @@ class FormOnlineAdapter(FormActionAdapter):
             utool.addPortalMessage(_(u'You are not authorized to fill that form.'), type='error')
             return
 
-        sharing_provider = getAdapter(self, (IFormSharingProvider, self.REQUEST),
-                                      name='provider-for-%s' % check_result[0])
+        sharing_provider = getMultiAdapter((self, self.REQUEST), IFormSharingProvider,
+                                           name='provider-for-%s' % check_result[0])
         sharing_provider.share(formonline, check_result[1])
 
         if mtool.isAnonymousUser():

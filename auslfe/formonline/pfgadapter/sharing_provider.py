@@ -6,8 +6,9 @@ from auslfe.formonline.pfgadapter.interfaces import IFormSharingProvider
 class SimpleSharingProvider(object):
     implements(IFormSharingProvider)
     
-    def __init__(self, context):
+    def __init__(self, context, request):
         self.context = context
+        self.request = request
     
     def share(self, formonline, overseer):
         """Gives to overseer the Editor role on formonline"""
