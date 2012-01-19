@@ -6,7 +6,7 @@ Changelog
 
 * removed old unused code [keul]
 * moved the form-filling procedure to a ``IFormOnlineComposer`` adapter: 3rd party code
-  could customize how the form is filled [keul]
+  could customize how the ``IFormOnline`` is filled [keul]
 * a new ``IFormOnlineFilledEvent`` is raised after the form is filled [keul]
 
 0.4.1 (2012-01-15)
