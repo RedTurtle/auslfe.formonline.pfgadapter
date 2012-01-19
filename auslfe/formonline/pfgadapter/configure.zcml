@@ -18,6 +18,9 @@
        factory=".sharing_provider.SimpleSharingProvider"
 	   name="provider-for-user" />
 
+  <adapter for="Products.CMFCore.interfaces.IContentish"
+       factory=".composer.BasicFormOnlineComposer" />
+
   <genericsetup:registerProfile
       name="default"
       title="Form Online: PFG Adapter"

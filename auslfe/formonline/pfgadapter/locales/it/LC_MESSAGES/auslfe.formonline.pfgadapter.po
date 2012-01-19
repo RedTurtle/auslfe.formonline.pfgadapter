@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: auslfe.formonline.pfgadapter\n"
-"POT-Creation-Date: 2012-01-10 12:02+0000\n"
+"POT-Creation-Date: 2012-01-19 15:19+0000\n"
 "PO-Revision-Date: 2011-12-13 16:01:58+0000\n"
 "Last-Translator: Luca Fabbri <keul@redturtle.it>\n"
 "Language-Team: RedTurtle Technology <sviluppoplone@redturtle.it>\n"
@@ -23,94 +23,94 @@ msgid "Form Online Adapter"
 msgstr "Adattatore Modulistica Online"
 
 #. Default: "Form \"$form_name\" completed by $user"
-#: ../content/formOnlineAdapter.py:264
+#: ../composer.py:36
 msgid "Form completed by"
 msgstr "Modulo \"$form_name\" completato da $user"
 
 #. Default: "Form \"$form_name\" completed by an anonymous user"
-#: ../content/formOnlineAdapter.py:256
+#: ../composer.py:28
 msgid "Form completed by an anonymous user"
 msgstr "Modulo \"$form_name\" completato da un utente anonimo"
 
-#: ../content/formOnlineAdapter.py:155
+#: ../content/formOnlineAdapter.py:158
 msgid "You are not authorized to fill that form."
 msgstr "Non sei autorizzato a compilare questo modulo."
 
-#: ../content/formOnlineAdapter.py:163
+#: ../content/formOnlineAdapter.py:167
 msgid "Your data has been sent."
 msgstr "I tuoi dati sono stati inviati."
 
 #. Default: "Overseer email"
-#: ../content/formOnlineAdapter.py:173
+#: ../content/formOnlineAdapter.py:177
 msgid "default_overseer_email"
 msgstr "Email dell'assegnatario"
 
 #. Default: "This text will be included at the beginning of any Form Online generated."
-#: ../content/formOnlineAdapter.py:74
+#: ../content/formOnlineAdapter.py:77
 msgid "description_adapterPrologue"
 msgstr "Questo testo sarà inserito all'inizio di qualunque Modulistica Online generata."
 
 #. Default: "Select a content type to be used.\nWhen using the adapter and after saving the form, a new document of the selected type will be created."
-#: ../content/formOnlineAdapter.py:61
+#: ../content/formOnlineAdapter.py:64
 msgid "description_contentToGenerate"
 msgstr ""
 "Scegli un tipo di contenuto da usare.\n"
 "Quando l'adapter viene usato e dopo aver salvato il modulo, un nuovo contenuto del tipo selezionato verrà creato."
 
 #. Default: "Enter the name of Form field used by the user completing the Form to indicate the overseer's email."
-#: ../content/formOnlineAdapter.py:84
+#: ../content/formOnlineAdapter.py:87
 msgid "description_formFieldOverseer"
 msgstr "Specificare il nome del campo del Modulo utilizzato dall'utente che compila il Modulo per indicare l'email dell'assegnatario."
 
 #. Default: "Select the path where generated Form Online documents will be saved."
-#: ../content/formOnlineAdapter.py:49
+#: ../content/formOnlineAdapter.py:52
 msgid "description_formOnlinePath"
 msgstr "Seleziona il percorso nel quale verranno salvati i moduli generati."
 
 #. Default: "Keep this checked to force the user e-mail address to be related to a site member.\nUncheck to use whatever address; in this case, if the address is not owned by any site member, a special e-mail with a secret token is sent."
-#: ../content/formOnlineAdapter.py:95
+#: ../content/formOnlineAdapter.py:98
 msgid "description_overseerMustBeMember"
 msgstr ""
 "Tieni selezionato per forzare l'e-mail fornita ad essere associata ad un utente del sito.\n"
 "Deseleziona to usare qualunque indirizzo; in questo caso, se l'indirizzo non è associata ad un utente, verrà inviata una speciale e-mail con un token segreto."
 
 #. Default: "There is no field \"${email_field}\" in the Form to specify the overseer of the request."
-#: ../content/formOnlineAdapter.py:208
+#: ../content/formOnlineAdapter.py:212
 msgid "error_nofield"
 msgstr "Il campo \"${email_field}\" per specificare l'assegnatario della richiesta non è presente nel Modulo."
 
 #. Default: "The value of the field \"{field_name}\" must be provided, enter the information required."
-#: ../content/formOnlineAdapter.py:238
+#: ../content/formOnlineAdapter.py:242
 msgid "error_nospecifiedvalue"
 msgstr "Il valore del campo \"{field_name}\" deve essere fornito, inserisci l'informazione richiesta."
 
 #. Default: "No user corresponds to the email address provided, enter a new value."
-#: ../content/formOnlineAdapter.py:227
+#: ../content/formOnlineAdapter.py:231
 msgid "error_nouser"
 msgstr "Nessun utente corrisponde all'indirizzo email fornito, inserire un nuovo valore."
 
 #. Default: "Adapter prologue"
-#: ../content/formOnlineAdapter.py:73
+#: ../content/formOnlineAdapter.py:76
 msgid "label_adapterPrologue"
 msgstr "Prologo dell'adattatore"
 
 #. Default: "Document type to generate"
-#: ../content/formOnlineAdapter.py:59
+#: ../content/formOnlineAdapter.py:62
 msgid "label_contentToGenerate"
 msgstr "Tipo di documento da generare"
 
 #. Default: "Name of Form field that identifies the overseer"
-#: ../content/formOnlineAdapter.py:83
+#: ../content/formOnlineAdapter.py:86
 msgid "label_formFieldOverseer"
 msgstr "Nome del campo del Modulo che indentifica l'assegnatario"
 
 #. Default: "Form Online storage"
-#: ../content/formOnlineAdapter.py:48
+#: ../content/formOnlineAdapter.py:51
 msgid "label_formOnlinePath"
 msgstr "Contenitore della Modulistica Online"
 
 #. Default: "Overseer must be a site member"
-#: ../content/formOnlineAdapter.py:93
+#: ../content/formOnlineAdapter.py:96
 msgid "label_overseerMustBeMember"
 msgstr "Responsabile deve essere utente del sito"
 

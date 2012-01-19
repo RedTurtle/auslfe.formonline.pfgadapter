@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from Acquisition import aq_parent
 from zope import interface
+from zope.event import notify
 from AccessControl import ClassSecurityInfo, Unauthorized
 from Products.PloneFormGen.content.actionAdapter import FormActionAdapter, FormAdapterSchema
 try:
@@ -11,13 +11,10 @@ except ImportError:
 from Products.ATContentTypes.content.schemata import finalizeATCTSchema
 from Products.ATContentTypes.content.base import registerATCT
 from auslfe.formonline.pfgadapter.config import PROJECTNAME
-from Products.Archetypes.public import Schema, ReferenceField, TextField, StringField, RichWidget, BooleanField
-from Products.Archetypes.public import StringWidget, SelectionWidget, BooleanWidget
+from Products.Archetypes.public import Schema, ReferenceField, TextField, StringField, RichWidget
+from Products.Archetypes.public import StringWidget, SelectionWidget, BooleanWidget, BooleanField
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
-from auslfe.formonline.pfgadapter import formonline_pfgadapterMessageFactory as _
-from auslfe.formonline.pfgadapter.interfaces import IFormOnlineActionAdapter, IFormSharingProvider
 from Products.CMFCore.utils import getToolByName
-from auslfe.formonline.content.interfaces.formonline import IFormOnline
 try:
     from plone.i18n.normalizer.interfaces import IUserPreferredURLNormalizer
     from plone.i18n.normalizer.interfaces import IURLNormalizer
@@ -25,12 +22,15 @@ try:
 except ImportError:
     URL_NORMALIZER = False
 from zope.component import queryUtility, getMultiAdapter
-from Products.Archetypes.config import RENAME_AFTER_CREATION_ATTEMPTS
 from Products.ATContentTypes.configuration import zconf
-from zope.pagetemplate.pagetemplatefile import PageTemplateFile
 from Products.PloneFormGen.config import FORM_ERROR_MARKER
 
 from auslfe.formonline.pfgadapter import logger
+from auslfe.formonline.pfgadapter import formonline_pfgadapterMessageFactory as _
+from auslfe.formonline.content.interfaces.formonline import IFormOnline
+from auslfe.formonline.pfgadapter.interfaces import IFormOnlineActionAdapter, IFormSharingProvider
+from auslfe.formonline.pfgadapter.interfaces import IFormOnlineComposer
+from auslfe.formonline.pfgadapter.event import FormOnlineFilledEvent
 
 class FormOnlineAdapter(FormActionAdapter):
     """A form action adapter that will create a FormOnline object (a page)
@@ -251,79 +251,24 @@ class FormOnlineAdapter(FormActionAdapter):
         """Creates a FormOnline object and saves form input data in the text field of FormOnline."""
         
         container_formonline = self.getFormOnlinePath()
-        _ = getToolByName(self,'translation_service').translate
-        
-        form_title = aq_parent(self).Title()
-
-        mtool = getToolByName(self, 'portal_membership')
-        if mtool.isAnonymousUser():
-            translate_title = _('Form completed by an anonymous user',
-                                default=u'Form "$form_name" completed by an anonymous user',
-                                context=self,
-                                domain='auslfe.formonline.pfgadapter',
-                                mapping={'form_name': form_title}
-                                )
-        else:
-            username = mtool.getAuthenticatedMember().getUserName()
-            translate_title = _('Form completed by',
-                                default=u'Form "$form_name" completed by $user',
-                                context=self,
-                                domain='auslfe.formonline.pfgadapter',
-                                mapping={'user': username, 'form_name': form_title}
-                                )
-
-
         ctype = self.getContentToGenerate()
 
-        formonline_id = self.generateUniqueId(ctype)
+        formonline_id = container_formonline.generateUniqueId(ctype)
         container_formonline.invokeFactory(id=formonline_id, type_name=ctype)
-
         formonline = getattr(container_formonline, formonline_id)
+        # disable the automatically change of id based on title
+        formonline.unmarkCreationFlag()
         
-        # If the content doesn't inplement the properr interface: mark it!
+        # If the content doesn't implements the proper interface: mark it!
         if not IFormOnline.providedBy(formonline):
             interface.alsoProvides(formonline, IFormOnline)
+            formonline.reindexObject(idxs=['object_provides'])
         
-        body_text = PageTemplateFile('../browser/formOnlineTextTemplate.pt').pt_render({'fields':fields,
-                                                                             'request':self.REQUEST,
-                                                                             'adapter_prologue':self.getAdapterPrologue()})
-        #formonline.edit(text=body_text, title=translate_title)
-        formonline.setTitle(translate_title)
-        formonline.setText(body_text)        
-        # disable the automatically change of id based on title
-        formonline.reindexObject()
-        formonline.unmarkCreationFlag()
+        # Now fill the content
+        IFormOnlineComposer(formonline).fill(fields, self)
+        # Now raise the event
+        notify(FormOnlineFilledEvent(formonline, fields))
         return formonline
-        
-    def generateNewIdFromTitle(self,title):
-        """Suggest an id from title."""
 
-        if not isinstance(title, unicode):
-            charset = self.getCharset()
-            title = unicode(title, charset)
-
-        request = getattr(self, 'REQUEST', None)
-        if request is not None:
-            return IUserPreferredURLNormalizer(request).normalize(title)
-
-        return queryUtility(IURLNormalizer).normalize(title)
-    
-    def findUniqueId(self, id, parent_folder):
-        """Find a unique id in the parent folder, based on the given id, by
-        appending -n, where n is a number between 1 and the constant
-        RENAME_AFTER_CREATION_ATTEMPTS, set in config.py. If no id can be
-        found, return None."""
-        parent_ids = parent_folder.objectIds()
-        check_id = lambda id, required: id in parent_ids
-        invalid_id = check_id(id, required=1)
-        if not invalid_id:
-            return id
-
-        idx = 1
-        while idx <= RENAME_AFTER_CREATION_ATTEMPTS:
-            new_id = "%s-%d" % (id, idx)
-            if not check_id(new_id, required=1):
-                return new_id
-            idx += 1
 
 registerATCT(FormOnlineAdapter, PROJECTNAME)
