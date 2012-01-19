@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from zope import interface
-from zope.event import notify
 from AccessControl import ClassSecurityInfo, Unauthorized
 from Products.PloneFormGen.content.actionAdapter import FormActionAdapter, FormAdapterSchema
 try:
@@ -30,7 +29,6 @@ from auslfe.formonline.pfgadapter import formonline_pfgadapterMessageFactory as 
 from auslfe.formonline.content.interfaces.formonline import IFormOnline
 from auslfe.formonline.pfgadapter.interfaces import IFormOnlineActionAdapter, IFormSharingProvider
 from auslfe.formonline.pfgadapter.interfaces import IFormOnlineComposer
-from auslfe.formonline.pfgadapter.event import FormOnlineFilledEvent
 
 class FormOnlineAdapter(FormActionAdapter):
     """A form action adapter that will create a FormOnline object (a page)
@@ -266,8 +264,6 @@ class FormOnlineAdapter(FormActionAdapter):
         
         # Now fill the content
         IFormOnlineComposer(formonline).fill(fields, self)
-        # Now raise the event
-        notify(FormOnlineFilledEvent(formonline, fields))
         return formonline
 
 
