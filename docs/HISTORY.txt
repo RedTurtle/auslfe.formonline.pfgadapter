@@ -1,12 +1,14 @@
 Changelog
 =========
 
-0.4.2 (Unreleased)
+0.5.0 (Unreleased)
 ------------------
 
 * removed old unused code [keul]
 * moved the form-filling procedure to a ``IFormOnlineComposer`` adapter: 3rd party code
   could customize how the ``IFormOnline`` is filled [keul]
+* added a new "*Name of the form field that keep the sender e-mail*" field in the
+  adapter (for use the product with anonymous submitters) [keul]
 
 0.4.1 (2012-01-15)
 ------------------
