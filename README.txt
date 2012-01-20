@@ -1,10 +1,12 @@
+.. contents:: **Table of contents**
+
 Introduction
 ============
 
 The *Form Online* product is a Plone add-on composed by three modules:
 
-* auslfe.formonline.pfgadapter itself
 * `PloneFormGen`__ (needed dependency)
+* A PloneFormGen *adapter* (auslfe.formonline.pfgadapter itself)
 * `auslfe.formonline.content`__ (needed dependency)
 
 __ http://plone.org/products/ploneformgen
@@ -108,6 +110,27 @@ __ http://pypi.python.org/pypi/Products.CMFPlacefulWorkflow
 
 Alternative configuration
 =========================
+
+Anonymous submitter
+-------------------
+
+You can also configure your Plone site to allow anonymous users to fill the form and generate contents.
+What you simply need is to give to ``Anonymous`` role following permission:
+
+* ``auslfe.formonline.content: Add FormOnline``
+* ``Request review``
+
+For *security reason* is better to give those permissions only onto the folder where you want to store generated
+document.
+
+You can do this using a specific workflow for that folder (maybe using a workflow policy)
+or (**not suggested**) simply giving this permission directly from ZMI on the target folder.
+
+In that case you can also use the "*Name of the form field that keep the sender e-mail*" adapter field,
+so the anonymous user can leave his e-mail, to be notified later.
+
+Anonymous overseer
+------------------
 
 If you want the overseer e-mail address to be (potentially) an *external* address, you can take a look at
 `auslfe.formonline.tokenaccess`__.

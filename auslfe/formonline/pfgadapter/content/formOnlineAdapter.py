@@ -111,7 +111,7 @@ class FormOnlineAdapter(FormActionAdapter):
                     description = _(u'description_formFieldSubmitter',
                                     default=u"Enter the name of a Form field where the user that submit the form must put it's own e-mail.\n"
                                              "Please not that this field is not required (and ignored) if the user is a site member.\n"
-                                             "So: fill this form only if you plan to grant access to anonymous users."),
+                                             "So: fill this field only if you plan to grant access to anonymous users."),
                     )
               ),
 
