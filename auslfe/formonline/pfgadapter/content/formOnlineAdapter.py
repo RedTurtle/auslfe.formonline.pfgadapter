@@ -114,6 +114,94 @@ class FormOnlineAdapter(FormActionAdapter):
                                              "So: fill this field only if you plan to grant access to anonymous users."),
                     )
               ),
+              
+        StringField('formOnlineSubmitSubject',
+              required=False,
+              default_method='getDefaultSubmitSubject',
+              widget = StringWidget(
+                    label = _(u'label_formOnlineSubmitSubject',
+                              default=u'Subject of email notification of submission of the form'),
+                    description = _(u'description_formOnlineSubmitSubject',
+                                    default=u"Enter the subject of the email notification will be sent when the form will be submitted for approval."),
+                    )
+              ),
+              
+        TextField('formOnlineSubmitMessage',
+              required=False,
+              default_method='getDefaultSubmitMessage',
+              widget = RichWidget(
+                    label = _(u'label_formOnlineSubmitMessage',
+                              default=u'Text of email notification of submission of the form'),
+                    description = _(u'description_formOnlineSubmitMessage',
+                                    default=u"Enter the text of the email notification will be sent when the form will be submitted for approval."),
+                    )
+              ),
+              
+        StringField('formOnlineApprovalSubject',
+              required=False,
+              default_method='getDefaultApprovalSubject',
+              widget = StringWidget(
+                    label = _(u'label_formOnlineApprovalSubject',
+                              default=u'Subject of email notification of approval of the form'),
+                    description = _(u'description_formOnlineApprovalSubject',
+                                    default=u"Enter the subject of the email notification will be sent when the form will be approved."),
+                    )
+              ),
+              
+        TextField('formOnlineApprovalMessage',
+              required=False,
+              default_method='getDefaultApprovalMessage',
+              widget = RichWidget(
+                    label = _(u'label_formOnlineApprovalMessage',
+                              default=u'Text of email notification of approval of the form'),
+                    description = _(u'description_formOnlineApprovalMessage',
+                                    default=u"Enter the text of the email notification will be sent when the form will be approved."),
+                    )
+              ),
+              
+        StringField('formOnlineDispatchSubject',
+              required=False,
+              default_method='getDefaultDispatchSubject',
+              widget = StringWidget(
+                    label = _(u'label_formOnlineDispatchSubject',
+                              default=u'Subject of email notification of dispatch of the form'),
+                    description = _(u'description_formOnlineDispatchSubject',
+                                    default=u"Enter the subject of the email notification will be sent when the form will be dispatched."),
+                    )
+              ),
+              
+        TextField('formOnlineDispatchMessage',
+              required=False,
+              default_method='getDefaultDispatchMessage',
+              widget = RichWidget(
+                    label = _(u'label_formOnlineDispatchMessage',
+                              default=u'Text of email notification of dispatch of the form'),
+                    description = _(u'description_formOnlineDispatchMessage',
+                                    default=u"Enter the text of the email notification will be sent when the form will be dispatched."),
+                    )
+              ),
+              
+        StringField('formOnlineRetractSubject',
+              required=False,
+              default_method='getDefaultRetractSubject',
+              widget = StringWidget(
+                    label = _(u'label_formOnlineRetractSubject',
+                              default=u'Subject of email notification of retraction of the form'),
+                    description = _(u'description_formOnlineRetractSubject',
+                                    default=u"Enter the subject of the email notification will be sent when the form will be retracted from approval or dispatch."),
+                    )
+              ),
+              
+        TextField('formOnlineRetractMessage',
+              required=False,
+              default_method='getDefaultRetractMessage',
+              widget = RichWidget(
+                    label = _(u'label_formOnlineRetractMessage',
+                              default=u'Text of email notification of retraction of the form'),
+                    description = _(u'description_formOnlineRetractMessage',
+                                    default=u"Enter the text of the email notification will be sent when the form will be retracted from approval or dispatch."),
+                    )
+              ),
 
 
     ))
@@ -208,7 +296,99 @@ class FormOnlineAdapter(FormActionAdapter):
     def getDefaultContentType(self):
         default = self.getField('contentToGenerate').Vocabulary(self).getValue('FormOnline')
         return default and 'FormOnline' or 'Document'
+    
+    security.declarePrivate('getDefaultSubmitSubject')
+    def getDefaultSubmitSubject(self):
+        _ = getToolByName(self,'translation_service').translate
+        return _(msgid='subject_pending_approval',
+                 default=u'[Form Online] - Form Online in pending state approval',
+                 domain="auslfe.formonline.pfgadapter",
+                 context=self)
+    
+    security.declarePrivate('getDefaultSubmitMessage')
+    def getDefaultSubmitMessage(self):
+        _ = getToolByName(self,'translation_service').translate
+        return _(msgid='mail_text_approval_required', default=u"""Dear user,
 
+this is a personal communication regarding the Form Online **${formonline_title}**, created on **${insertion_date}** by **${formonline_owner}**.
+
+It is waiting for your approval. Follow the link below for perform your actions:
+
+${formonline_url}
+
+Regards
+""", domain="auslfe.formonline.pfgadapter", context=self)
+
+    security.declarePrivate('getDefaultApprovalSubject')
+    def getDefaultApprovalSubject(self):
+        _ = getToolByName(self,'translation_service').translate
+        return _(msgid='subject_pending_dispatch',
+                 default=u'[Form Online] - Form Online in pending state dispatch',
+                 domain="auslfe.formonline.pfgadapter",
+                 context=self)
+
+    security.declarePrivate('getDefaultApprovalMessage')
+    def getDefaultApprovalMessage(self):
+        _ = getToolByName(self,'translation_service').translate
+        return _(msgid='mail_text_dispatch_required', default=u"""Dear user,
+
+this is a personal communication regarding the Form Online **${formonline_title}**, created on **${insertion_date}** by **${formonline_owner}**.
+
+The request has been approved and it's waiting for your confirmation. Follow the link below for perform your actions:
+
+${formonline_url}
+
+Regards
+""", domain="auslfe.formonline.pfgadapter", context=self)
+
+    security.declarePrivate('getDefaultDispatchSubject')
+    def getDefaultDispatchSubject(self):
+        _ = getToolByName(self,'translation_service').translate
+        return _(msgid='subject_dispatched',
+                 default=u'[Form Online] - Form Online approved',
+                 domain="auslfe.formonline.pfgadapter",
+                 context=self)
+
+    security.declarePrivate('getDefaultDispatchMessage')
+    def getDefaultDispatchMessage(self):
+        _ = getToolByName(self,'translation_service').translate
+        return _(msgid='mail_text_dispatched', default=u"""Dear user,
+
+this is a personal communication regarding the Form Online **${formonline_title}**.
+
+The request has been *approved*. Follow the link below to see the document:
+
+${formonline_url}
+
+Regards
+""", domain="auslfe.formonline.pfgadapter", context=self)
+    
+    security.declarePrivate('getDefaultRetractSubject')
+    def getDefaultRetractSubject(self):
+        _ = getToolByName(self,'translation_service').translate
+        return _(msgid='subject_rejected',
+                 default=u'[Form Online] - Form Online rejected',
+                 domain="auslfe.formonline.pfgadapter",
+                 context=self)
+    
+    security.declarePrivate('getDefaultRetractMessage')
+    def getDefaultRetractMessage(self):
+        _ = getToolByName(self,'translation_service').translate
+        return _(msgid='mail_text_rejected', default=u"""Dear user,
+
+this is a personal communication regarding the Form Online **${formonline_title}**.
+
+The request has been *rejected*. The overseer provided the following comment::
+
+${comment}
+
+Follow the link below to see the document:
+
+${formonline_url}
+
+Regards
+""", domain="auslfe.formonline.pfgadapter", context=self)
+    
     security.declarePrivate('checkFields')
     def checkFields(self, fields):
         """
@@ -307,9 +487,11 @@ class FormOnlineAdapter(FormActionAdapter):
         if not IFormOnline.providedBy(formonline):
             interface.alsoProvides(formonline, IFormOnline)
             formonline.reindexObject(idxs=['object_provides'])
-        
+                
         # Now fill the content
         IFormOnlineComposer(formonline).fill(fields, self)
+        # Attach the information of which Form Online Adapter  
+        IAnnotations(formonline)['formOnlineAdapter'] = self.UID()
         return formonline
 
 
