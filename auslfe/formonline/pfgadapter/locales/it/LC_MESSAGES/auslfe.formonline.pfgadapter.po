@@ -148,7 +148,7 @@ msgstr "Inserisci l'oggetto dell'email di notifica che sarà inviata quando il m
 msgid "description_overseerMustBeMember"
 msgstr ""
 "Tieni selezionato per forzare l'e-mail fornita ad essere associata ad un utente del sito.\n"
-"Deseleziona to usare qualunque indirizzo; in questo caso, se l'indirizzo non è associata ad un utente, verrà inviata una speciale e-mail con un token segreto."
+"Deseleziona per usare qualunque indirizzo; in questo caso, se l'indirizzo non è associata ad un utente, verrà inviata una speciale e-mail con un token segreto."
 
 #. Default: "There is no field \"${email_field}\" in the Form to specify the overseer of the request."
 #: ../content/formOnlineAdapter.py:445
