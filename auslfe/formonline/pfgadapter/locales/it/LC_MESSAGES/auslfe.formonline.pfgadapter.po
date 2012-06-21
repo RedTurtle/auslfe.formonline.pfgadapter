@@ -244,39 +244,79 @@ msgstr "Responsabile deve essere utente del sito"
 #: ../content/formOnlineAdapter.py:335
 msgid "mail_text_approval_required"
 msgstr ""
+"Gentile utente,\n"
+"\n"
+"questa è una comunicazione personale riguardo il Modulo Online **${formonline_title}**, creato il **${insertion_date}** da **${formonline_owner}**.\n"
+"\n"
+"Sta attendendo la sua approvazione. Segua il link sotto per eseguire le necessarie azioni:\n"
+"\n"
+"${formonline_url}\n"
+"\n"
+"Saluti"
 
 #. Default: "Dear user,\n\nthis is a personal communication regarding the Form Online **${formonline_title}**, created on **${insertion_date}** by **${formonline_owner}**.\n\nThe request has been approved and it's waiting for your confirmation. Follow the link below for perform your actions:\n\n${formonline_url}\n\nRegards\n"
 #: ../content/formOnlineAdapter.py:357
 msgid "mail_text_dispatch_required"
 msgstr ""
+"Gentile utente,\n"
+"\n"
+"questa è una comunicazione personale riguardo il Modulo Online **${formonline_title}**, creato il **${insertion_date}** da **${formonline_owner}**.\n"
+"\n"
+"La richiesta è stata accettata e attende la sua conferma. Segua il link sotto per eseguire le necessarie azioni:\n"
+"\n"
+"${formonline_url}\n"
+"\n"
+"Saluti"
 
 #. Default: "Dear user,\n\nthis is a personal communication regarding the Form Online **${formonline_title}**.\n\nThe request has been *approved*. Follow the link below to see the document:\n\n${formonline_url}\n\nRegards\n"
 #: ../content/formOnlineAdapter.py:379
 msgid "mail_text_dispatched"
 msgstr ""
+"Gentile utente,\n"
+"\n"
+"questa è una comunicazione personale riguardo il Modulo Online **${formonline_title}**.\n"
+"\n"
+"La richiesta è stata *approvata*. Segua il link sotto per visualizzare il documento:\n"
+"\n"
+"${formonline_url}\n"
+"\n"
+"Saluti"
 
 #. Default: "Dear user,\n\nthis is a personal communication regarding the Form Online **${formonline_title}**.\n\nThe request has been *rejected*. The overseer provided the following comment::\n\n${comment}\n\nFollow the link below to see the document:\n\n${formonline_url}\n\nRegards\n"
 #: ../content/formOnlineAdapter.py:401
 msgid "mail_text_rejected"
 msgstr ""
+"Gentile utente,\n"
+"\n"
+"questa è una comunicazione personale riguardo il Modulo Online **${formonline_title}**.\n"
+"\n"
+"La richiesta è stata *rifiutata*. Il responsabile ha fornito questo commento:\n"
+"\n"
+"${comment}\n"
+"\n"
+"Segua il link sotto per visualizzare il documento:\n"
+"\n"
+"${formonline_url}\n"
+"\n"
+"Saluti"
 
 #. Default: "[Form Online] - Form Online approved"
 #: ../content/formOnlineAdapter.py:371
 msgid "subject_dispatched"
-msgstr ""
+msgstr "[Modulistica] - Modulo approvato"
 
 #. Default: "[Form Online] - Form Online in pending state approval"
 #: ../content/formOnlineAdapter.py:327
 msgid "subject_pending_approval"
-msgstr ""
+msgstr "[Modulistica] - Modulo in attesa di approvazione"
 
 #. Default: "[Form Online] - Form Online in pending state dispatch"
 #: ../content/formOnlineAdapter.py:349
 msgid "subject_pending_dispatch"
-msgstr ""
+msgstr "[Modulistica] - Modulo in attesa di completamento"
 
 #. Default: "[Form Online] - Form Online rejected"
 #: ../content/formOnlineAdapter.py:393
 msgid "subject_rejected"
-msgstr ""
+msgstr "[Modulistica] - Modulo rifiutato"
 
