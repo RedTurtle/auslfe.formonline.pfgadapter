@@ -122,7 +122,7 @@ class FormOnlineAdapter(FormActionAdapter):
                     label = _(u'label_formOnlineSubmitSubject',
                               default=u'Subject of email notification of submission of the form'),
                     description = _(u'description_formOnlineSubmitSubject',
-                                    default=u"Enter the subject of the email notification will be sent when the form will be submitted for approval."),
+                                    default=u"Enter the subject of the email notification will be sent when the Form Online generated will be submitted for approval."),
                     )
               ),
               
@@ -133,7 +133,13 @@ class FormOnlineAdapter(FormActionAdapter):
                     label = _(u'label_formOnlineSubmitMessage',
                               default=u'Text of email notification of submission of the form'),
                     description = _(u'description_formOnlineSubmitMessage',
-                                    default=u"Enter the text of the email notification will be sent when the form will be submitted for approval."),
+                                    default=u"Enter the text of the email notification will be sent when the Form Online generated will be submitted for approval. \n"
+                                             "Some content in this message may be replaced with ${} variables. \n"
+                                             "The variable ${formonline_title} will be replaced with the title or id of Form Online generated. \n"
+                                             "The variable ${insertion_date} will be replaced with the creation date of Form. \n"
+                                             "The variable ${formonline_owner} will be replaced with the creator of Form. \n"
+                                             "The variable ${formonline_url} will be replaced with the URL of Form. \n"
+                                             "The variable ${comment} will be replaced with the comments may be added when the user change state of Form."),
                     )
               ),
               
@@ -144,7 +150,7 @@ class FormOnlineAdapter(FormActionAdapter):
                     label = _(u'label_formOnlineApprovalSubject',
                               default=u'Subject of email notification of approval of the form'),
                     description = _(u'description_formOnlineApprovalSubject',
-                                    default=u"Enter the subject of the email notification will be sent when the form will be approved."),
+                                    default=u"Enter the subject of the email notification will be sent when the Form Online generated will be approved."),
                     )
               ),
               
@@ -155,7 +161,13 @@ class FormOnlineAdapter(FormActionAdapter):
                     label = _(u'label_formOnlineApprovalMessage',
                               default=u'Text of email notification of approval of the form'),
                     description = _(u'description_formOnlineApprovalMessage',
-                                    default=u"Enter the text of the email notification will be sent when the form will be approved."),
+                                    default=u"Enter the text of the email notification will be sent when the Form Online generated will be approved. \n"
+                                             "Some content in this message may be replaced with ${} variables. \n"
+                                             "The variable ${formonline_title} will be replaced with the title or id of Form Online generated. \n"
+                                             "The variable ${insertion_date} will be replaced with the creation date of Form. \n"
+                                             "The variable ${formonline_owner} will be replaced with the creator of Form. \n"
+                                             "The variable ${formonline_url} will be replaced with the URL of Form. \n"
+                                             "The variable ${comment} will be replaced with the comments may be added when the user change state of Form."),
                     )
               ),
               
@@ -166,7 +178,7 @@ class FormOnlineAdapter(FormActionAdapter):
                     label = _(u'label_formOnlineDispatchSubject',
                               default=u'Subject of email notification of dispatch of the form'),
                     description = _(u'description_formOnlineDispatchSubject',
-                                    default=u"Enter the subject of the email notification will be sent when the form will be dispatched."),
+                                    default=u"Enter the subject of the email notification will be sent when the Form Online generated will be dispatched."),
                     )
               ),
               
@@ -177,7 +189,13 @@ class FormOnlineAdapter(FormActionAdapter):
                     label = _(u'label_formOnlineDispatchMessage',
                               default=u'Text of email notification of dispatch of the form'),
                     description = _(u'description_formOnlineDispatchMessage',
-                                    default=u"Enter the text of the email notification will be sent when the form will be dispatched."),
+                                    default=u"Enter the text of the email notification will be sent when the Form Online generated will be dispatched. \n"
+                                             "Some content in this message may be replaced with ${} variables. \n"
+                                             "The variable ${formonline_title} will be replaced with the title or id of Form Online generated. \n"
+                                             "The variable ${insertion_date} will be replaced with the creation date of Form. \n"
+                                             "The variable ${formonline_owner} will be replaced with the creator of Form. \n"
+                                             "The variable ${formonline_url} will be replaced with the URL of Form. \n"
+                                             "The variable ${comment} will be replaced with the comments may be added when the user change state of Form."),
                     )
               ),
               
@@ -188,7 +206,7 @@ class FormOnlineAdapter(FormActionAdapter):
                     label = _(u'label_formOnlineRetractSubject',
                               default=u'Subject of email notification of retraction of the form'),
                     description = _(u'description_formOnlineRetractSubject',
-                                    default=u"Enter the subject of the email notification will be sent when the form will be retracted from approval or dispatch."),
+                                    default=u"Enter the subject of the email notification will be sent when the Form Online generated will be retracted from approval or dispatch."),
                     )
               ),
               
@@ -199,7 +217,13 @@ class FormOnlineAdapter(FormActionAdapter):
                     label = _(u'label_formOnlineRetractMessage',
                               default=u'Text of email notification of retraction of the form'),
                     description = _(u'description_formOnlineRetractMessage',
-                                    default=u"Enter the text of the email notification will be sent when the form will be retracted from approval or dispatch."),
+                                    default=u"Enter the text of the email notification will be sent when the Form Online generated will be retracted from approval or dispatch. \n"
+                                             "Some content in this message may be replaced with ${} variables. \n"
+                                             "The variable ${formonline_title} will be replaced with the title or id of Form Online generated. \n"
+                                             "The variable ${insertion_date} will be replaced with the creation date of Form. \n"
+                                             "The variable ${formonline_owner} will be replaced with the creator of Form. \n"
+                                             "The variable ${formonline_url} will be replaced with the URL of Form. \n"
+                                             "The variable ${comment} will be replaced with the comments may be added when the user change state of Form."),
                     )
               ),
 
