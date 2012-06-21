@@ -30,6 +30,7 @@ from auslfe.formonline.pfgadapter import formonline_pfgadapterMessageFactory as 
 from auslfe.formonline.content.interfaces.formonline import IFormOnline
 from auslfe.formonline.pfgadapter.interfaces import IFormOnlineActionAdapter, IFormSharingProvider
 from auslfe.formonline.pfgadapter.interfaces import IFormOnlineComposer
+from reStructuredText import HTML as rstHTML
 
 class FormOnlineAdapter(FormActionAdapter):
     """A form action adapter that will create a FormOnline object (a page)
@@ -331,8 +332,8 @@ class FormOnlineAdapter(FormActionAdapter):
     
     security.declarePrivate('getDefaultSubmitMessage')
     def getDefaultSubmitMessage(self):
-        _ = getToolByName(self,'translation_service').translate
-        return _(msgid='mail_text_approval_required', default=u"""Dear user,
+        _ = getToolByName(self,'translation_service').translate    
+        rstText = _(msgid='mail_text_approval_required', default=u"""Dear user,
 
 this is a personal communication regarding the Form Online **${formonline_title}**, created on **${insertion_date}** by **${formonline_owner}**.
 
@@ -342,6 +343,7 @@ ${formonline_url}
 
 Regards
 """, domain="auslfe.formonline.pfgadapter", context=self)
+        return rstHTML(rstText,input_encoding='utf-8',output_encoding='utf-8')
 
     security.declarePrivate('getDefaultApprovalSubject')
     def getDefaultApprovalSubject(self):
@@ -354,7 +356,7 @@ Regards
     security.declarePrivate('getDefaultApprovalMessage')
     def getDefaultApprovalMessage(self):
         _ = getToolByName(self,'translation_service').translate
-        return _(msgid='mail_text_dispatch_required', default=u"""Dear user,
+        rstText = _(msgid='mail_text_dispatch_required', default=u"""Dear user,
 
 this is a personal communication regarding the Form Online **${formonline_title}**, created on **${insertion_date}** by **${formonline_owner}**.
 
@@ -364,6 +366,7 @@ ${formonline_url}
 
 Regards
 """, domain="auslfe.formonline.pfgadapter", context=self)
+        return rstHTML(rstText,input_encoding='utf-8',output_encoding='utf-8')
 
     security.declarePrivate('getDefaultDispatchSubject')
     def getDefaultDispatchSubject(self):
@@ -376,7 +379,7 @@ Regards
     security.declarePrivate('getDefaultDispatchMessage')
     def getDefaultDispatchMessage(self):
         _ = getToolByName(self,'translation_service').translate
-        return _(msgid='mail_text_dispatched', default=u"""Dear user,
+        rstText = _(msgid='mail_text_dispatched', default=u"""Dear user,
 
 this is a personal communication regarding the Form Online **${formonline_title}**.
 
@@ -386,6 +389,7 @@ ${formonline_url}
 
 Regards
 """, domain="auslfe.formonline.pfgadapter", context=self)
+        return rstHTML(rstText,input_encoding='utf-8',output_encoding='utf-8')
     
     security.declarePrivate('getDefaultRetractSubject')
     def getDefaultRetractSubject(self):
@@ -398,7 +402,7 @@ Regards
     security.declarePrivate('getDefaultRetractMessage')
     def getDefaultRetractMessage(self):
         _ = getToolByName(self,'translation_service').translate
-        return _(msgid='mail_text_rejected', default=u"""Dear user,
+        rstText = _(msgid='mail_text_rejected', default=u"""Dear user,
 
 this is a personal communication regarding the Form Online **${formonline_title}**.
 
@@ -412,6 +416,7 @@ ${formonline_url}
 
 Regards
 """, domain="auslfe.formonline.pfgadapter", context=self)
+        return rstHTML(rstText,input_encoding='utf-8',output_encoding='utf-8')
     
     security.declarePrivate('checkFields')
     def checkFields(self, fields):
