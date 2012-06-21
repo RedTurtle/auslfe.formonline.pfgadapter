@@ -130,6 +130,7 @@ class FormOnlineAdapter(FormActionAdapter):
         TextField('formOnlineSubmitMessage',
               required=False,
               default_method='getDefaultSubmitMessage',
+              default_output_type = 'text/x-html-safe',
               widget = RichWidget(
                     label = _(u'label_formOnlineSubmitMessage',
                               default=u'Text of email notification of submission of the form'),
@@ -158,6 +159,7 @@ class FormOnlineAdapter(FormActionAdapter):
         TextField('formOnlineApprovalMessage',
               required=False,
               default_method='getDefaultApprovalMessage',
+              default_output_type = 'text/x-html-safe',
               widget = RichWidget(
                     label = _(u'label_formOnlineApprovalMessage',
                               default=u'Text of email notification of approval of the form'),
@@ -186,6 +188,7 @@ class FormOnlineAdapter(FormActionAdapter):
         TextField('formOnlineDispatchMessage',
               required=False,
               default_method='getDefaultDispatchMessage',
+              default_output_type = 'text/x-html-safe',
               widget = RichWidget(
                     label = _(u'label_formOnlineDispatchMessage',
                               default=u'Text of email notification of dispatch of the form'),
@@ -214,6 +217,7 @@ class FormOnlineAdapter(FormActionAdapter):
         TextField('formOnlineRetractMessage',
               required=False,
               default_method='getDefaultRetractMessage',
+              default_output_type = 'text/x-html-safe',
               widget = RichWidget(
                     label = _(u'label_formOnlineRetractMessage',
                               default=u'Text of email notification of retraction of the form'),
