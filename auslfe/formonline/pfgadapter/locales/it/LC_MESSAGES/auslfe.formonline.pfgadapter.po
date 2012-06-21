@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: auslfe.formonline.pfgadapter\n"
-"POT-Creation-Date: 2012-01-20 14:21+0000\n"
+"POT-Creation-Date: 2012-06-20 14:37+0000\n"
 "PO-Revision-Date: 2011-12-13 16:01:58+0000\n"
 "Last-Translator: Luca Fabbri <keul@redturtle.it>\n"
 "Language-Team: RedTurtle Technology <sviluppoplone@redturtle.it>\n"
@@ -32,16 +32,16 @@ msgstr "Modulo \"$form_name\" completato da $user"
 msgid "Form completed by an anonymous user"
 msgstr "Modulo \"$form_name\" completato da un utente anonimo"
 
-#: ../content/formOnlineAdapter.py:172
+#: ../content/formOnlineAdapter.py:260
 msgid "You are not authorized to fill that form."
 msgstr "Non sei autorizzato a compilare questo modulo."
 
-#: ../content/formOnlineAdapter.py:191
+#: ../content/formOnlineAdapter.py:279
 msgid "Your data has been sent."
 msgstr "I tuoi dati sono stati inviati."
 
 #. Default: "Overseer email"
-#: ../content/formOnlineAdapter.py:201
+#: ../content/formOnlineAdapter.py:289
 msgid "default_overseer_email"
 msgstr "Email dell'assegnatario"
 
@@ -70,10 +70,50 @@ msgstr ""
 "Prego notare che questo campo non è richiesto (e viene ingnorato) se l'utente è un membro del sito.\n"
 "Quindi: compila questo campo solo se è intenzione di ammettere la compilazione del modulo agli utenti anonimi."
 
+#. Default: "Enter the text of the email notification will be sent when the form will be approved."
+#: ../content/formOnlineAdapter.py:157
+msgid "description_formOnlineApprovalMessage"
+msgstr "Inserisci il testo dell'email di notifica che sarà inviata quando il modulo sarà approvato."
+
+#. Default: "Enter the subject of the email notification will be sent when the form will be approved."
+#: ../content/formOnlineAdapter.py:146
+msgid "description_formOnlineApprovalSubject"
+msgstr "Inserisci l'oggetto dell'email di notifica che sarà inviata quando il modulo sarà approvato."
+
+#. Default: "Enter the text of the email notification will be sent when the form will be dispatched."
+#: ../content/formOnlineAdapter.py:179
+msgid "description_formOnlineDispatchMessage"
+msgstr "Inserisci il testo dell'email di notifica che sarà inviata quando il modulo sarà evaso."
+
+#. Default: "Enter the subject of the email notification will be sent when the form will be dispatched."
+#: ../content/formOnlineAdapter.py:168
+msgid "description_formOnlineDispatchSubject"
+msgstr "Inserisci l'oggetto dell'email di notifica che sarà inviata quando il modulo sarà evaso."
+
 #. Default: "Select the path where generated Form Online documents will be saved."
 #: ../content/formOnlineAdapter.py:51
 msgid "description_formOnlinePath"
 msgstr "Seleziona il percorso nel quale verranno salvati i moduli generati."
+
+#. Default: "Enter the text of the email notification will be sent when the form will be retracted from approval or dispatch."
+#: ../content/formOnlineAdapter.py:201
+msgid "description_formOnlineRetractMessage"
+msgstr "Inserisci il testo dell'email di notifica che sarà inviata quando il modulo sarà ritirato dall'approvazione o dall'evasione."
+
+#. Default: "Enter the subject of the email notification will be sent when the form will be retracted from approval or dispatch."
+#: ../content/formOnlineAdapter.py:190
+msgid "description_formOnlineRetractSubject"
+msgstr "Inserisci l'oggetto dell'email di notifica che sarà inviata quando il modulo sarà ritirato dall'approvazione o dall'evasione."
+
+#. Default: "Enter the text of the email notification will be sent when the form will be submitted for approval."
+#: ../content/formOnlineAdapter.py:135
+msgid "description_formOnlineSubmitMessage"
+msgstr "Inserisci il testo dell'email di notifica che sarà inviata quando il modulo sarà sottomesso per l'approvazione."
+
+#. Default: "Enter the subject of the email notification will be sent when the form will be submitted for approval."
+#: ../content/formOnlineAdapter.py:124
+msgid "description_formOnlineSubmitSubject"
+msgstr "Inserisci l'oggetto dell'email di notifica che sarà inviata quando il modulo sarà sottomesso per l'approvazione."
 
 #. Default: "Keep this checked to force the user e-mail address to be related to a site member.\nUncheck to use whatever address; in this case, if the address is not owned by any site member, a special e-mail with a secret token is sent."
 #: ../content/formOnlineAdapter.py:99
@@ -83,22 +123,22 @@ msgstr ""
 "Deseleziona to usare qualunque indirizzo; in questo caso, se l'indirizzo non è associata ad un utente, verrà inviata una speciale e-mail con un token segreto."
 
 #. Default: "There is no field \"${email_field}\" in the Form to specify the overseer of the request."
-#: ../content/formOnlineAdapter.py:241
+#: ../content/formOnlineAdapter.py:329
 msgid "error_nofield"
 msgstr "Il campo \"${email_field}\" per specificare l'assegnatario della richiesta non è presente nel Modulo."
 
 #. Default: "There is no field \"${email_field}\" in the Form to specify the owner of the request."
-#: ../content/formOnlineAdapter.py:256
+#: ../content/formOnlineAdapter.py:344
 msgid "error_nofieldownermail"
 msgstr "Non c'è nessun campo \"${email_field}\" nel Modulo per poter specificare l'autore della richiesta."
 
 #. Default: "The value of the field \"{field_name}\" must be provided, enter the information required."
-#: ../content/formOnlineAdapter.py:286
+#: ../content/formOnlineAdapter.py:374
 msgid "error_nospecifiedvalue"
 msgstr "Il valore del campo \"{field_name}\" deve essere fornito, inserisci l'informazione richiesta."
 
 #. Default: "No user corresponds to the email address provided, enter a new value."
-#: ../content/formOnlineAdapter.py:275
+#: ../content/formOnlineAdapter.py:363
 msgid "error_nouser"
 msgstr "Nessun utente corrisponde all'indirizzo email fornito, inserire un nuovo valore."
 
@@ -122,10 +162,50 @@ msgstr "Nome del campo del Modulo che indentifica l'assegnatario"
 msgid "label_formFieldSubmitter"
 msgstr "Nome del campo che contiene l'e-mail del mittente"
 
+#. Default: "Text of email notification of approval of the form"
+#: ../content/formOnlineAdapter.py:155
+msgid "label_formOnlineApprovalMessage"
+msgstr "Testo dell'email di notifica di approvazione del modulo"
+
+#. Default: "Subject of email notification of approval of the form"
+#: ../content/formOnlineAdapter.py:144
+msgid "label_formOnlineApprovalSubject"
+msgstr "Oggetto dell'email di notifica di approvazione del modulo"
+
+#. Default: "Text of email notification of dispatch of the form"
+#: ../content/formOnlineAdapter.py:177
+msgid "label_formOnlineDispatchMessage"
+msgstr "Testo dell'email di notifica di evasione del modulo"
+
+#. Default: "Subject of email notification of dispatch of the form"
+#: ../content/formOnlineAdapter.py:166
+msgid "label_formOnlineDispatchSubject"
+msgstr "Oggetto dell'email di notifica di evasione del modulo"
+
 #. Default: "Form Online storage"
 #: ../content/formOnlineAdapter.py:50
 msgid "label_formOnlinePath"
 msgstr "Contenitore della Modulistica Online"
+
+#. Default: "Text of email notification of retraction of the form"
+#: ../content/formOnlineAdapter.py:199
+msgid "label_formOnlineRetractMessage"
+msgstr "Testo dell'email di notifica di ritiro del modulo"
+
+#. Default: "Subject of email notification of retraction of the form"
+#: ../content/formOnlineAdapter.py:188
+msgid "label_formOnlineRetractSubject"
+msgstr "Oggetto dell'email di notifica di ritiro del modulo"
+
+#. Default: "Text of email notification of submission of the form"
+#: ../content/formOnlineAdapter.py:133
+msgid "label_formOnlineSubmitMessage"
+msgstr "Testo dell'email di notifica di sottomissione del modulo"
+
+#. Default: "Subject of email notification of submission of the form"
+#: ../content/formOnlineAdapter.py:122
+msgid "label_formOnlineSubmitSubject"
+msgstr "Oggetto dell'email di notifica di sottomissione del modulo"
 
 #. Default: "Overseer must be a site member"
 #: ../content/formOnlineAdapter.py:97
