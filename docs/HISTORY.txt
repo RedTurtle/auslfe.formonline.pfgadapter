@@ -4,6 +4,7 @@ Changelog
 0.x.x (2012-xx-xx)
 ------------------
 
+* Fix translation of mail_text_rejected, missed literal block [fdelia]
 * Added fields to FormOnlineAdapter for subject and text of notification email of FormOnline generated [fdelia]
 
 0.5.0 (2012-01-20)
