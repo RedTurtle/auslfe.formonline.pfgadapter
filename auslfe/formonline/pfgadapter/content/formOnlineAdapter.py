@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
+from Acquisition import aq_parent
 from zope import interface
 from zope.annotation import IAnnotations
 from AccessControl import ClassSecurityInfo, Unauthorized
+from Products.CMFCore import permissions
 from Products.PloneFormGen.content.actionAdapter import FormActionAdapter, FormAdapterSchema
 try:
     from Products.PloneFormGen import HAS_PLONE30
@@ -24,6 +26,7 @@ except ImportError:
 from zope.component import queryUtility, getMultiAdapter
 from Products.ATContentTypes.configuration import zconf
 from Products.PloneFormGen.config import FORM_ERROR_MARKER
+from Products.PloneFormGen.content.fields import FGStringField
 
 from auslfe.formonline.pfgadapter import logger
 from auslfe.formonline.pfgadapter import formonline_pfgadapterMessageFactory as _
@@ -80,9 +83,9 @@ class FormOnlineAdapter(FormActionAdapter):
               ),
         
         StringField('formFieldOverseer',
-              required=False,
-              default_method='getDefaultOverseerEmail',
-              widget = StringWidget(
+              required=True,
+              vocabulary="vocabularyAllStringFields",
+              widget = SelectionWidget(
                     label = _(u'label_formFieldOverseer',
                               default=u'Name of Form field that identifies the overseer'),
                     description = _(u'description_formFieldOverseer',
@@ -108,7 +111,8 @@ class FormOnlineAdapter(FormActionAdapter):
               required=False,
               default='',
               schemata="anonymous access",
-              widget = StringWidget(
+              vocabulary="vocabularyAllStringFields",
+              widget = SelectionWidget(
                     label = _(u'label_formFieldSubmitter',
                               default=u'Name of the form field that keep the sender e-mail'),
                     description = _(u'description_formFieldSubmitter',
@@ -320,15 +324,6 @@ class FormOnlineAdapter(FormActionAdapter):
         else:
             #utool.addPortalMessage(_(u'Feel free to modify your data'), type='info')
             self.REQUEST.RESPONSE.redirect(formonline.absolute_url()+'/edit')
-    
-    security.declarePrivate('getDefaultOverseerEmail')
-    def getDefaultOverseerEmail(self):
-        _ = getToolByName(self,'translation_service').translate
-        return _('default_overseer_email',
-                 default=u'Overseer email',
-                 context=self,
-                 domain='auslfe.formonline.pfgadapter'
-                 )
 
     security.declarePrivate('getDefaultContentType')
     def getDefaultContentType(self):
@@ -430,7 +425,13 @@ ${formonline_url}
 Regards
 """, domain="auslfe.formonline.pfgadapter", context=self)
         return rstHTML(rstText,input_encoding='utf-8',output_encoding='utf-8')
-    
+
+    security.declarePrivate('vocabularyAllStringFields')
+    def vocabularyAllStringFields(self):
+        form = aq_parent(self)
+        fields = form.objectValues()
+        return [(content.id, content.title) for content in fields if isinstance(content, FGStringField)] 
+
     security.declarePrivate('checkFields')
     def checkFields(self, fields):
         """

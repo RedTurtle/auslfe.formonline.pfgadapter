@@ -22,12 +22,8 @@ tasks. Some example:
 
 This is designed keeping in mind not-too-large sized companies.
 
-How to use
-==========
-
-You can find `additional documentation`__ in the project home.
-
-__ http://plone.org/products/auslfe.formonline.pfgadapter/documentation/
+How to use it
+=============
 
 The general structure
 ---------------------

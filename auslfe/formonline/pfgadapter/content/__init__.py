@@ -6,4 +6,4 @@
 """
 
 import formOnlineAdapter
-print formOnlineAdapter
+formOnlineAdapter
