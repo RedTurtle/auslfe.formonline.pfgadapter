@@ -3,6 +3,6 @@
   <version>1002</version>
   <dependencies>
     <dependency>profile-Products.PloneFormGen:default</dependency>
-    <dependency>profile-auslfe.formonline.content:default</dependency>
+    <dependency>profile-auslfe.formonline.content:withtypes</dependency>
   </dependencies>
 </metadata>

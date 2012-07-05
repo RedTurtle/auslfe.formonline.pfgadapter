@@ -9,7 +9,7 @@ Before beginning our tour, let's configure some of the underlying stuff.
     >>> from Products.PloneTestCase.setup import default_password
     >>> browser = Browser()
     >>> portal_url = self.portal.absolute_url()
-    >>> self.portal.error_log._ignored_exceptions = ()
+    >>> self.portal.error_log._ignored_exceptions = ('NotFound',)
 
 Now let's configure the site areas.
 
@@ -194,7 +194,7 @@ this globally or using CMFPlacefulWorkflow).
 The last, important, field is the e-mail address name of the PFG field. The default is the same we used above when
 we added an e-mail field to the PFG. You can still there put any title you gave to the field.
 
-    >>> browser.getControl('Name of Form field that identifies the overseer').value = 'Your boss e-mail'
+    >>> browser.getControl(name='formFieldOverseer').controls[1].selected = True
 
 As you see, this field is required. You *must* have added that field to the PFG. 
 

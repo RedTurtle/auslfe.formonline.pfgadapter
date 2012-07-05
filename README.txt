@@ -86,17 +86,12 @@ Generated content type
 ----------------------
 
 The basic installation of `auslfe.formonline.content`__ try to be simple as possible.
-It provide a required workflow for working with the PFG Adapter, but you are *not* forced to use a
-specific content type as generated form.
+It provide a required workflow for working with the PFG Adapter, and the "Form Online"
+content types.
 
 __ http://pypi.python.org/pypi/auslfe.formonline.content
 
-The simplest way is to use directly the "Form Online" content type, but it isn't installed automatically
-with the product: you must run the "*Form Online: include FormOnline type*" Generis Setup import step.
-This content type automatically use the provided workflow, but is a weird type (more or less a copy of the
-Page).
-
-The other (advanced) way is to choose your type when configuring the adapter, from the
+You can also choose to use another content type  when configuring the adapter, from the
 "*Document type to generate*" field.
 The adapter can work with whatever content type you want (it need to behave a text field, like Page and News
 Items). But in this way you must configure other stuff, like assigning the proper worlflow to the content type
