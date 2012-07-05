@@ -113,9 +113,6 @@ The form for this example will contains only two fields, plus a required field f
     >>> browser.getControl(name='description').value = 'Put there the IP address of you machine'
     >>> browser.getControl('Required').click()
     >>> browser.getControl('Save').click()
-    Traceback (most recent call last):
-    ...
-    HTTPError: HTTP Error 404: Not Found
     >>> browser.open(portal_url+'/information-technology-department/internet-activation/request-for-internet-activation')
     >>> browser.getLink('Add new').click()
     >>> browser.getControl('Checkbox Field').click()
@@ -124,9 +121,6 @@ The form for this example will contains only two fields, plus a required field f
     >>> browser.getControl(name='description').value = ('Check this if you need special access to Web sites that are not commonly '
     ...                                                 'permitted by our Uber Company Proxy')
     >>> browser.getControl('Save').click()
-    Traceback (most recent call last):
-    ...
-    HTTPError: HTTP Error 404: Not Found
     >>> browser.open(portal_url+'/information-technology-department/internet-activation/request-for-internet-activation')
 
 The last field is *really important*, and it must be an e-mail address (not the e-mail address of the user, so this is
@@ -141,9 +135,6 @@ why we deleted the default e-mail field).
     >>> browser.getControl('Required').click()
     >>> browser.getControl('Is an E-Mail Address').click()
     >>> browser.getControl('Save').click()
-    Traceback (most recent call last):
-    ...
-    HTTPError: HTTP Error 404: Not Found
     >>> browser.open(portal_url+'/information-technology-department/internet-activation/request-for-internet-activation')
 
 Note that we used an e-mail validator (given from PloneFormGen) and that we changed the default field value.
@@ -199,9 +190,6 @@ we added an e-mail field to the PFG. You can still there put any title you gave 
 As you see, this field is required. You *must* have added that field to the PFG. 
 
     >>> browser.getControl(name='form.button.save').click()
-    Traceback (most recent call last):
-    ...
-    HTTPError: HTTP Error 404: Not Found
     >>> browser.open(portal_url+'/information-technology-department/internet-activation/request-for-internet-activation')
 
 Last sugar
@@ -213,7 +201,9 @@ make the form folder to be default page for the "*Internet activation*" section
     >>> browser.getLink('Internet activation').click()
     >>> browser.getLink('Display').click()
     >>> browser.getLink('Choose a content item').click()
-    >>> browser.getControl('Request for Internet activation').click()
+    >>> if not browser.getControl('Request for Internet activation').selected:
+    ...     # Plone 4 automatically select it
+    ...     browser.getControl('Request for Internet activation').click()
     >>> browser.getControl('Save').click()
     >>> 'View changed.' in browser.contents
     True
@@ -298,7 +288,7 @@ Now, move on to our PFG.
 
 User A can now fill the form.
 
-    >>> browser.getControl('IP').value = '10.0.1.75'
+    >>> browser.getControl(name='ip').value = '10.0.1.75'
     >>> browser.getControl('Need to access Web sites outside the Company proxy').click()
 
 A *very important* (and I hope you put it required) field is the "*Overseer email*" data.

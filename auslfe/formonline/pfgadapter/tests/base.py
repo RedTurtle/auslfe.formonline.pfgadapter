@@ -42,7 +42,7 @@ def setup_product():
     zcml.load_config('configure.zcml', Products.PloneFormGen)
     zcml.load_config('configure.zcml', auslfe.formonline.content)
     zcml.load_config('configure.zcml', auslfe.formonline.pfgadapter)
-    ##self.addProfile('auslfe.formonline.content:withtypes')
+    #self.addProfile('auslfe.formonline.content:withtypes')
     fiveconfigure.debug_mode = False
 
     # We need to tell the testing framework that these products
@@ -56,9 +56,12 @@ def setup_product():
     # We may also need to load dependencies, e.g.:
     #   ztc.installPackage('borg.localrole')
 
-    ztc.installProduct('PloneFormGen')
     ztc.installPackage('auslfe.formonline.content')
     ztc.installPackage('auslfe.formonline.pfgadapter')
+
+# We moved this there because it will not works on Plone 4
+# See http://webmeisterei.com/news/unit-test-setup-for-plone-4
+ztc.installProduct('PloneFormGen')
 
 # The order here is important: We first call the (deferred) function
 # which installs the products we need for this product. Then, we let
