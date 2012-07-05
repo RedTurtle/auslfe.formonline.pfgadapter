@@ -13,7 +13,7 @@ logger = logging.getLogger("auslfe.formonline.pfgadapter")
 def initialize(context):
 
     import content
-    print content
+    content
     
     ##########
     # Add our content types

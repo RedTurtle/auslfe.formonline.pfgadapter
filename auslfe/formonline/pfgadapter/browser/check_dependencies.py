@@ -6,7 +6,7 @@ from Products.Five import BrowserView
 
 try:
     import auslfe.formonline.tokenaccess
-    print auslfe.formonline.tokenaccess
+    auslfe.formonline.tokenaccess
     TOKENACCESS = True
 except ImportError:
     TOKENACCESS = False 
