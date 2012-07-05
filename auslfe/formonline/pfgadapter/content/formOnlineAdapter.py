@@ -93,6 +93,7 @@ class FormOnlineAdapter(FormActionAdapter):
         BooleanField('overseerMustBeMember',
               required=False,
               default=True,
+              schemata="anonymous access",
               widget = BooleanWidget(
                     condition = "object/@@checkDependencies/tokenaccess",
                     label = _(u'label_overseerMustBeMember',
@@ -106,6 +107,7 @@ class FormOnlineAdapter(FormActionAdapter):
         StringField('formFieldSubmitter',
               required=False,
               default='',
+              schemata="anonymous access",
               widget = StringWidget(
                     label = _(u'label_formFieldSubmitter',
                               default=u'Name of the form field that keep the sender e-mail'),
@@ -119,6 +121,7 @@ class FormOnlineAdapter(FormActionAdapter):
         StringField('formOnlineSubmitSubject',
               required=False,
               default_method='getDefaultSubmitSubject',
+              schemata="notifications",
               widget = StringWidget(
                     label = _(u'label_formOnlineSubmitSubject',
                               default=u'Subject of email notification of submission of the form'),
@@ -130,6 +133,7 @@ class FormOnlineAdapter(FormActionAdapter):
         TextField('formOnlineSubmitMessage',
               required=False,
               default_method='getDefaultSubmitMessage',
+              schemata="notifications",
               default_output_type = 'text/x-html-safe',
               widget = RichWidget(
                     label = _(u'label_formOnlineSubmitMessage',
@@ -148,6 +152,7 @@ class FormOnlineAdapter(FormActionAdapter):
         StringField('formOnlineApprovalSubject',
               required=False,
               default_method='getDefaultApprovalSubject',
+              schemata="notifications",
               widget = StringWidget(
                     label = _(u'label_formOnlineApprovalSubject',
                               default=u'Subject of email notification of approval of the form'),
@@ -159,6 +164,7 @@ class FormOnlineAdapter(FormActionAdapter):
         TextField('formOnlineApprovalMessage',
               required=False,
               default_method='getDefaultApprovalMessage',
+              schemata="notifications",
               default_output_type = 'text/x-html-safe',
               widget = RichWidget(
                     label = _(u'label_formOnlineApprovalMessage',
@@ -177,6 +183,7 @@ class FormOnlineAdapter(FormActionAdapter):
         StringField('formOnlineDispatchSubject',
               required=False,
               default_method='getDefaultDispatchSubject',
+              schemata="notifications",
               widget = StringWidget(
                     label = _(u'label_formOnlineDispatchSubject',
                               default=u'Subject of email notification of dispatch of the form'),
@@ -188,6 +195,7 @@ class FormOnlineAdapter(FormActionAdapter):
         TextField('formOnlineDispatchMessage',
               required=False,
               default_method='getDefaultDispatchMessage',
+              schemata="notifications",
               default_output_type = 'text/x-html-safe',
               widget = RichWidget(
                     label = _(u'label_formOnlineDispatchMessage',
@@ -206,6 +214,7 @@ class FormOnlineAdapter(FormActionAdapter):
         StringField('formOnlineRetractSubject',
               required=False,
               default_method='getDefaultRetractSubject',
+              schemata="notifications",
               widget = StringWidget(
                     label = _(u'label_formOnlineRetractSubject',
                               default=u'Subject of email notification of retraction of the form'),
@@ -217,12 +226,13 @@ class FormOnlineAdapter(FormActionAdapter):
         TextField('formOnlineRetractMessage',
               required=False,
               default_method='getDefaultRetractMessage',
+              schemata="notifications",
               default_output_type = 'text/x-html-safe',
               widget = RichWidget(
                     label = _(u'label_formOnlineRetractMessage',
-                              default=u'Text of email notification of retraction of the form'),
+                              default=u'Text of email notification of rejection of the form'),
                     description = _(u'description_formOnlineRetractMessage',
-                                    default=u"Enter the text of the email notification will be sent when the Form Online generated will be retracted from approval or dispatch. \n"
+                                    default=u"Enter the text of the email notification will be sent when the Form Online generated will be rejected from approval or dispatch. \n"
                                              "Some content in this message may be replaced with ${} variables. \n"
                                              "The variable ${formonline_title} will be replaced with the title or id of Form Online generated. \n"
                                              "The variable ${insertion_date} will be replaced with the creation date of Form. \n"
@@ -231,7 +241,6 @@ class FormOnlineAdapter(FormActionAdapter):
                                              "The variable ${comment} will be replaced with the comments may be added when the user change state of Form."),
                     )
               ),
-
 
     ))
 

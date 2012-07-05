@@ -215,15 +215,15 @@ msgstr "Oggetto dell'email di notifica di evasione del modulo"
 msgid "label_formOnlinePath"
 msgstr "Contenitore della Modulistica Online"
 
-#. Default: "Text of email notification of retraction of the form"
+#. Default: "Text of email notification of rejection of the form"
 #: ../content/formOnlineAdapter.py:217
 msgid "label_formOnlineRetractMessage"
-msgstr "Testo dell'email di notifica di ritiro del modulo"
+msgstr "Testo dell'email di notifica di rifiuto del modulo"
 
-#. Default: "Subject of email notification of retraction of the form"
+#. Default: "Subject of email notification of rejection of the form"
 #: ../content/formOnlineAdapter.py:206
 msgid "label_formOnlineRetractSubject"
-msgstr "Oggetto dell'email di notifica di ritiro del modulo"
+msgstr "Oggetto dell'email di notifica del rifiuto del modulo"
 
 #. Default: "Text of email notification of submission of the form"
 #: ../content/formOnlineAdapter.py:133

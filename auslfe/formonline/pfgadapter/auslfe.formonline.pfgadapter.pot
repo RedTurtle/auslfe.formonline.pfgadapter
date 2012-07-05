@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-06-21 09:42+0000\n"
+"POT-Creation-Date: 2012-07-05 10:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,234 +17,234 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: auslfe.formonline.pfgadapter\n"
 
-#: ../profiles/default/types/FormOnlineAdapter.xml
+#: ./profiles/default/types/FormOnlineAdapter.xml
 msgid "A form action adapter that saves Form input data in the text field of a Form Online page"
 msgstr ""
 
-#: ../profiles/default/types/FormOnlineAdapter.xml
+#: ./profiles/default/types/FormOnlineAdapter.xml
 msgid "Form Online Adapter"
 msgstr ""
 
 #. Default: "Form \"$form_name\" completed by $user"
-#: ../composer.py:36
+#: ./composer.py:36
 msgid "Form completed by"
 msgstr ""
 
 #. Default: "Form \"$form_name\" completed by an anonymous user"
-#: ../composer.py:28
+#: ./composer.py:28
 msgid "Form completed by an anonymous user"
 msgstr ""
 
-#: ../content/formOnlineAdapter.py:284
+#: ./content/formOnlineAdapter.py:298
 msgid "You are not authorized to fill that form."
 msgstr ""
 
-#: ../content/formOnlineAdapter.py:303
+#: ./content/formOnlineAdapter.py:317
 msgid "Your data has been sent."
 msgstr ""
 
 #. Default: "Overseer email"
-#: ../content/formOnlineAdapter.py:313
+#: ./content/formOnlineAdapter.py:327
 msgid "default_overseer_email"
 msgstr ""
 
 #. Default: "This text will be included at the beginning of any Form Online generated."
-#: ../content/formOnlineAdapter.py:76
+#: ./content/formOnlineAdapter.py:77
 msgid "description_adapterPrologue"
 msgstr ""
 
 #. Default: "Select a content type to be used.\nWhen using the adapter and after saving the form, a new document of the selected type will be created."
-#: ../content/formOnlineAdapter.py:63
+#: ./content/formOnlineAdapter.py:64
 msgid "description_contentToGenerate"
 msgstr ""
 
 #. Default: "Enter the name of Form field used by the user completing the Form to indicate the overseer's email."
-#: ../content/formOnlineAdapter.py:87
+#: ./content/formOnlineAdapter.py:88
 msgid "description_formFieldOverseer"
 msgstr ""
 
 #. Default: "Enter the name of a Form field where the user that submit the form must put it's own e-mail.\nPlease not that this field is not required (and ignored) if the user is a site member.\nSo: fill this field only if you plan to grant access to anonymous users."
-#: ../content/formOnlineAdapter.py:111
+#: ./content/formOnlineAdapter.py:114
 msgid "description_formFieldSubmitter"
 msgstr ""
 
 #. Default: "Enter the text of the email notification will be sent when the Form Online generated will be approved. \nSome content in this message may be replaced with ${} variables. \nThe variable ${formonline_title} will be replaced with the title or id of Form Online generated. \nThe variable ${insertion_date} will be replaced with the creation date of Form. \nThe variable ${formonline_owner} will be replaced with the creator of Form. \nThe variable ${formonline_url} will be replaced with the URL of Form. \nThe variable ${comment} will be replaced with the comments may be added when the user change state of Form."
-#: ../content/formOnlineAdapter.py:163
+#: ./content/formOnlineAdapter.py:172
 msgid "description_formOnlineApprovalMessage"
 msgstr ""
 
 #. Default: "Enter the subject of the email notification will be sent when the Form Online generated will be approved."
-#: ../content/formOnlineAdapter.py:152
+#: ./content/formOnlineAdapter.py:159
 msgid "description_formOnlineApprovalSubject"
 msgstr ""
 
 #. Default: "Enter the text of the email notification will be sent when the Form Online generated will be dispatched. \nSome content in this message may be replaced with ${} variables. \nThe variable ${formonline_title} will be replaced with the title or id of Form Online generated. \nThe variable ${insertion_date} will be replaced with the creation date of Form. \nThe variable ${formonline_owner} will be replaced with the creator of Form. \nThe variable ${formonline_url} will be replaced with the URL of Form. \nThe variable ${comment} will be replaced with the comments may be added when the user change state of Form."
-#: ../content/formOnlineAdapter.py:191
+#: ./content/formOnlineAdapter.py:203
 msgid "description_formOnlineDispatchMessage"
 msgstr ""
 
 #. Default: "Enter the subject of the email notification will be sent when the Form Online generated will be dispatched."
-#: ../content/formOnlineAdapter.py:180
+#: ./content/formOnlineAdapter.py:190
 msgid "description_formOnlineDispatchSubject"
 msgstr ""
 
 #. Default: "Select the path where generated Form Online documents will be saved."
-#: ../content/formOnlineAdapter.py:51
+#: ./content/formOnlineAdapter.py:52
 msgid "description_formOnlinePath"
 msgstr ""
 
-#. Default: "Enter the text of the email notification will be sent when the Form Online generated will be retracted from approval or dispatch. \nSome content in this message may be replaced with ${} variables. \nThe variable ${formonline_title} will be replaced with the title or id of Form Online generated. \nThe variable ${insertion_date} will be replaced with the creation date of Form. \nThe variable ${formonline_owner} will be replaced with the creator of Form. \nThe variable ${formonline_url} will be replaced with the URL of Form. \nThe variable ${comment} will be replaced with the comments may be added when the user change state of Form."
-#: ../content/formOnlineAdapter.py:219
+#. Default: "Enter the text of the email notification will be sent when the Form Online generated will be rejected from approval or dispatch. \nSome content in this message may be replaced with ${} variables. \nThe variable ${formonline_title} will be replaced with the title or id of Form Online generated. \nThe variable ${insertion_date} will be replaced with the creation date of Form. \nThe variable ${formonline_owner} will be replaced with the creator of Form. \nThe variable ${formonline_url} will be replaced with the URL of Form. \nThe variable ${comment} will be replaced with the comments may be added when the user change state of Form."
+#: ./content/formOnlineAdapter.py:234
 msgid "description_formOnlineRetractMessage"
 msgstr ""
 
 #. Default: "Enter the subject of the email notification will be sent when the Form Online generated will be retracted from approval or dispatch."
-#: ../content/formOnlineAdapter.py:208
+#: ./content/formOnlineAdapter.py:221
 msgid "description_formOnlineRetractSubject"
 msgstr ""
 
 #. Default: "Enter the text of the email notification will be sent when the Form Online generated will be submitted for approval. \nSome content in this message may be replaced with ${} variables. \nThe variable ${formonline_title} will be replaced with the title or id of Form Online generated. \nThe variable ${insertion_date} will be replaced with the creation date of Form. \nThe variable ${formonline_owner} will be replaced with the creator of Form. \nThe variable ${formonline_url} will be replaced with the URL of Form. \nThe variable ${comment} will be replaced with the comments may be added when the user change state of Form."
-#: ../content/formOnlineAdapter.py:135
+#: ./content/formOnlineAdapter.py:141
 msgid "description_formOnlineSubmitMessage"
 msgstr ""
 
 #. Default: "Enter the subject of the email notification will be sent when the Form Online generated will be submitted for approval."
-#: ../content/formOnlineAdapter.py:124
+#: ./content/formOnlineAdapter.py:128
 msgid "description_formOnlineSubmitSubject"
 msgstr ""
 
 #. Default: "Keep this checked to force the user e-mail address to be related to a site member.\nUncheck to use whatever address; in this case, if the address is not owned by any site member, a special e-mail with a secret token is sent."
-#: ../content/formOnlineAdapter.py:99
+#: ./content/formOnlineAdapter.py:101
 msgid "description_overseerMustBeMember"
 msgstr ""
 
 #. Default: "There is no field \"${email_field}\" in the Form to specify the overseer of the request."
-#: ../content/formOnlineAdapter.py:445
+#: ./content/formOnlineAdapter.py:463
 msgid "error_nofield"
 msgstr ""
 
 #. Default: "There is no field \"${email_field}\" in the Form to specify the owner of the request."
-#: ../content/formOnlineAdapter.py:460
+#: ./content/formOnlineAdapter.py:478
 msgid "error_nofieldownermail"
 msgstr ""
 
 #. Default: "The value of the field \"{field_name}\" must be provided, enter the information required."
-#: ../content/formOnlineAdapter.py:490
+#: ./content/formOnlineAdapter.py:508
 msgid "error_nospecifiedvalue"
 msgstr ""
 
 #. Default: "No user corresponds to the email address provided, enter a new value."
-#: ../content/formOnlineAdapter.py:479
+#: ./content/formOnlineAdapter.py:497
 msgid "error_nouser"
 msgstr ""
 
 #. Default: "Adapter prologue"
-#: ../content/formOnlineAdapter.py:75
+#: ./content/formOnlineAdapter.py:76
 msgid "label_adapterPrologue"
 msgstr ""
 
 #. Default: "Document type to generate"
-#: ../content/formOnlineAdapter.py:61
+#: ./content/formOnlineAdapter.py:62
 msgid "label_contentToGenerate"
 msgstr ""
 
 #. Default: "Name of Form field that identifies the overseer"
-#: ../content/formOnlineAdapter.py:85
+#: ./content/formOnlineAdapter.py:86
 msgid "label_formFieldOverseer"
 msgstr ""
 
 #. Default: "Name of the form field that keep the sender e-mail"
-#: ../content/formOnlineAdapter.py:109
+#: ./content/formOnlineAdapter.py:112
 msgid "label_formFieldSubmitter"
 msgstr ""
 
 #. Default: "Text of email notification of approval of the form"
-#: ../content/formOnlineAdapter.py:161
+#: ./content/formOnlineAdapter.py:170
 msgid "label_formOnlineApprovalMessage"
 msgstr ""
 
 #. Default: "Subject of email notification of approval of the form"
-#: ../content/formOnlineAdapter.py:150
+#: ./content/formOnlineAdapter.py:157
 msgid "label_formOnlineApprovalSubject"
 msgstr ""
 
 #. Default: "Text of email notification of dispatch of the form"
-#: ../content/formOnlineAdapter.py:189
+#: ./content/formOnlineAdapter.py:201
 msgid "label_formOnlineDispatchMessage"
 msgstr ""
 
 #. Default: "Subject of email notification of dispatch of the form"
-#: ../content/formOnlineAdapter.py:178
+#: ./content/formOnlineAdapter.py:188
 msgid "label_formOnlineDispatchSubject"
 msgstr ""
 
 #. Default: "Form Online storage"
-#: ../content/formOnlineAdapter.py:50
+#: ./content/formOnlineAdapter.py:51
 msgid "label_formOnlinePath"
 msgstr ""
 
 #. Default: "Text of email notification of rejection of the form"
-#: ../content/formOnlineAdapter.py:217
+#: ./content/formOnlineAdapter.py:232
 msgid "label_formOnlineRetractMessage"
 msgstr ""
 
-#. Default: "Subject of email notification of rejection of the form"
-#: ../content/formOnlineAdapter.py:206
+#. Default: "Subject of email notification of retraction of the form"
+#: ./content/formOnlineAdapter.py:219
 msgid "label_formOnlineRetractSubject"
 msgstr ""
 
 #. Default: "Text of email notification of submission of the form"
-#: ../content/formOnlineAdapter.py:133
+#: ./content/formOnlineAdapter.py:139
 msgid "label_formOnlineSubmitMessage"
 msgstr ""
 
 #. Default: "Subject of email notification of submission of the form"
-#: ../content/formOnlineAdapter.py:122
+#: ./content/formOnlineAdapter.py:126
 msgid "label_formOnlineSubmitSubject"
 msgstr ""
 
 #. Default: "Overseer must be a site member"
-#: ../content/formOnlineAdapter.py:97
+#: ./content/formOnlineAdapter.py:99
 msgid "label_overseerMustBeMember"
 msgstr ""
 
 #. Default: "Dear user,\n\nthis is a personal communication regarding the Form Online **${formonline_title}**, created on **${insertion_date}** by **${formonline_owner}**.\n\nIt is waiting for your approval. Follow the link below for perform your actions:\n\n${formonline_url}\n\nRegards\n"
-#: ../content/formOnlineAdapter.py:335
+#: ./content/formOnlineAdapter.py:349
 msgid "mail_text_approval_required"
 msgstr ""
 
 #. Default: "Dear user,\n\nthis is a personal communication regarding the Form Online **${formonline_title}**, created on **${insertion_date}** by **${formonline_owner}**.\n\nThe request has been approved and it's waiting for your confirmation. Follow the link below for perform your actions:\n\n${formonline_url}\n\nRegards\n"
-#: ../content/formOnlineAdapter.py:357
+#: ./content/formOnlineAdapter.py:372
 msgid "mail_text_dispatch_required"
 msgstr ""
 
 #. Default: "Dear user,\n\nthis is a personal communication regarding the Form Online **${formonline_title}**.\n\nThe request has been *approved*. Follow the link below to see the document:\n\n${formonline_url}\n\nRegards\n"
-#: ../content/formOnlineAdapter.py:379
+#: ./content/formOnlineAdapter.py:395
 msgid "mail_text_dispatched"
 msgstr ""
 
 #. Default: "Dear user,\n\nthis is a personal communication regarding the Form Online **${formonline_title}**.\n\nThe request has been *rejected*. The overseer provided the following comment::\n\n${comment}\n\nFollow the link below to see the document:\n\n${formonline_url}\n\nRegards\n"
-#: ../content/formOnlineAdapter.py:401
+#: ./content/formOnlineAdapter.py:418
 msgid "mail_text_rejected"
 msgstr ""
 
 #. Default: "[Form Online] - Form Online approved"
-#: ../content/formOnlineAdapter.py:371
+#: ./content/formOnlineAdapter.py:387
 msgid "subject_dispatched"
 msgstr ""
 
 #. Default: "[Form Online] - Form Online in pending state approval"
-#: ../content/formOnlineAdapter.py:327
+#: ./content/formOnlineAdapter.py:341
 msgid "subject_pending_approval"
 msgstr ""
 
 #. Default: "[Form Online] - Form Online in pending state dispatch"
-#: ../content/formOnlineAdapter.py:349
+#: ./content/formOnlineAdapter.py:364
 msgid "subject_pending_dispatch"
 msgstr ""
 
 #. Default: "[Form Online] - Form Online rejected"
-#: ../content/formOnlineAdapter.py:393
+#: ./content/formOnlineAdapter.py:410
 msgid "subject_rejected"
 msgstr ""
 

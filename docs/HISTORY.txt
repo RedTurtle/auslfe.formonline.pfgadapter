@@ -1,11 +1,12 @@
 Changelog
 =========
 
-0.x.x (2012-xx-xx)
+0.6.0 (Unreleased)
 ------------------
 
 * Fix translation of mail_text_rejected, missed literal block [fdelia]
 * Added fields to FormOnlineAdapter for subject and text of notification email of FormOnline generated [fdelia]
+* Moved fields for work with anonymous to a separate fieldset [keul]
 
 0.5.0 (2012-01-20)
 ------------------
