@@ -6,7 +6,7 @@ version = '0.6.0.dev0'
 setup(name='auslfe.formonline.pfgadapter',
       version=version,
       description="An adapter for PloneFormGen that add to Plone a way for manage online forms submission",
-      long_description=open("README.txt").read() + "\n" +
+      long_description=open("README.rst").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
