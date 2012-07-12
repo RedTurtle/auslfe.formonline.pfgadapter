@@ -4,12 +4,12 @@ Changelog
 0.6.0 (Unreleased)
 ------------------
 
-* Fix translation of mail_text_rejected, missed literal block [fdelia]
-* Added fields to FormOnlineAdapter for subject and text of notification email [fdelia]
-* Moved fields related to work with anonymous to a separate fieldset [keul]
-* Now the required e-mail field names are taken from a dropdown of all PFG string field
+* fix translation of mail_text_rejected, missed literal block [fdelia]
+* added fields to FormOnlineAdapter for subject and text of notification email [fdelia]
+* moved fields related to work with anonymous to a separate fieldset [keul]
+* now the required e-mail field names are taken from a dropdown of all PFG string field
   (do not need to write it manually anymore) [keul]
-* Enable by default the "withtypes" profile [keul]
+* enable by default the "withtypes" profile of ``auslfe.formonline.content`` [keul]
 
 0.5.0 (2012-01-20)
 ------------------

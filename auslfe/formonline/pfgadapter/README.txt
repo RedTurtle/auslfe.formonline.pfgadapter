@@ -7,9 +7,10 @@ Before beginning our tour, let's configure some of the underlying stuff.
 
     >>> from Products.Five.testbrowser import Browser
     >>> from Products.PloneTestCase.setup import default_password
+    >>> self.portal.error_log._ignored_exceptions = ('NotFound', 'Redirect') # not working... still errors om Plone 3
     >>> browser = Browser()
+    >>> browser.handleErrors = False
     >>> portal_url = self.portal.absolute_url()
-    >>> self.portal.error_log._ignored_exceptions = ('NotFound',)
 
 Now let's configure the site areas.
 
