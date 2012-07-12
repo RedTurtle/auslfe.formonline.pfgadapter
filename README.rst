@@ -133,13 +133,12 @@ Dependencies
 
 This product has been tested with:
 
-* Plone 3.3
-* PloneFormGen 1.6.5
+* Plone 3.3 (PloneFormGen 1.6.5)
+* Plone 4.2 (PloneFormGen 1.7.1)
 
 TODO
 ====
 
-* Plone 4 compatibility (probably just works)
 * We are planning an integration of the PFG adapter with `Easy Template`__
 * Automatically save the overseer e-mail in the user data, so automatically fill future requests
 * A shorter workflow, for very simple approvation where we only need A and C actors
