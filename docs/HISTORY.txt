@@ -4,6 +4,8 @@ Changelog
 0.6.0 (Unreleased)
 ------------------
 
+Updated to Plone 4.2
+
 * fix translation of mail_text_rejected, missed literal block [fdelia]
 * added fields to FormOnlineAdapter for subject and text of notification email [fdelia]
 * moved fields related to work with anonymous to a separate fieldset [keul]
