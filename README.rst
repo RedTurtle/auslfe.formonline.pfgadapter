@@ -6,8 +6,8 @@ Introduction
 The *Form Online* product is a Plone add-on composed by three modules:
 
 * `PloneFormGen`__ (needed dependency)
-* A PloneFormGen *adapter* (auslfe.formonline.pfgadapter itself)
 * `auslfe.formonline.content`__ (needed dependency)
+* A PloneFormGen *adapter* (auslfe.formonline.pfgadapter itself)
 
 __ http://plone.org/products/ploneformgen
 __ http://pypi.python.org/pypi/auslfe.formonline.content
@@ -18,7 +18,6 @@ tasks. Some example:
 * ask for technical assistance from the IT Department
 * plan user vacations with the Administration/Human Resource office
 * ask to the administration to buy something expensive
-* ...
 
 This is designed keeping in mind not-too-large sized companies.
 
@@ -34,10 +33,10 @@ want.
 .. image:: http://keul.it/images/plone/auslfe.formonline.pfgadapter-0.2.0-01.png
    :alt: A custom form done using PloneFormGen
 
-The only required field (but you can name/configure it as you want) if an e-mail field the the user will fill with
+The only required field (but you can name/configure it as you want) is an e-mail field end the user will fill with
 his overseer address (see below).
 
-After that you must use the new *PFG adapter*: Form Online Adapter 
+After that you must use the new *PFG adapter*: Form Online Adapter
 
 Before being ready to use the form, you need to choose a place (a Folder, or a Large Folder if you think to manage a lot
 of requests).
@@ -54,8 +53,11 @@ It's important to know that:
 .. image:: http://keul.it/images/plone/auslfe.formonline.pfgadapter-0.3.0-01.png
    :alt: An example of configuration of the PFG adapter
 
-The actors
-----------
+Default Workflow (formonline_workflow)
+======================================
+
+Actors
+------
 
 There are three main actor in the life-cycle of a form:
 
@@ -82,6 +84,23 @@ As said above: this is targeted on small companies. If user A put the e-mail add
 or simply is own e-mail (so auto-approving), user C is aways the last step of the procedure. He's responsible to check if
 user B is really one of the company overseer.
 
+Simple Workflow (formonline_single_steps_workflow)
+===================================================
+
+When overseer's approval is not necessary "Simple workflow" allows end users to submit a form and ask for dispatch directly.
+In order to achive this goal a new "Form Folder" and "Form Online" has to be configured
+The proper workflow has to be applied to the "Form Folder".
+
+Simple Workflow actors
+----------------------
+
+* the user that "ask for something"(A)
+* the technical user, that dispatch the request and take care that some action will be taken (B)
+
+When user A ask for something, the request goes directly to B that is the one who perform some action.
+
+Users receive e-mail address when the request need their attention.
+
 Generated content type
 ----------------------
 
@@ -97,7 +116,7 @@ The adapter can work with whatever content type you want (it need to behave a te
 Items). But in this way you must configure other stuff, like assigning the proper worlflow to the content type
 (globally, or locally using `CMFPlacefulWorkflow`__).
 
-__ http://pypi.python.org/pypi/Products.CMFPlacefulWorkflow 
+__ http://pypi.python.org/pypi/Products.CMFPlacefulWorkflow
 
 Alternative configuration
 =========================

@@ -83,19 +83,20 @@ class FormOnlineAdapter(FormActionAdapter):
               ),
         
         StringField('formFieldOverseer',
-              required=True,
+              required=False,
+              default='None',
               vocabulary="vocabularyAllStringFields",
               widget = SelectionWidget(
                     label = _(u'label_formFieldOverseer',
-                              default=u'Name of Form field that identifies the overseer'),
+                              default=u'Name of Form field that identifies the overseer (Mandatory within default formOnline workflow: approval/dispacth'),
                     description = _(u'description_formFieldOverseer',
-                                    default=u"Enter the name of Form field used by the user completing the Form to indicate the overseer's email."),
+                                    default=u"Enter the name of Form field used by the user completing the Form to indicate the overseer's email.\n"
+                                             "Be careful "),
                     )
               ),
 
         BooleanField('overseerMustBeMember',
               required=False,
-              default=True,
               schemata="anonymous access",
               widget = BooleanWidget(
                     condition = "object/@@checkDependencies/tokenaccess",
@@ -290,24 +291,30 @@ class FormOnlineAdapter(FormActionAdapter):
         wtool = getToolByName(self, 'portal_workflow')
         
         # fields will be a sequence of objects with an IPloneFormGenField interface
-        
-        check_result = self.checkFields(fields)
-        if type(check_result) == dict:
-            # check_result contains an error
-            return check_result
-
+        check_fieldOverseer = self.checkFieldOverseer(fields)
+        if type(check_fieldOverseer) == dict:
+            return check_fieldOverseer
+           
         try:
             formonline = self.save_form(fields)
+        except ValueError:
+            utool.addPortalMessage(_(u'You are not authorized to write on this folder.'), type='error')
+            return
         except Unauthorized:
             utool.addPortalMessage(_(u'You are not authorized to fill that form.'), type='error')
             return
 
-        # Share the form with the proper user
-        sharing_provider = getMultiAdapter((self, self.REQUEST), IFormSharingProvider,
-                                           name='provider-for-%s' % check_result[0])
-        sharing_provider.share(formonline, check_result[1])
-
+        # Share the form with the proper user only if a Overseer is provided and the proper workflow has to be used.
+        if check_fieldOverseer[1]:
+            sharing_provider = getMultiAdapter((self, self.REQUEST), IFormSharingProvider,
+                                           name='provider-for-%s' % check_fieldOverseer[0])
+            sharing_provider.share(formonline, check_fieldOverseer[1])
+            
         if mtool.isAnonymousUser():
+            check_fieldSubmitter = self.checkFieldSubmitter(fields)
+            if type(check_fieldSubmitter) == dict:
+                return  check_fieldSubmitter
+
             formFieldSubmitterName = self.getFormFieldSubmitter()
             if formFieldSubmitterName:
                 # Memoize the e-mail, for later notification
@@ -322,9 +329,12 @@ class FormOnlineAdapter(FormActionAdapter):
             #self.REQUEST.RESPONSE.redirect(self.aq_parent.absolute_url())
             return
         else:
-            #utool.addPortalMessage(_(u'Feel free to modify your data'), type='info')
+            utool.addPortalMessage(_(u'Feel free to modify your data'), type='info')
+            #if self.restrictedTraverse('@@plone_context_state').is_editable:
             self.REQUEST.RESPONSE.redirect(formonline.absolute_url()+'/edit')
-
+            #else:
+            #    self.REQUEST.RESPONSE.redirect(formonline.absolute_url()+'/view')
+                
     security.declarePrivate('getDefaultContentType')
     def getDefaultContentType(self):
         default = self.getField('contentToGenerate').Vocabulary(self).getValue('FormOnline')
@@ -430,47 +440,15 @@ Regards
     def vocabularyAllStringFields(self):
         form = aq_parent(self)
         fields = form.objectValues()
-        return [(content.id, content.title) for content in fields if isinstance(content, FGStringField)] 
-
-    security.declarePrivate('checkFields')
-    def checkFields(self, fields):
-        """
-        Checks if the email address of the assignee is provided in a form field.
-        
-        Possible returns values:
-        
-        * a tuple with ('user', userId)
-        * a tuple with ('email', eMailAddress)
-        * a dict with error message
-        """
-        
-        formFieldName = self.getFormFieldOverseer()
+        return [('None',_('None'))] + [(content.id, content.title) for content in fields if isinstance(content, FGStringField)]
+    
+    def checkFieldSubmitter(self, fields):
+         # We take care of the "formFieldSubmitter" info only for anonymous
         formFieldSubmitterName = self.getFormFieldSubmitter()
         _ = getToolByName(self, 'translation_service').translate
-        mtool = getToolByName(self, 'portal_membership')
-        isAnon = mtool.isAnonymousUser()
-        
-        overseerEmail = None
-        ownerEmail = None
-        overseerMustBeMember = self.getOverseerMustBeMember()
-        
-        tokenaccessInstalled = self.restrictedTraverse('@@checkDependencies').tokenaccess
-        
-        for field in fields:
-            if field.__name__ == queryUtility(IURLNormalizer).normalize(formFieldName):
-                overseerEmail = field.htmlValue(self.REQUEST)
-                break
-        if not overseerEmail:
-            error_message = _('error_nofield',
-                              default=u'There is no field "${email_field}" in the Form to specify the overseer of the request.',
-                              context=self,
-                              domain='auslfe.formonline.pfgadapter',
-                              mapping={'email_field':  formFieldName}
-                              )
-            return {FORM_ERROR_MARKER: error_message}
 
-        # We take care of the "formFieldSubmitter" info only for anonymous
-        if formFieldSubmitterName and isAnon:
+        ownerEmail = None
+        if formFieldSubmitterName:
             for field in fields:
                 if field.__name__ == queryUtility(IURLNormalizer).normalize(formFieldSubmitterName):
                     ownerEmail = field.htmlValue(self.REQUEST)
@@ -484,7 +462,42 @@ Regards
                                   )
                 return {FORM_ERROR_MARKER: error_message}
 
-        if overseerEmail and overseerEmail != 'No Input':
+    security.declarePrivate('checkFieldOverseer')
+    def checkFieldOverseer(self, fields):
+        """
+        Checks if the email address of the assignee is provided in a form field.
+        
+        Possible returns values:
+        * a tuple with ('email', eMailAddress)
+        * a dict with error message
+        """
+
+        formFieldName = self.getFormFieldOverseer()
+        _ = getToolByName(self, 'translation_service').translate
+
+        overseerEmail = None
+        hasOverseerField = False
+        overseerMustBeMember = self.getOverseerMustBeMember()
+        tokenaccessInstalled = self.restrictedTraverse('@@checkDependencies').tokenaccess
+
+        #verify if the form cotains overseer filed and get the value
+        for field in fields:
+            if field.__name__ == queryUtility(IURLNormalizer).normalize(formFieldName):
+                hasOverseerField = True
+                overseerEmail = field.htmlValue(self.REQUEST)
+                break
+        
+        #if Overseer set as empty return error 
+        if hasOverseerField and not overseerEmail:
+            error_message = _('error_overseer_email',
+                              default=u'No Overseer email has been provided, enter a new value.',
+                              context=self,
+                              domain='auslfe.formonline.pfgadapter',
+                              )
+            return {queryUtility(IURLNormalizer).normalize(formFieldName): error_message}
+        
+
+        if hasOverseerField and overseerEmail != 'No Input':
             membership = getToolByName(self, 'portal_memberdata')
             users = membership.searchMemberDataContents('email', overseerEmail)
             if users:
@@ -506,13 +519,7 @@ Regards
                 # Also auslfe.formonline.tokenaccess is installed
                 return ('email', overseerEmail)
         else:
-            error_message = _('error_nospecifiedvalue',
-                              default=u'The value of the field \"{field_name}\" must be provided, enter the information required.',
-                              context=self,
-                              domain='auslfe.formonline.pfgadapter',
-                              mapping={'field_name': formFieldName}
-                              )
-            return {queryUtility(IURLNormalizer).normalize(formFieldName): error_message}
+            return ('email', '')
 
     def save_form(self, fields):
         """Creates a FormOnline object and saves form input data in the text field of FormOnline."""

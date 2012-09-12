@@ -186,7 +186,7 @@ this globally or using CMFPlacefulWorkflow).
 The last, important, field is the e-mail address name of the PFG field. The default is the same we used above when
 we added an e-mail field to the PFG. You can still there put any title you gave to the field.
 
-    >>> browser.getControl(name='formFieldOverseer').controls[1].selected = True
+    >>> browser.getControl(name='formFieldOverseer').controls[2].selected = True
 
 As you see, this field is required. You *must* have added that field to the PFG. 
 
@@ -445,4 +445,3 @@ The Reviewer can't edit the data, but can perform the final dispatch action.
    True
 
 Now User A will be able to surf the Internet!
-
