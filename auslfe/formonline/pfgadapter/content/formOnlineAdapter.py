@@ -88,10 +88,11 @@ class FormOnlineAdapter(FormActionAdapter):
               vocabulary="vocabularyAllStringFields",
               widget = SelectionWidget(
                     label = _(u'label_formFieldOverseer',
-                              default=u'Name of Form field that identifies the overseer (Mandatory within default formOnline workflow: approval/dispacth'),
+                              default=u'Name of Form field that identifies the overseer.'),
                     description = _(u'description_formFieldOverseer',
                                     default=u"Enter the name of Form field used by the user completing the Form to indicate the overseer's email.\n"
-                                             "Be careful "),
+                                            u"This field is required with the default worflow provided by this products, so leave empty only with the alternative ones.\n"
+                                            u"Be careful."),
                     )
               ),
 
@@ -132,6 +133,7 @@ class FormOnlineAdapter(FormActionAdapter):
                               default=u'Subject of email notification of submission of the form'),
                     description = _(u'description_formOnlineSubmitSubject',
                                     default=u"Enter the subject of the email notification will be sent when the Form Online generated will be submitted for approval."),
+                    size=40,
                     )
               ),
               
@@ -163,6 +165,7 @@ class FormOnlineAdapter(FormActionAdapter):
                               default=u'Subject of email notification of approval of the form'),
                     description = _(u'description_formOnlineApprovalSubject',
                                     default=u"Enter the subject of the email notification will be sent when the Form Online generated will be approved."),
+                    size=40,
                     )
               ),
               
@@ -194,6 +197,7 @@ class FormOnlineAdapter(FormActionAdapter):
                               default=u'Subject of email notification of dispatch of the form'),
                     description = _(u'description_formOnlineDispatchSubject',
                                     default=u"Enter the subject of the email notification will be sent when the Form Online generated will be dispatched."),
+                    size=40,
                     )
               ),
               
@@ -225,6 +229,7 @@ class FormOnlineAdapter(FormActionAdapter):
                               default=u'Subject of email notification of retraction of the form'),
                     description = _(u'description_formOnlineRetractSubject',
                                     default=u"Enter the subject of the email notification will be sent when the Form Online generated will be retracted from approval or dispatch."),
+                    size=40,
                     )
               ),
               

@@ -4,15 +4,15 @@ Changelog
 0.7.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+* Fixed italian translations [keul]
+* Raised the subject's field default size [keul]
 
 0.7.0 (2012-09-17)
 ------------------
 
 * a new workflow has been added (simple workflow) [nicola.senno]
 * redirect check. If the owner doesn't have "Modify portal content" permission
-	it won't be able to modify the document after submission.
+  it won't be able to modify the document after submission.
 
 0.6.0 (2012-07-12)
 ------------------
