@@ -331,7 +331,7 @@ class FormOnlineAdapter(FormActionAdapter):
         else:
             # Playing with the workflow you can allow owners to modify the document
             # right after its creation. Below the check for the proper redirect URL
-            if self.restrictedTraverse('@@plone_context_state').is_editable():
+            if formonline.restrictedTraverse('@@plone_context_state').is_editable():
                 utool.addPortalMessage(_(u'Feel free to modify your data'), type='info')
                 self.REQUEST.RESPONSE.redirect(formonline.absolute_url()+'/edit')
             else:
