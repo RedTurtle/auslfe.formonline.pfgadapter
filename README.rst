@@ -1,4 +1,5 @@
 .. contents:: **Table of contents**
+   :depth: 2
 
 Introduction
 ============
@@ -54,10 +55,12 @@ It's important to know that:
    :alt: An example of configuration of the PFG adapter
 
 Default Workflow (formonline_workflow)
-======================================
+--------------------------------------
+
+Let's explaing the default workflow (3-steps).
 
 Actors
-------
+~~~~~~
 
 There are three main actor in the life-cycle of a form:
 
@@ -78,28 +81,33 @@ When he finally choose to accept the request, the game goes to user C, that is t
 Users receive e-mail address when the request need their attention.
 
 Wait! Is user A that choose user B?!
-------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 As said above: this is targeted on small companies. If user A put the e-mail address of someone that isn't is boss,
 or simply is own e-mail (so auto-approving), user C is aways the last step of the procedure. He's responsible to check if
 user B is really one of the company overseer.
 
 Simple Workflow (formonline_single_steps_workflow)
-===================================================
+--------------------------------------------------
 
-When overseer's approval is not necessary "Simple workflow" allows end users to submit a form and ask for dispatch directly.
-In order to achive this goal a new "Form Folder" and "Form Online" has to be configured
-The proper workflow has to be applied to the "Form Folder".
+When overseer's approval is not necessary "Simple workflow" allows end users to submit a form and ask for dispatch
+directly.
+
+In order to achive this goal, "Form Online" type has to be configured to use this alternative workflow. You can do
+this changing the workflow globally for the types, or enabling *CMFPlacefulWorkflow* product, available in
+every Plone site.
 
 Simple Workflow actors
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
 * the user that "ask for something"(A)
-* the technical user, that dispatch the request and take care that some action will be taken (B)
+* the technical user, that dispatch the request and take care that some action will be taken (C)
 
-When user A ask for something, the request goes directly to B that is the one who perform some action.
+When user A ask for something, the request goes directly to C that is the one who perform some action.
 
 Users receive e-mail address when the request need their attention.
+
+No user B is needed there.
 
 Generated content type
 ----------------------
@@ -160,7 +168,6 @@ TODO
 
 * We are planning an integration of the PFG adapter with `Easy Template`__
 * Automatically save the overseer e-mail in the user data, so automatically fill future requests
-* A shorter workflow, for very simple approvation where we only need A and C actors
 
 __ http://pypi.python.org/pypi/collective.easytemplate/
 
@@ -193,3 +200,4 @@ This product was developed by RedTurtle Technology team.
 .. image:: http://www.redturtle.it/redturtle_banner.png
    :alt: RedTurtle Technology Site
    :target: http://www.redturtle.it/
+
