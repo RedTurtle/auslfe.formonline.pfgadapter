@@ -31,7 +31,7 @@ setup(name='auslfe.formonline.pfgadapter',
       install_requires=[
           'setuptools',
           'Products.PloneFormGen',
-          'auslfe.formonline.content>=0.6.0',
+          'auslfe.formonline.content>=0.8.0',
       ],
       entry_points="""
       # -*- Entry points: -*-
