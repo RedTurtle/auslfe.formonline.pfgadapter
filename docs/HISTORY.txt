@@ -4,8 +4,7 @@ Changelog
 0.7.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Fixed translations [keul]
 
 0.7.1 (2012-10-03)
 ------------------

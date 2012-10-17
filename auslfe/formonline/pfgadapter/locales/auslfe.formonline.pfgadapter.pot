@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-10-03 11:57+0000\n"
+"POT-Creation-Date: 2012-10-17 15:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,6 +39,9 @@ msgstr ""
 msgid "Form completed by an anonymous user"
 msgstr ""
 
+msgid "Handle forms and documents using PloneFormGen"
+msgstr ""
+
 #: ./content/formOnlineAdapter.py:450
 msgid "None"
 msgstr ""
@@ -65,7 +68,7 @@ msgstr ""
 msgid "description_contentToGenerate"
 msgstr ""
 
-#. Default: "Enter the name of Form field used by the user completing the Form to indicate the overseer's email.\nThis field is required with the default worflow provided by this products, so use only with the alternative ones.\nBe careful."
+#. Default: "Enter the name of Form field used by the user completing the Form to indicate the overseer's email.\nThis field is required with the default worflow provided by this products, so leave empty only with the alternative ones.\nBe careful."
 #: ./content/formOnlineAdapter.py:92
 msgid "description_formFieldOverseer"
 msgstr ""

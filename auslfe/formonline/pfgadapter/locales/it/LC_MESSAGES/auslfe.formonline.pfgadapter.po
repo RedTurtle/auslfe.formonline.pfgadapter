@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: auslfe.formonline.pfgadapter\n"
-"POT-Creation-Date: 2012-10-03 11:57+0000\n"
+"POT-Creation-Date: 2012-10-17 15:46+0000\n"
 "PO-Revision-Date: 2011-12-13 16:01:58+0000\n"
 "Last-Translator: Luca Fabbri <keul@redturtle.it>\n"
 "Language-Team: RedTurtle Technology <sviluppoplone@redturtle.it>\n"
@@ -36,6 +36,9 @@ msgstr "Modulo \"$form_name\" completato da $user"
 msgid "Form completed by an anonymous user"
 msgstr "Modulo \"$form_name\" completato da un utente anonimo"
 
+msgid "Handle forms and documents using PloneFormGen"
+msgstr "Gestione di modulistica e documenti usando PloneFormGen"
+
 #: ./content/formOnlineAdapter.py:450
 msgid "None"
 msgstr "Nessuno"
@@ -64,13 +67,13 @@ msgstr ""
 "Scegli un tipo di contenuto da usare.\n"
 "Quando l'adapter viene usato e dopo aver salvato il modulo, un nuovo contenuto del tipo selezionato verrà creato."
 
-#. Default: "Enter the name of Form field used by the user completing the Form to indicate the overseer's email.\nThis field is required with the default worflow provided by this products, so use only with the alternative ones.\nBe careful."
+#. Default: "Enter the name of Form field used by the user completing the Form to indicate the overseer's email.\nThis field is required with the default worflow provided by this products, so leave empty only with the alternative ones.\nBe careful."
 #: ./content/formOnlineAdapter.py:92
 msgid "description_formFieldOverseer"
 msgstr ""
-"Specificare il nome del campo del Modulo utilizzato dall'utente che compila il Modulo per indicare l'email dell'assegnatario.\n"
-"Questo campo è obbligatorio se è in uso il workflow di default fornito col prodotto, quindi lascialo vuoto solo sestai usando quello alternativo.\n"
-"Usa attenzione."
+"Specificare il nome del campo utilizzato dall'utente che compila il Modulo per indicare l'email dell'assegnatario.\n"
+"Questo campo è obbligatorio se è in uso il workflow di default fornito col prodotto, quindi lascialo vuoto solo se stai usando quello alternativo.\n"
+"Usare attenzione."
 
 #. Default: "Enter the name of a Form field where the user that submit the form must put it's own e-mail.\nPlease not that this field is not required (and ignored) if the user is a site member.\nSo: fill this field only if you plan to grant access to anonymous users."
 #: ./content/formOnlineAdapter.py:120
