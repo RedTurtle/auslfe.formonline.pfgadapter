@@ -7,7 +7,7 @@ setup(name='auslfe.formonline.pfgadapter',
       version=version,
       description="An adapter for PloneFormGen that add to Plone a way for manage online forms submission",
       long_description=open("README.rst").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
+                       open(os.path.join("docs", "HISTORY.rst")).read(),
       # Get more strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         "Framework :: Plone",
@@ -15,6 +15,7 @@ setup(name='auslfe.formonline.pfgadapter',
         "Framework :: Plone :: 4.0",
         "Framework :: Plone :: 4.1",
         "Framework :: Plone :: 4.2",
+        "Framework :: Plone :: 4.3",
         "Programming Language :: Python",
         "Development Status :: 5 - Production/Stable",
         'License :: OSI Approved :: GNU General Public License (GPL)',
